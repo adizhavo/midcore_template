@@ -1,6 +1,9 @@
-﻿using System.IO;
+﻿using UnityEngine;
+using Newtonsoft.Json;
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
+using System;
 
 namespace Framework.Utils
 {
@@ -47,6 +50,28 @@ namespace Framework.Utils
                 var obj = binForm.Deserialize(memStream);
                 return (T)obj;
             }
+        }
+
+        public static T ReadFromResources<T>(string path) where T : UnityEngine.Object
+        {
+            return Resources.Load<T>(path);
+        }
+
+        public static UnityEngine.Object ReadFromResources(string path, Type type)
+        {
+            return Resources.Load(path, type);
+        }
+
+        public static T ReadJsonFromResources<T>(string path)
+        {
+            var json = Resources.Load<TextAsset>(path);
+            return JsonConvert.DeserializeObject<T>(json.text);
+        }
+
+        public static object ReadJsonFromResources(string path, Type type)
+        {
+            var json = Resources.Load<TextAsset>(path);
+            return JsonConvert.DeserializeObject(json.text, type);
         }
 
         private static void WriteObjectAtPath(object obj, string path)
