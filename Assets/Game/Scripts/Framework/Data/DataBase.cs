@@ -1,10 +1,10 @@
 ﻿using Entitas;
 using UnityEngine;
+using Framework.Log;
 using Framework.Utils;
 using System;
 using System.IO;
 using System.Collections.Generic;
-using Framework.Log;
 
 namespace Framework.Data
 {
@@ -14,15 +14,6 @@ namespace Framework.Data
 
     public class Database : IInitializeSystem
     {
-        [System.Serializable]
-        public class MetaData
-        {
-            public string key;
-            public object value;
-            public bool isReadonly;
-            public bool persist;
-        }
-
         private List<MetaData> metaData;
         private string databasePath;
 
@@ -75,6 +66,13 @@ namespace Framework.Data
             {
                 mdata.value = value;
             }
+
+            if (flush) Flush();
+        }
+
+        public void Clear(string key, bool flush = false)
+        {
+            metaData.RemoveAll(md => string.Equals(key, md.key) && !md.isReadonly);
 
             if (flush) Flush();
         }

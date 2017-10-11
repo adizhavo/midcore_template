@@ -9,27 +9,6 @@ namespace Framework.Data
     /// Will load application/game readonly data and enter it in the database
     /// </summary>
 
-    public class ApplicationConfig
-    {
-        public string version;
-        public string assetManifestPath;
-        public string databasePersistPath;
-    }
-
-    public class AssetManifestRoot
-    {
-        public List<AssetManifest> root;
-    }
-
-    public class AssetManifest
-    {
-        public string id;
-        public string path;
-        public bool isReadonly;
-        public bool loadAtStart;
-        public string systemType; // will reflect the loaded object and pass it to the database
-    }
-
     public class DataBooter : IInitializeSystem
     {
         public Database dataBase;
@@ -54,7 +33,7 @@ namespace Framework.Data
         private void ReadApplicationConfig()
         {
             var appConfig = Util.ReadJsonFromResources<ApplicationConfig>(appConfigPath);
-            dataBase.AddReadonly(Constants.APP_CONFIG_ID, appConfig, false, false);
+            dataBase.AddReadonly(Constants.APP_CONFIG_ID, appConfig, false);
         }
 
         private void ReadAssetManifest()
@@ -71,6 +50,7 @@ namespace Framework.Data
                 if (asset.isReadonly)
                 {
                     // This data will not persist in the database since it will be loaded every time the application boots
+                    // Add to the database so its available to the game at runtime
                     dataBase.AddReadonly(asset.id, data, false);
                 }
                 else
