@@ -1,6 +1,7 @@
 using Zenject;
 using Entitas;
 using Services.Core.Data;
+using Services.Core.Databinding;
 
 namespace Services.Core
 {
@@ -21,6 +22,8 @@ namespace Services.Core
             var dataBooter = new DataBootService(Constants.APP_CONFIG_PATH);
             Container.BindInstance(dataBooter);
             Container.QueueForInject(dataBooter);
+
+            Container.Bind<DataBindingService>().AsSingle().NonLazy();
 
             LogWrapper.DebugLog(string.Format("[{0}] installation of bindings successfull", GetType()));
         }
