@@ -2,11 +2,12 @@
 using Framework.Utils;
 using System.Collections.Generic;
 using System;
+using Framework.Log;
 
 namespace Framework.Data
 {
     /// <summary>
-    /// Will load application/game readonly data and enter it in the database
+    /// Will load application and assets as readonly data and add it to the database
     /// </summary>
 
     public class DataBooter : IInitializeSystem
@@ -34,32 +35,22 @@ namespace Framework.Data
         {
             var appConfig = Util.ReadJsonFromResources<ApplicationConfig>(appConfigPath);
             dataBase.AddReadonly(Constants.APP_CONFIG_ID, appConfig, false);
+
+            LogWrapper.Log(string.Format("{0} loaded app config succesfully and added to the database with key: {1}", this.GetType(), Constants.APP_CONFIG_ID));
         }
 
         private void ReadAssetManifest()
         {
             var appConfig = dataBase.Get<ApplicationConfig>(Constants.APP_CONFIG_ID);
-            var assetManifest = Util.ReadJsonFromResources<AssetManifestRoot>(appConfig.assetManifestPath);
-            var assets = assetManifest.root.FindAll(asset => asset.loadAtStart);
-
-            foreach (var asset in assets)
+            var assetManifest = Util.ReadJsonFromResources<AssetManifest>(appConfig.assetManifestPath);
+            foreach (var asset in assetManifest.assets)
             {
-                var type = string.IsNullOrEmpty(asset.systemType) ? typeof(object) : Type.GetType(asset.systemType);
-                var data = Util.ReadFromResources(asset.path, type);
+                dataBase.AddReadonly(asset.id, asset.path, false);
 
-                if (asset.isReadonly)
-                {
-                    // This data will not persist in the database since it will be loaded every time the application boots
-                    // Add to the database so its available to the game at runtime
-                    dataBase.AddReadonly(asset.id, data, false);
-                }
-                else
-                {
-                    dataBase.Set(asset.id, data);
-                }
+                LogWrapper.DebugLog(string.Format("{0} add asset to the database with key: {1}, path: {2}", this.GetType(), asset.id, asset.path));
             }
 
-            dataBase.Flush();
+            LogWrapper.Log(string.Format("{0} assets loaded successfully and all paths added to the database", this.GetType()));
         }
     }
 }

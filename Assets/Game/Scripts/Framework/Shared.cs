@@ -7,6 +7,7 @@ public partial class Constants
 
 namespace Framework
 {
+    // DataBooter will load this and add it to the database
     public class ApplicationConfig
     {
         public string version;
@@ -14,20 +15,21 @@ namespace Framework
         public string databasePersistPath;
     }
 
-    public class AssetManifestRoot
+    // Exported from the sheets
+    // DataBooter will loop through the assets and add them to the data base as read-only values
+    public class AssetManifest
     {
-        public List<AssetManifest> root;
+        public List<Asset> assets;
     }
 
-    public class AssetManifest
+    // DataBooter will load the assets and add it to the database
+    public class Asset
     {
         public string id;
         public string path;
-        public bool isReadonly;
-        public bool loadAtStart;
-        public string systemType; // will reflect the loaded object and pass it to the database
     }
 
+    // Used by the database to understand the data and persist it
     [System.Serializable]
     public class MetaData
     {
