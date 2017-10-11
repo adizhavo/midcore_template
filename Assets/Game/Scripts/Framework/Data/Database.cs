@@ -77,6 +77,13 @@ namespace Framework.Data
             if (flush) Flush();
         }
 
+        public void ClearAll(bool flush = false)
+        {
+            metaData.Clear();
+
+            if (flush) Flush();
+        }
+
         public T Get<T>(string key, T defaultValue = default(T))
         {
             var mdata = metaData.Find(md => string.Equals(md.key, key));
