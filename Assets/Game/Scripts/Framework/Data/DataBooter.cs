@@ -6,7 +6,7 @@ using System;
 namespace Framework.Data
 {
     /// <summary>
-    /// Will load application/game readonly data and pass it to the data base
+    /// Will load application/game readonly data and enter it in the database
     /// </summary>
 
     public class ApplicationConfig
@@ -30,20 +30,20 @@ namespace Framework.Data
         public string systemType; // will reflect the loaded object and pass it to the database
     }
 
-    public class DataLoader : IInitializeSystem
+    public class DataBooter : IInitializeSystem
     {
-        public DataBase dataBase;
+        public Database dataBase;
 
         private string appConfigPath;
 
-        public DataLoader(string appConfigPath)
+        public DataBooter(string appConfigPath)
         {
             this.appConfigPath = appConfigPath;
         }
 
         #region IInitializeSystem implementation
 
-        public void Initialize()
+        public virtual void Initialize()
         {
             ReadApplicationConfig();
             ReadAssetManifest();

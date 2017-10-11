@@ -12,7 +12,7 @@ namespace Framework.Data
     /// Will store all runtime data from the game and start up data from the DataLoader
     /// </summary>
 
-    public class DataBase : IInitializeSystem
+    public class Database : IInitializeSystem
     {
         [System.Serializable]
         public class MetaData
@@ -26,7 +26,7 @@ namespace Framework.Data
         private List<MetaData> metaData;
         private string databasePath;
 
-        public DataBase()
+        public Database()
         {
             metaData = new List<MetaData>();
         }
