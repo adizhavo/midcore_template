@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
-namespace Framework.Data
+namespace Services.Core.Data
 {
     /// <summary>
     /// Will store all runtime data from the game and start up data from the DataBooter

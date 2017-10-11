@@ -1,8 +1,8 @@
 using Zenject;
 using Entitas;
-using Framework.Data;
+using Services.Core.Data;
 
-namespace Framework.DIInstaller
+namespace Services.Core
 {
     public class CoreServicesInstaller : Installer<CoreServicesInstaller>
     {

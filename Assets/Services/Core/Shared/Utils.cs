@@ -5,7 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Framework
+namespace Services.Core
 {
     public static class Utils 
     {

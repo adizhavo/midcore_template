@@ -1,4 +1,4 @@
-﻿namespace Framework
+﻿namespace Services.Core
 {
     public static class LogWrapper 
     {

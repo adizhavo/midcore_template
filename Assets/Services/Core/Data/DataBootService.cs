@@ -3,7 +3,7 @@ using Entitas;
 using System;
 using System.Collections.Generic;
 
-namespace Framework.Data
+namespace Services.Core.Data
 {
     /// <summary>
     /// Will load application and assets as readonly data and add it to the database
