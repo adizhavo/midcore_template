@@ -4,47 +4,76 @@ using Framework.Utils;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using Framework.Log;
 
 namespace Framework.Data
 {
+    /// <summary>
+    /// Will store all runtime data from the game and start up data from the DataLoader
+    /// </summary>
+
     public class DataBase : IInitializeSystem
     {
-        private Dictionary<string, object> data;
+        [System.Serializable]
+        public class MetaData
+        {
+            public string key;
+            public object value;
+            public bool isReadonly;
+            public bool persist;
+        }
+
+        private List<MetaData> metaData;
         private string databasePath;
 
         public DataBase()
         {
-            data = new Dictionary<string, object>();
+            metaData = new List<MetaData>();
         }
 
         #region IInitializeSystem implementation
 
         public void Initialize()
         {
-            // TODO : get this value from the application config
-            databasePath = Path.Combine(Application.persistentDataPath, "data_base");
+            databasePath = Path.Combine(Application.persistentDataPath, Get<ApplicationConfig>(Constants.APP_CONFIG_ID).databasePersistPath);
 
             if (File.Exists(databasePath))
             {
-                data = Util.ReadBinary<Dictionary<string, object>>(databasePath);
-            }
-            else
-            {
-                Flush();
+                metaData = Util.ReadBinary<List<MetaData>>(databasePath);
             }
         }
 
         #endregion
 
-        public void Set<T>(string key, object value, bool flush = true)
+        public void AddReadonly(string key, object value, bool persist, bool flush = false)
         {
-            if (data.ContainsKey(key))
+            var mdata = new MetaData();
+            mdata.key = key;
+            mdata.value = value;
+            mdata.persist = persist;
+            mdata.isReadonly = true;
+            metaData.Add(mdata);
+            if (flush) Flush();
+        }
+
+        public void Set(string key, object value, bool flush = false)
+        {
+            var mdata = metaData.Find(md => string.Equals(md.key, key));
+
+            if (mdata == null)
             {
-                data[key] = value;
+                mdata = new MetaData();
+                mdata.key = key;
+                mdata.value = value;
+                metaData.Add(mdata);
+            }
+            else if (mdata.isReadonly)
+            {
+                LogWrapper.Warning(string.Format("Cannot override read-only data: {0}", key));
             }
             else
             {
-                data.Add(key, value);
+                mdata.value = value;
             }
 
             if (flush) Flush();
@@ -52,12 +81,24 @@ namespace Framework.Data
 
         public T Get<T>(string key, T defaultValue = default(T))
         {
-            return data.ContainsKey(key) ? (T)data[key] : defaultValue;
+            var mdata = metaData.Find(md => string.Equals(md.key, key));
+            return mdata != null ? (T)mdata.value : defaultValue; 
+        }
+
+        public bool HasData(string key)
+        {
+            return metaData.Exists(md => string.Equals(md.key, key));
+        }
+
+        public bool IsReadonly(string key)
+        {
+            bool hasData = HasData(key);
+            return hasData ? metaData.Find(md => string.Equals(md.key, key)).isReadonly : false;
         }
 
         public void Flush()
-        {
-            Util.WriteBinary(data, databasePath);
+        { 
+            Util.WriteBinary(metaData.FindAll(md => md.persist), databasePath);
         }
     }
 }
