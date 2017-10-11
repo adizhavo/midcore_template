@@ -1,8 +1,9 @@
-﻿using Entitas;
-using Framework.Utils;
-using System.Collections.Generic;
-using System;
+﻿using Zenject;
+using Entitas;
 using Framework.Log;
+using Framework.Utils;
+using System;
+using System.Collections.Generic;
 
 namespace Framework.Data
 {
@@ -12,7 +13,7 @@ namespace Framework.Data
 
     public class DataBooter : IInitializeSystem
     {
-        public Database dataBase;
+        [Inject] Database dataBase;
 
         private string appConfigPath;
 
