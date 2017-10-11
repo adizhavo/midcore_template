@@ -1,7 +1,5 @@
 ﻿using Entitas;
 using UnityEngine;
-using Framework.Log;
-using Framework.Utils;
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -12,12 +10,12 @@ namespace Framework.Data
     /// Will store all runtime data from the game and start up data from the DataBooter
     /// </summary>
 
-    public class Database : IInitializeSystem
+    public class DatabaseService : IInitializeSystem
     {
         private List<MetaData> metaData;
         private string databasePath;
 
-        public Database(string databaseFileName)
+        public DatabaseService(string databaseFileName)
         {
             metaData = new List<MetaData>();
             databasePath = Path.Combine(Application.persistentDataPath, databaseFileName);
@@ -29,7 +27,7 @@ namespace Framework.Data
         {
             if (File.Exists(databasePath))
             {
-                var readData = Util.ReadBinary<List<MetaData>>(databasePath);
+                var readData = Utils.ReadBinary<List<MetaData>>(databasePath);
                 metaData.AddRange(readData);
             }
         }
@@ -105,7 +103,16 @@ namespace Framework.Data
 
         public void Flush()
         { 
-            Util.WriteBinary(metaData.FindAll(md => md.persist), databasePath);
+            Utils.WriteBinary(metaData.FindAll(md => md.persist), databasePath);
         }
+    }
+
+    [System.Serializable]
+    public class MetaData
+    {
+        public string key;
+        public object value;
+        public bool isReadonly;
+        public bool persist;
     }
 }

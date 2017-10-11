@@ -4,7 +4,7 @@ using Framework.Data;
 
 namespace Framework.DIInstaller
 {
-    public class FrameworkInstaller : Installer<FrameworkInstaller>
+    public class CoreServicesInstaller : Installer<CoreServicesInstaller>
     {
         #region Installer implementation
 
@@ -14,13 +14,15 @@ namespace Framework.DIInstaller
 
         public override void InstallBindings()
         {
-            var dataBase = new Database(Constants.DATABASE_ID);
+            var dataBase = new DatabaseService(Constants.DATABASE_ID);
             Container.BindInstance(dataBase);
             Container.QueueForInject(dataBase);
 
-            var dataBooter = new DataBooter(Constants.APP_CONFIG_PATH);
+            var dataBooter = new DataBootService(Constants.APP_CONFIG_PATH);
             Container.BindInstance(dataBooter);
             Container.QueueForInject(dataBooter);
+
+            LogWrapper.DebugLog(string.Format("[{0}] installation of bindings successfull", GetType()));
         }
 
         #endregion

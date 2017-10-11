@@ -4,18 +4,17 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
-using Framework.Log;
 
-namespace Framework.Utils
+namespace Framework
 {
-    public static class Util 
+    public static class Utils 
     {
         private static volatile object writeLock = new object();
 
         public static T ReadBinary<T>(string path)
         {
             var binaries = File.ReadAllBytes(path);
-            return Util.ByteArrayTo<T>(binaries);
+            return Utils.ByteArrayTo<T>(binaries);
         }
 
         public static void WriteBinary(object obj, string path, bool seperateThread = true)
@@ -79,7 +78,7 @@ namespace Framework.Utils
         {
             lock (writeLock)
             {
-                var b = Util.ObjectToByteArray(obj);
+                var b = Utils.ObjectToByteArray(obj);
                 File.WriteAllBytes(path, b);
                 LogWrapper.Log(string.Format("binaries successfully saved to: {1}", path));
             }

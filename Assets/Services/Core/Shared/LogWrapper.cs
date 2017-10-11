@@ -1,4 +1,4 @@
-﻿namespace Framework.Log
+﻿namespace Framework
 {
     public static class LogWrapper 
     {
