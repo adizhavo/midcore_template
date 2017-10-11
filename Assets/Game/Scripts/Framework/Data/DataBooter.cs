@@ -13,7 +13,7 @@ namespace Framework.Data
 
     public class DataBooter : IInitializeSystem
     {
-        [Inject] public Database dataBase;
+        [Inject] private Database dataBase;
 
         private string appConfigPath;
 
