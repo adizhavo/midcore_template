@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Framework.Data
 {
     /// <summary>
-    /// Will store all runtime data from the game and start up data from the DataLoader
+    /// Will store all runtime data from the game and start up data from the DataBooter
     /// </summary>
 
     public class Database : IInitializeSystem
