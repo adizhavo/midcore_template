@@ -13,7 +13,7 @@ namespace Framework.Data
 
     public class DataBooter : IInitializeSystem
     {
-        [Inject] Database dataBase;
+        [Inject] public Database dataBase;
 
         private string appConfigPath;
 
@@ -37,21 +37,21 @@ namespace Framework.Data
             var appConfig = Util.ReadJsonFromResources<ApplicationConfig>(appConfigPath);
             dataBase.AddReadonly(Constants.APP_CONFIG_ID, appConfig, false);
 
-            LogWrapper.Log(string.Format("{0} loaded app config succesfully and added to the database with key: {1}", this.GetType(), Constants.APP_CONFIG_ID));
+            LogWrapper.Log(string.Format("[{0}] loaded app config succesfully and added to the database with key: {1}", this.GetType(), Constants.APP_CONFIG_ID));
         }
 
         private void ReadAssetManifest()
         {
             var appConfig = dataBase.Get<ApplicationConfig>(Constants.APP_CONFIG_ID);
             var assetManifest = Util.ReadJsonFromResources<AssetManifest>(appConfig.assetManifestPath);
-            foreach (var asset in assetManifest.assets)
+            foreach (var asset in assetManifest.root)
             {
                 dataBase.AddReadonly(asset.id, asset.path, false);
 
-                LogWrapper.DebugLog(string.Format("{0} add asset to the database with key: {1}, path: {2}", this.GetType(), asset.id, asset.path));
+                LogWrapper.DebugLog(string.Format("[{0}] add asset to the database with key: {1}, path: {2}", this.GetType(), asset.id, asset.path));
             }
 
-            LogWrapper.Log(string.Format("{0} assets loaded successfully and all paths added to the database", this.GetType()));
+            LogWrapper.Log(string.Format("[{0}] assets loaded successfully and all paths added to the database", this.GetType()));
         }
     }
 }
