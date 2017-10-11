@@ -17,20 +17,20 @@ namespace Framework.Data
         private List<MetaData> metaData;
         private string databasePath;
 
-        public Database()
+        public Database(string databaseFileName)
         {
             metaData = new List<MetaData>();
+            databasePath = Path.Combine(Application.persistentDataPath, databaseFileName);
         }
 
         #region IInitializeSystem implementation
 
         public void Initialize()
         {
-            databasePath = Path.Combine(Application.persistentDataPath, Get<ApplicationConfig>(Constants.APP_CONFIG_ID).databasePersistPath);
-
             if (File.Exists(databasePath))
             {
-                metaData = Util.ReadBinary<List<MetaData>>(databasePath);
+                var readData = Util.ReadBinary<List<MetaData>>(databasePath);
+                metaData.AddRange(readData);
             }
         }
 
@@ -47,7 +47,7 @@ namespace Framework.Data
             if (flush) Flush();
         }
 
-        public void Set(string key, object value, bool flush = false)
+        public void Set(string key, object value, bool persist, bool flush = false)
         {
             var mdata = metaData.Find(md => string.Equals(md.key, key));
 
@@ -56,6 +56,7 @@ namespace Framework.Data
                 mdata = new MetaData();
                 mdata.key = key;
                 mdata.value = value;
+                mdata.persist = persist;
                 metaData.Add(mdata);
             }
             else if (mdata.isReadonly)
@@ -65,6 +66,7 @@ namespace Framework.Data
             else
             {
                 mdata.value = value;
+                mdata.persist = persist;
             }
 
             if (flush) Flush();
@@ -72,7 +74,7 @@ namespace Framework.Data
 
         public void Clear(string key, bool flush = false)
         {
-            metaData.RemoveAll(md => string.Equals(key, md.key) && !md.isReadonly);
+            metaData.RemoveAll(md => string.Equals(key, md.key));
 
             if (flush) Flush();
         }
