@@ -15,13 +15,13 @@ namespace Services.Core
 
         public override void InstallBindings()
         {
-            var dataBase = new DatabaseService(Constants.DATABASE_ID);
-            Container.BindInstance(dataBase);
-            Container.QueueForInject(dataBase);
+            var DBService = new DatabaseService(Constants.DATABASE_ID);
+            Container.BindInstance(DBService);
+            Container.QueueForInject(DBService);
 
-            var dataBooter = new DataBootService(Constants.APP_CONFIG_PATH);
-            Container.BindInstance(dataBooter);
-            Container.QueueForInject(dataBooter);
+            var dataBootService = new DataBootService(Constants.APP_CONFIG_PATH);
+            Container.BindInstance(dataBootService);
+            Container.QueueForInject(dataBootService);
 
             Container.Bind<DataBindingService>().AsSingle().NonLazy();
 
