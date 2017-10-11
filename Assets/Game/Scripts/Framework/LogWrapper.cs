@@ -1,6 +1,6 @@
 ﻿namespace Framework.Log
 {
-    public static class Logger 
+    public static class LogWrapper 
     {
         public static void DebugLog(string message)
         {
@@ -19,7 +19,7 @@
         public static void DebugWarning(string message)
         {
             #if ADHOC || UNITY_EDITOR
-            UnityEngine.Debug.LogWarning();
+            UnityEngine.Debug.LogWarning(message);
             #endif
         }
 
@@ -35,7 +35,7 @@
 
         public static void Warning(string message)
         {
-            UnityEngine.Debug.LogWarning();
+            UnityEngine.Debug.LogWarning(message);
         }
     }
 }
