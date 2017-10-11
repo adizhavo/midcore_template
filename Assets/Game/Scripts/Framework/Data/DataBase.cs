@@ -3,7 +3,6 @@ using UnityEngine;
 using Framework.Utils;
 using System;
 using System.IO;
-using System.Threading;
 using System.Collections.Generic;
 
 namespace Framework.Data
