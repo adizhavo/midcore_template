@@ -6,4 +6,5 @@
 
     // paths
     public const string APP_CONFIG_PATH = "app_config";
+    public const string VERSION_LOG_PATH = "version_log";
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using Services.Core.DataVersion;
 
 namespace Services.Core.Data
 {
@@ -104,6 +105,25 @@ namespace Services.Core.Data
         public void Flush()
         { 
             Utils.WriteBinary(metaData.FindAll(md => md.persist), databasePath);
+        }
+
+        public void Backup()
+        {
+            var backupDatabasePath = databasePath += "_" + DataVersionService.APP_VERSION;
+            Utils.WriteBinary(metaData, backupDatabasePath);
+        }
+
+        public void RestoreBackup(string version)
+        {
+            var backupDatabasePath = databasePath += "_" + version;
+            if (File.Exists(backupDatabasePath))
+            {
+                metaData = Utils.ReadBinary<List<MetaData>>(backupDatabasePath);
+            }
+            else
+            {
+                LogWrapper.Error(string.Format("[{0}] Could not restore backup for version {1} and databse path {2}", GetType(), version, backupDatabasePath));
+            }
         }
     }
 
