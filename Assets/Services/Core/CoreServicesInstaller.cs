@@ -11,7 +11,7 @@ namespace Services.Core
         #region Installer implementation
 
         /// <summary>
-        /// Setup framework's bindings here
+        /// Setup framework's bindings
         /// </summary>
 
         public override void InstallBindings()
