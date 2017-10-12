@@ -13,7 +13,12 @@ namespace Services.Core.DataVersion
     {
         [Inject] private DatabaseService database;
 
-        public Version blockVersion;
+        protected Version blockVersion;
+
+        public string version
+        {
+            get { return blockVersion.ToString(); }
+        }
 
         public DataMigratorBlock SetVersion(string version)
         {
