@@ -74,6 +74,16 @@ namespace Services.Core
             return JsonConvert.DeserializeObject(json.text, type);
         }
 
+        public static T DeserializeJson<T>(string text)
+        {
+            return JsonConvert.DeserializeObject<T>(text);
+        }
+
+        public static object DeserializeJson(string text, Type type)
+        {
+            return JsonConvert.DeserializeObject(text, type);
+        }
+
         private static void WriteObjectAtPath(object obj, string path)
         {
             lock (writeLock)
