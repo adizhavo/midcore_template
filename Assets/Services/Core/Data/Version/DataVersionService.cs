@@ -120,6 +120,7 @@ namespace Services.Core.DataVersion
             }
         }
       
+        [System.Serializable]
         public class VersionData
         {
             public string version;
