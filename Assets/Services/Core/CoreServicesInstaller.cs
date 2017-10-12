@@ -29,13 +29,13 @@ namespace Services.Core
             var dataVersionService = new DataVersionService();
 
             // --- Example how to add data migrator blocks
-            // --- each block should implement the DataMigratorBlock class
+            // --- each block should extend the DataMigratorBlock class
             // ---
             // Container.Bind<DataMigratorBlock_1_0_0()>().AsSingle().NonLazy();
             // Container.Bind<DataMigratorBlock_2_0_0()>().AsSingle().NonLazy();
-            // dataVersionService.AddMigratorBlock(Container.Resolve<DataMigratorBlock_1_0_0>().SetVersion("1.0.1"));
+            // dataVersionService.AddMigratorBlock(Container.Resolve<DataMigratorBlock_1_0_0>().SetVersion("1.0.0"));
             // dataVersionService.AddMigratorBlock(Container.Resolve<DataMigratorBlock_2_0_0>().SetVersion("2.0.0"));
-            // ---- end
+            // --- end
 
             Container.BindInstance(dataVersionService);
             Container.QueueForInject(dataVersionService);
