@@ -7,6 +7,18 @@ using System.Collections.Generic;
 
 namespace Services.Core.Gesture
 {
+    /// <summary>
+    /// Will provider these gestures:
+    /// - Touch down
+    /// - Touch up
+    /// - Double Touch
+    /// - Pinch
+    /// - Drag
+    /// - Hold
+    /// Implement the handlers interfaces to listen to the events
+    /// or use the gesture event dispatcher 
+    /// </summary>
+
     public class GestureService : IInitializeSystem, IExecuteSystem
     {
         public bool enableDrag = true;
@@ -38,6 +50,7 @@ namespace Services.Core.Gesture
         {
             appConfig = database.Get<ApplicationConfig>(Constants.APP_CONFIG_ID);
             SetupTransitions();
+            SetupGestureEventDispatcher();
         }
 
         #endregion
@@ -113,6 +126,15 @@ namespace Services.Core.Gesture
                     break;
                 }
             }
+        }
+
+        private void SetupGestureEventDispatcher()
+        {
+            var gestureEventDispatcher = new GestureEventDispatcher();
+            AddTouchHandler(gestureEventDispatcher);
+            AddTouchHoldHandler(gestureEventDispatcher);
+            AddDragHandler(gestureEventDispatcher);
+            AddPinchHandler(gestureEventDispatcher);
         }
 
         #endregion
