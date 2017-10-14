@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Services.Core.Gesture
+﻿namespace Services.Core.Gesture
 {
     public enum GestureState
     {
