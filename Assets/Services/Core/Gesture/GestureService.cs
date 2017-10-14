@@ -9,6 +9,12 @@ namespace Services.Core.Gesture
 {
     public class GestureService : IInitializeSystem, IExecuteSystem
     {
+        public bool enableDrag = true;
+        public bool enableHold = true;
+        public bool enableTapDown = true;
+        public bool enableTapUp = true;
+        public bool enablePinch = true;
+
         private static int firstFingerId = -1;
         private static float tapUpTime = 0f;
         private static float holdTime = 0f;
@@ -17,16 +23,14 @@ namespace Services.Core.Gesture
         private static Vector2 tapDownPosition;
         private static ApplicationConfig appConfig;
 
-        public bool enableDrag = true;
-        public bool enableHold = true;
-        public bool enableTapDown = true;
-        public bool enableTapUp = true;
-        public bool enablePinch = true;
-
         [Inject] private DatabaseService database;
-
         private List<Transition> transitions;
         private GestureState current;
+
+        private List<ITouchHandler> touchHandlers = new List<ITouchHandler>();
+        private List<ITouchHoldHandler> touchHoldHandlers = new List<ITouchHoldHandler>();
+        private List<IDragHandler> dragHandlers = new List<IDragHandler>();
+        private List<IPinchHandler> pinchHandlers = new List<IPinchHandler>();
 
         #region IInitializeSystem implementation
 
@@ -46,13 +50,13 @@ namespace Services.Core.Gesture
             {
                 UpdateTouchStats();
 
-                if (enableTapDown && HasTappedDown())
+                if (enableTapDown && HasTouchedDown())
                 {
                     Handle(GestureEvent.DOWN);
                 }
-                else if (enableTapUp && HasTappedUp())
+                else if (enableTapUp && HasTauchedUp())
                 {
-                    Handle(IsDoubleTap() ? GestureEvent.DOUBLE : GestureEvent.UP);
+                    Handle(HasDoubleTouched() ? GestureEvent.DOUBLE : GestureEvent.UP);
                 }
                 else if (enableDrag && IsPerformingDrag())
                 {
@@ -70,6 +74,8 @@ namespace Services.Core.Gesture
         }
 
         #endregion
+
+        #region STATE_HANDLER
 
         private void SetupTransitions()
         {
@@ -108,6 +114,10 @@ namespace Services.Core.Gesture
                 }
             }
         }
+
+        #endregion
+
+        #region INPUT_PROCESSING
 
         private void UpdateTouchStats()
         {
@@ -149,7 +159,7 @@ namespace Services.Core.Gesture
             return screenPixels / Screen.dpi;
         }
 
-        public static bool HasTappedDown()
+        public static bool HasTouchedDown()
         {
             return
                 #if UNITY_EDITOR
@@ -159,7 +169,7 @@ namespace Services.Core.Gesture
                 #endif
         }
 
-        public static bool HasTappedUp()
+        public static bool HasTauchedUp()
         {
             return 
                 #if UNITY_EDITOR
@@ -179,9 +189,9 @@ namespace Services.Core.Gesture
                 #endif
         }
 
-        public static bool IsDoubleTap()
+        public static bool HasDoubleTouched()
         {
-            CheckDoubleTapElapseTime();
+            CheckDoubleTouchElapseTime();
 
             if (tapUpTime == -1)
             {
@@ -196,7 +206,7 @@ namespace Services.Core.Gesture
             }
         }
 
-        private static void CheckDoubleTapElapseTime()
+        private static void CheckDoubleTouchElapseTime()
         {
             if (tapUpTime != -1 && Time.realtimeSinceStartup - tapUpTime > appConfig.doubleTapElapseTime)
                 tapUpTime = -1;
@@ -228,72 +238,6 @@ namespace Services.Core.Gesture
             return touchPos + touchPosOffset;
         }
 
-        private void HandleTouchDown()
-        {
-            tapDownPosition = GetTouchPos();
-            Debug.Log("T D");
-        }
-
-        private void HandleTouchUp()
-        {
-            Debug.Log("T U");
-            ResetTouchStats();
-        }
-
-        private void HandleDragStart()
-        {
-            Debug.Log("D S");
-        }
-
-        private void HandleDrag()
-        {
-            Debug.Log("D");
-        }
-
-        private void HandleDragEnd()
-        {
-            Debug.Log("D E");
-            ResetTouchStats();
-        }
-
-        private void HandleDoubleTouch()
-        {
-            Debug.Log("D T");
-            ResetTouchStats();
-        }
-
-        private void HandlePinchStart()
-        {
-            Debug.Log("P S");
-        }
-
-        private void HandlePinch()
-        {
-            Debug.Log("P");
-        }
-
-        private void HandlePinchEnd()
-        {
-            Debug.Log("P E");
-            ResetTouchStats();
-        }
-
-        private void HandleTouchHoldStart()
-        {
-            Debug.Log("H S");
-        }
-
-        private void HandleTouchHold()
-        {
-            Debug.Log("H");
-        }
-
-        private void HandleTouchHoldEnd()
-        {
-            Debug.Log("H E");
-            ResetTouchStats();
-        }
-
         private void ResetTouchStats()
         {
             firstFingerId = -1;
@@ -301,20 +245,136 @@ namespace Services.Core.Gesture
             holdTime = 0f;
         }
 
-        private class Transition
-        {
-            public GestureState current;
-            public GestureEvent gestureEvent;
-            public GestureState next;
-            public Action action;
+        #endregion
 
-            public Transition(GestureState current, GestureEvent gestureEvent, GestureState next, Action action)
-            {
-                this.current = current;
-                this.gestureEvent = gestureEvent;
-                this.next = next;
-                this.action = action;
-            }
+        #region INPUT_HANDLER
+
+        public void AddTouchHandler(ITouchHandler touchHandler)
+        {
+            touchHandlers.Add(touchHandler);
+        }
+
+        public void AddTouchHoldHandler(ITouchHoldHandler touchHoldHandler)
+        {
+            touchHoldHandlers.Add(touchHoldHandler);
+        }
+
+        public void AddDragHandler(IDragHandler dragHandler)
+        {
+            dragHandlers.Add(dragHandler);
+        }
+
+        public void AddPinchHandler(IPinchHandler pinchHandler)
+        {
+            pinchHandlers.Add(pinchHandler);
+        }
+
+        private void HandleTouchDown()
+        {
+            tapDownPosition = GetTouchPos();
+            foreach(var th in touchHandlers)
+                if (th.HandleTouchDown(tapDownPosition))
+                    break;
+        }
+
+        private void HandleTouchUp()
+        {
+            foreach(var th in touchHandlers)
+                if (th.HandleTouchUp(GetTouchPos()))
+                    break;
+            ResetTouchStats();
+        }
+
+        private void HandleDragStart()
+        {
+            foreach(var dh in dragHandlers)
+                if (dh.HandleDragStart(GetTouchPos()))
+                    break;
+        }
+
+        private void HandleDrag()
+        {
+            foreach(var dh in dragHandlers)
+                if (dh.HandleDrag(GetTouchPos()))
+                    break;
+        }
+
+        private void HandleDragEnd()
+        {
+            foreach(var dh in dragHandlers)
+                if (dh.HandleDragEnd(GetTouchPos()))
+                    break;
+            ResetTouchStats();
+        }
+
+        private void HandleDoubleTouch()
+        {
+            foreach(var th in touchHandlers)
+                if (th.HandleDoubleTouch(GetTouchPos()))
+                    break;
+            ResetTouchStats();
+        }
+
+        private void HandlePinchStart()
+        {
+            foreach(var ph in pinchHandlers)
+                if (ph.HandlePinchStart(Input.GetTouch(0).position, Input.GetTouch(1).position))
+                    break;
+        }
+
+        private void HandlePinch()
+        {
+            foreach(var ph in pinchHandlers)
+                if (ph.HandlePinch(Input.GetTouch(0).position, Input.GetTouch(1).position))
+                    break;
+        }
+
+        private void HandlePinchEnd()
+        {
+            foreach(var ph in pinchHandlers)
+                if (ph.HandlePinchEnd(Input.GetTouch(0).position, Input.GetTouch(1).position))
+                    break;
+            ResetTouchStats();
+        }
+
+        private void HandleTouchHoldStart()
+        {
+            foreach(var hh in touchHoldHandlers)
+                if (hh.HandleTouchHoldStart(GetTouchPos(), holdTime))
+                    break;
+        }
+
+        private void HandleTouchHold()
+        {
+            foreach(var hh in touchHoldHandlers)
+                if (hh.HandleTouchHold(GetTouchPos(), holdTime))
+                    break;
+        }
+
+        private void HandleTouchHoldEnd()
+        {
+            foreach(var hh in touchHoldHandlers)
+                if (hh.HandleTouchHoldEnd(GetTouchPos(), holdTime))
+                    break;
+            ResetTouchStats();
+        }
+
+        #endregion
+    }
+
+    public class Transition
+    {
+        public GestureState current;
+        public GestureEvent gestureEvent;
+        public GestureState next;
+        public Action action;
+
+        public Transition(GestureState current, GestureEvent gestureEvent, GestureState next, Action action)
+        {
+            this.current = current;
+            this.gestureEvent = gestureEvent;
+            this.next = next;
+            this.action = action;
         }
     }
 }
