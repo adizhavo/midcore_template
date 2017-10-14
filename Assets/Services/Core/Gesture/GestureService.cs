@@ -4,6 +4,7 @@ using UnityEngine;
 using Services.Core.Data;
 using System;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 namespace Services.Core.Gesture
 {
@@ -63,7 +64,7 @@ namespace Services.Core.Gesture
             {
                 UpdateTouchStats();
 
-                if (enableTapDown && HasTouchedDown())
+                if (enableTapDown && HasTouchedDown() && !IsOnUIObject())
                 {
                     Handle(GestureEvent.DOWN);
                 }
@@ -141,7 +142,7 @@ namespace Services.Core.Gesture
 
         #region INPUT_PROCESSING
 
-        private void UpdateTouchStats()
+        private static void UpdateTouchStats()
         {
             holdTime += Time.unscaledDeltaTime;
             #if UNITY_EDITOR
@@ -164,6 +165,11 @@ namespace Services.Core.Gesture
                 touchPosOffset = Input.GetTouch(0).position - touchPos;
             }
             #endif
+        }
+
+        public static bool IsOnUIObject()
+        {
+            return EventSystem.current.IsPointerOverGameObject();
         }
 
         public static bool DetectAnyTouch()
