@@ -56,6 +56,9 @@ namespace Services.Core.Data
     public class ApplicationConfig
     {
         public string version;
+        public float doubleTapElapseTime;
+        public float dragMinDistance;
+        public float holdMinElapseTime;
         public string assetManifestPath;
     }
 
