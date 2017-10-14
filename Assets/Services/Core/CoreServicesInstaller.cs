@@ -17,10 +17,6 @@ namespace Services.Core
 
         public override void InstallBindings()
         {
-            var dataBootService = new DataBootService(Constants.APP_CONFIG_PATH);
-            Container.BindInstance(dataBootService);
-            Container.QueueForInject(dataBootService);
-
             var dataVersionService = new DataVersionService();
 
             // --- Example how to add data migrator blocks
@@ -38,6 +34,7 @@ namespace Services.Core
             Container.Bind<DatabaseService>().AsSingle().NonLazy();
             Container.Bind<DataBindingService>().AsSingle().NonLazy();
             Container.Bind<GestureService>().AsSingle().NonLazy();
+            Container.Bind<AssetManifestReader>().AsSingle().NonLazy();
 
             LogWrapper.DebugLog(string.Format("[{0}] installation of bindings successfull", GetType()));
         }

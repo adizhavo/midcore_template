@@ -6,19 +6,12 @@ using System.Collections.Generic;
 namespace Services.Core.Data
 {
     /// <summary>
-    /// Will load application and assets as readonly data and add it to the database
+    /// Will the asset manifest and add them to the database
     /// </summary>
 
-    public class DataBootService : IInitializeSystem
+    public class AssetManifestReader : IInitializeSystem
     {
         [Inject] private DatabaseService dataBase;
-
-        private string appConfigPath;
-
-        public DataBootService(string appConfigPath)
-        {
-            this.appConfigPath = appConfigPath;
-        }
 
         #region IInitializeSystem implementation
 
