@@ -3,6 +3,7 @@ using Entitas;
 using Services.Core.Data;
 using Services.Core.Databinding;
 using Services.Core.DataVersion;
+using Services.Core.Gesture;
 
 namespace Services.Core
 {
@@ -24,8 +25,6 @@ namespace Services.Core
             Container.BindInstance(dataBootService);
             Container.QueueForInject(dataBootService);
 
-            Container.Bind<DataBindingService>().AsSingle().NonLazy();
-
             var dataVersionService = new DataVersionService();
 
             // --- Example how to add data migrator blocks
@@ -39,6 +38,9 @@ namespace Services.Core
 
             Container.BindInstance(dataVersionService);
             Container.QueueForInject(dataVersionService);
+
+            Container.Bind<DataBindingService>().AsSingle().NonLazy();
+            Container.Bind<GestureService>().AsSingle().NonLazy();
 
             LogWrapper.DebugLog(string.Format("[{0}] installation of bindings successfull", GetType()));
         }
