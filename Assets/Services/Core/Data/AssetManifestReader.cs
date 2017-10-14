@@ -30,10 +30,10 @@ namespace Services.Core.Data
             {
                 dataBase.AddReadonly(asset.id, asset.path, false);
 
-                LogWrapper.DebugLog(string.Format("[{0}] add asset to the database with key: {1}, path: {2}", GetType(), asset.id, asset.path));
+                LogWrapper.DebugLog("[{0}] add asset to the database with key: {1}, path: {2}", GetType(), asset.id, asset.path);
             }
 
-            LogWrapper.Log(string.Format("[{0}] assets loaded successfully and all paths added to the database", GetType()));
+            LogWrapper.Log("[{0}] assets loaded successfully and all paths added to the database", GetType());
         }
     }
 

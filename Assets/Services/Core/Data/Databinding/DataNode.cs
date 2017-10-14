@@ -20,14 +20,14 @@ namespace Services.Core.Databinding
             foreach (var n in subNodes)
                 if (n.branch.Equals(node.branch))
                 {
-                    LogWrapper.DebugLog(string.Format("[{0}] node: {1} is already a sub node of branch: {2}", GetType(), Id, branch));
+                    LogWrapper.DebugLog("[{0}] node: {1} is already a sub node of branch: {2}", GetType(), Id, branch);
                     return;
                 }
 
             node.parent = this;
             subNodes.Add(node);
 
-            LogWrapper.DebugLog(string.Format("[{0}] Adding node {1} to {2}", GetType(), node.branch, branch));
+            LogWrapper.DebugLog("[{0}] Adding node {1} to {2}", GetType(), node.branch, branch);
         }
 
         public void RemoveSubNode(Node node)
@@ -40,7 +40,7 @@ namespace Services.Core.Databinding
                     return;
                 }
 
-            LogWrapper.DebugLog(string.Format("[{0}] node: {1} is not part of branch: {2}", GetType(), Id, branch));
+            LogWrapper.DebugLog("[{0}] node: {1} is not part of branch: {2}", GetType(), Id, branch);
         }
 
         public bool Contains(Node node)

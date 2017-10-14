@@ -36,7 +36,7 @@ namespace Services.Core
             Container.Bind<GestureService>().AsSingle().NonLazy();
             Container.Bind<AssetManifestReader>().AsSingle().NonLazy();
 
-            LogWrapper.DebugLog(string.Format("[{0}] installation of bindings successfull", GetType()));
+            LogWrapper.DebugLog("[{0}] installation of bindings successfull", GetType());
         }
 
         #endregion

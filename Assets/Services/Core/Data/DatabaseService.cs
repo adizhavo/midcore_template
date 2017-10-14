@@ -30,7 +30,7 @@ namespace Services.Core.Data
         {
             var appConfig = Utils.ReadJsonFromResources<ApplicationConfig>(Constants.APP_CONFIG_PATH);
             AddReadonly(Constants.APP_CONFIG_ID, appConfig, false);
-            LogWrapper.Log(string.Format("[{0}] loaded app config succesfully and added to the database with key: {1}", GetType(), Constants.APP_CONFIG_ID));
+            LogWrapper.Log("[{0}] loaded app config succesfully and added to the database with key: {1}", GetType(), Constants.APP_CONFIG_ID);
         }
 
         private void TryLoadDatabase()
@@ -68,7 +68,7 @@ namespace Services.Core.Data
             }
             else if (mdata.isReadonly)
             {
-                LogWrapper.Warning(string.Format("Cannot override read-only data: {0}", key));
+                LogWrapper.Warning("Cannot override read-only data: {0}", key);
             }
             else
             {
@@ -130,7 +130,7 @@ namespace Services.Core.Data
             }
             else
             {
-                LogWrapper.Error(string.Format("[{0}] Could not restore backup for version {1} and databse path {2}", GetType(), version, backupDatabasePath));
+                LogWrapper.Error("[{0}] Could not restore backup for version {1} and databse path {2}", GetType(), version, backupDatabasePath);
             }
         }
     }
