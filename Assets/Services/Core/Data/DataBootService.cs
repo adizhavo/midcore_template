@@ -24,19 +24,10 @@ namespace Services.Core.Data
 
         public virtual void Initialize()
         {
-            ReadApplicationConfig();
             ReadAssetManifest();
         }
 
         #endregion
-
-        private void ReadApplicationConfig()
-        {
-            var appConfig = Utils.ReadJsonFromResources<ApplicationConfig>(appConfigPath);
-            dataBase.AddReadonly(Constants.APP_CONFIG_ID, appConfig, false);
-
-            LogWrapper.Log(string.Format("[{0}] loaded app config succesfully and added to the database with key: {1}", GetType(), Constants.APP_CONFIG_ID));
-        }
 
         private void ReadAssetManifest()
         {
@@ -51,15 +42,6 @@ namespace Services.Core.Data
 
             LogWrapper.Log(string.Format("[{0}] assets loaded successfully and all paths added to the database", GetType()));
         }
-    }
-
-    public class ApplicationConfig
-    {
-        public string version;
-        public float doubleTapElapseTime;
-        public float dragMinDistance;
-        public float holdMinElapseTime;
-        public string assetManifestPath;
     }
 
     public class AssetManifest
