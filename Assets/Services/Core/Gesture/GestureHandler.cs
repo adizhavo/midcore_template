@@ -2,6 +2,12 @@
 
 namespace Services.Core.Gesture
 {
+    /// <summary>
+    /// Implement one of these interfaces if you want to listener to a gesture event
+    /// returning false will not consume the event
+    /// returning true will consume the event so the gesture service will not notify the coming handlers
+    /// </summary>
+
     public interface ITouchHandler
     {
         bool HandleTouchDown        (Vector3 screenPos);
@@ -13,7 +19,7 @@ namespace Services.Core.Gesture
     {
         bool HandleDragStart        (Vector3 screenPos);
         bool HandleDrag             (Vector3 screenPos);
-        bool HandleDragEnd          (Vector3 dragEnd);
+        bool HandleDragEnd          (Vector3 screenPos);
     }
 
     public interface IPinchHandler
