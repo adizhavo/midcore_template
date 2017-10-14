@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Services.Core.Data
 {
     /// <summary>
-    /// Will the asset manifest and add them to the database
+    /// Will load the asset manifest and add them to the database
     /// </summary>
 
     public class AssetManifestReader : IInitializeSystem
