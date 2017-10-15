@@ -1,0 +1,8 @@
+{
+	"version" : "1.0.0",
+	"doubleTapElapseTime" : 0.3,
+	"dragMinDistance" : 0.1,
+	"holdMinElapseTime" : 1,
+	"assetManifestPath" : "Data/asset_manifest",
+	"guiConfigPath" : "Data/gui_config"
+}
