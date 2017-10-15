@@ -13,27 +13,35 @@ namespace Services.Core.Data
 
     public class DatabaseService : IInitializeSystem
     {
-        private List<MetaData> metaData;
+        private List<MetaData> metaData = new List<MetaData>();
         private string databasePath;
-
-        public DatabaseService(string databaseFileName)
-        {
-            metaData = new List<MetaData>();
-            databasePath = Path.Combine(Application.persistentDataPath, databaseFileName);
-        }
 
         #region IInitializeSystem implementation
 
         public void Initialize()
         {
+            ReadApplicationConfig();
+            TryLoadDatabase();
+        }
+
+        #endregion
+
+        private void ReadApplicationConfig()
+        {
+            var appConfig = Utils.ReadJsonFromResources<ApplicationConfig>(Constants.APP_CONFIG_PATH);
+            AddReadonly(Constants.APP_CONFIG_ID, appConfig, false);
+            LogWrapper.Log("[{0}] loaded app config succesfully and added to the database with key: {1}", GetType(), Constants.APP_CONFIG_ID);
+        }
+
+        private void TryLoadDatabase()
+        {
+            databasePath = Path.Combine(Application.persistentDataPath, Constants.DATABASE_ID);
             if (File.Exists(databasePath))
             {
                 var readData = Utils.ReadBinary<List<MetaData>>(databasePath);
                 metaData.AddRange(readData);
             }
         }
-
-        #endregion
 
         public void AddReadonly(string key, object value, bool persist, bool flush = false)
         {
@@ -60,7 +68,7 @@ namespace Services.Core.Data
             }
             else if (mdata.isReadonly)
             {
-                LogWrapper.Warning(string.Format("Cannot override read-only data: {0}", key));
+                LogWrapper.Warning("Cannot override read-only data: {0}", key);
             }
             else
             {
@@ -122,7 +130,7 @@ namespace Services.Core.Data
             }
             else
             {
-                LogWrapper.Error(string.Format("[{0}] Could not restore backup for version {1} and databse path {2}", GetType(), version, backupDatabasePath));
+                LogWrapper.Error("[{0}] Could not restore backup for version {1} and databse path {2}", GetType(), version, backupDatabasePath);
             }
         }
     }
@@ -134,5 +142,14 @@ namespace Services.Core.Data
         public object value;
         public bool isReadonly;
         public bool persist;
+    }
+
+    public class ApplicationConfig
+    {
+        public string version;
+        public float doubleTapElapseTime;
+        public float dragMinDistance;
+        public float holdMinElapseTime;
+        public string assetManifestPath;
     }
 }

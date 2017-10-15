@@ -99,7 +99,7 @@ namespace Services.Core.DataVersion
             v.version = version;
             v.date = DateTime.UtcNow;
             appVersions.Add(v);
-            LogWrapper.DebugLog(string.Format("[{0}] added new version {0}", GetType(), version));
+            LogWrapper.DebugLog("[{0}] added new version {0}", GetType(), version);
         }
 
         private void TryMigrateData()
@@ -114,7 +114,7 @@ namespace Services.Core.DataVersion
                     if (block.CanExecute(fromVersion, toVersion))
                     {
                         block.Execute();
-                        LogWrapper.Log(string.Format("[{0}] executed migrator block for {0}", GetType(), block.version));
+                        LogWrapper.Log("[{0}] executed migrator block for {0}", GetType(), block.version);
                     }
                 }
             }

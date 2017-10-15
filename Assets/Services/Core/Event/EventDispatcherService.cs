@@ -5,7 +5,7 @@ namespace Services.Core.Event
     /// <summary>
     /// Will register subscribers and fire events
     /// A listener can subscribe to a global or a specific event
-    /// Use Subscribe(IEventListener<T> listener) to subscribe to a global event
+    /// Use Subscribe(IEventListener<T> listener) with and empty 'eventId' to subscribe to a global event
     /// </summary>
 
     public static class EventDispatcherService<T>
@@ -17,16 +17,7 @@ namespace Services.Core.Event
             subscribers = new List<Subscriber>();
         }
 
-        public static void Subscribe(IEventListener<T> listener)
-        {
-            if (!IsSubscribed(listener))
-            {
-                var subscriber = new Subscriber(string.Empty, listener);
-                subscribers.Add(subscriber);
-            }
-        }
-
-        public static void Subscribe(IEventListener<T> listener, string eventId)
+        public static void Subscribe(IEventListener<T> listener, string eventId = "")
         {
             if (!IsSubscribed(listener))
             {

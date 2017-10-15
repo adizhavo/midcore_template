@@ -90,7 +90,7 @@ namespace Services.Core
             {
                 var b = Utils.ObjectToByteArray(obj);
                 File.WriteAllBytes(path, b);
-                LogWrapper.Log(string.Format("binaries successfully saved to: {1}", path));
+                LogWrapper.Log("binaries successfully saved to: {1}", path);
             }
         }
     }

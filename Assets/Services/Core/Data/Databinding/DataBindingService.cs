@@ -59,7 +59,7 @@ namespace Services.Core.Databinding
                 }
                 else
                 {
-                    LogWrapper.DebugWarning(string.Format("[{0}] branch {1} found but the data will not change.", GetType(), branch));
+                    LogWrapper.DebugWarning("[{0}] branch {1} found but the data will not change.", GetType(), branch);
                 }
             }
             else
@@ -100,13 +100,13 @@ namespace Services.Core.Databinding
             // We are adding it as a root
             if (treeDepth == 0)
             {
-                LogWrapper.DebugLog(string.Format("[{0}] Adding an empty node {1} as root", GetType(), splittedBranch[treeDepth]));
+                LogWrapper.DebugLog("[{0}] Adding an empty node {1} as root", GetType(), splittedBranch[treeDepth]);
                 dataRoots.Add(node);
             }
             else
             {
                 var parent = ExtractNode(splittedBranch[treeDepth - 1], treeDepth - 1);
-                LogWrapper.DebugLog(string.Format("[{0}] Adding an empty node {1} with parent {2}", GetType(), splittedBranch[treeDepth], parent.branch));
+                LogWrapper.DebugLog("[{0}] Adding an empty node {1} with parent {2}", GetType(), splittedBranch[treeDepth], parent.branch);
                 parent.AddSubNode(node);
             }
         }
@@ -131,7 +131,7 @@ namespace Services.Core.Databinding
                 string[] branchPath = branch.Split(DATA_BRANCH_SEPARATOR);
                 return ExtractNode(branchPath[branchPath.Length - 1], branchPath.Length - 1);
             }
-            LogWrapper.DebugError(string.Format("[{0}] Error, the request is null or empty, please provide a valid branch, will return null", GetType()));
+            LogWrapper.DebugError("[{0}] Error, the request is null or empty, please provide a valid branch, will return null", GetType());
             return null;
         }
 
@@ -146,11 +146,11 @@ namespace Services.Core.Databinding
                     if (string.Equals(node.Id, Id))
                         return node;
 
-                LogWrapper.DebugError(string.Format("[{0}] node with id: {1} was not found", GetType(), Id));
+                LogWrapper.DebugError("[{0}] node with id: {1} was not found", GetType(), Id);
             }
             else
             {
-                LogWrapper.DebugError(string.Format("[{0}] Error, the request Id is null or empty, please provide a valid Id, will return null", GetType()));
+                LogWrapper.DebugError("[{0}] Error, the request Id is null or empty, please provide a valid Id, will return null", GetType());
             }
 
             return null;
