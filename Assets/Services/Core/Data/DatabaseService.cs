@@ -151,5 +151,6 @@ namespace Services.Core.Data
         public float dragMinDistance;
         public float holdMinElapseTime;
         public string assetManifestPath;
+        public string guiConfigPath;
     }
 }
