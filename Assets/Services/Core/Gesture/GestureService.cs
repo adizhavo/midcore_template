@@ -209,7 +209,7 @@ namespace Services.Core.Gesture
 
         public static bool IsHolding()
         {
-            return !IsPerformingDrag() && !IsPinching() && holdTime > appConfig.holdMinElapseTime &
+            return !IsPerformingDrag() && !IsPinching() && holdTime > appConfig.holdMinElapseTime &&
                 #if UNITY_EDITOR
                 Input.GetMouseButton(0);
                 #else
