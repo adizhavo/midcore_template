@@ -4,6 +4,7 @@ using Services.Core.Data;
 using Services.Core.Databinding;
 using Services.Core.DataVersion;
 using Services.Core.Gesture;
+using Services.Core.GUI;
 
 namespace Services.Core
 {
@@ -35,6 +36,7 @@ namespace Services.Core
             Container.Bind<DataBindingService>().AsSingle().NonLazy();
             Container.Bind<GestureService>().AsSingle().NonLazy();
             Container.Bind<AssetManifestReader>().AsSingle().NonLazy();
+            Container.Bind<GUIService>().AsSingle().NonLazy();
 
             LogWrapper.DebugLog("[{0}] installation of bindings successfull", GetType());
         }
