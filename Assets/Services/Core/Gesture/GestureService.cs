@@ -28,7 +28,9 @@ namespace Services.Core.Gesture
         public bool enableTapUp = true;
         public bool enablePinch = true;
 
+        #if !UNITY_EDITOR
         private static int firstFingerId = -1;
+        #endif
         private static float tapUpTime = 0f;
         private static float holdTime = 0f;
         private static Vector2 touchPos;
@@ -209,7 +211,7 @@ namespace Services.Core.Gesture
 
         public static bool IsHolding()
         {
-            return !IsPerformingDrag() && !IsPinching() && holdTime > appConfig.holdMinElapseTime &
+            return !IsPerformingDrag() && !IsPinching() && holdTime > appConfig.holdMinElapseTime &&
                 #if UNITY_EDITOR
                 Input.GetMouseButton(0);
                 #else
@@ -268,7 +270,9 @@ namespace Services.Core.Gesture
 
         private void ResetTouchStats()
         {
+            #if !UNITY_EDITOR
             firstFingerId = -1;
+            #endif
             touchPosOffset = Vector2.zero;
             holdTime = 0f;
         }

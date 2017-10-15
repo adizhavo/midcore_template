@@ -1,0 +1,12 @@
+{
+	"canvasObjectPath" : "Prefabs/GUI/GameCanvas",
+	"startState" : "sample_state_id",
+
+	"availablePanels" : [
+		{ "panelId" : "sample_panel_id", "prefabPath" : "Prefabs/GUI/SamplePanel", "siblingIndex" : 0 }
+	],
+
+	"states" : [
+		{ "state" : "sample_state_id", "additiveStates" : [ ], "activePanels" : [ "sample_panel_id" ] }
+	]
+}

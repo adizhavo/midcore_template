@@ -35,7 +35,7 @@ namespace Services.Core.Data
 
         private void TryLoadDatabase()
         {
-            databasePath = Path.Combine(Application.persistentDataPath, Constants.DATABASE_ID);
+            databasePath = Path.Combine(Application.persistentDataPath, Get<ApplicationConfig>(Constants.APP_CONFIG_ID).databaseId);
             if (File.Exists(databasePath))
             {
                 var readData = Utils.ReadBinary<List<MetaData>>(databasePath);
@@ -150,6 +150,8 @@ namespace Services.Core.Data
         public float doubleTapElapseTime;
         public float dragMinDistance;
         public float holdMinElapseTime;
+        public string databaseId;
         public string assetManifestPath;
+        public string guiConfigPath;
     }
 }
