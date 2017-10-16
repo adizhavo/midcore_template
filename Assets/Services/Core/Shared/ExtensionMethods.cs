@@ -4,11 +4,14 @@ namespace Services.Core
 {
     public static class ExtensionMethods 
     {
-        public static bool Contains(this string[] collection, string item)
+        public static bool Contains(this string[] collection, string collect)
         {
-            foreach(var c in collection)
-                if (string.Equals(c, item))
+            foreach(var item in collection)
+            {
+                if (string.Equals(item, collect))
                     return true;
+            }
+
             return false;
         }
 
@@ -16,10 +19,10 @@ namespace Services.Core
         {
             List<string> collected = new List<string>();
 
-            foreach(var c in collection)
+            foreach(var item in collection)
             {
-                if (filter.Contains(c))
-                    collected.Add(c);
+                if (filter.Contains(item))
+                    collected.Add(item);
             }
 
             return collected;
