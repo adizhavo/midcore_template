@@ -7,6 +7,7 @@ using Services.Core.DataVersion;
 using Services.Core.Event;
 using Services.Core.Gesture;
 using Services.Core.GUI;
+using Services.Game;
 
 public class Main : MonoBehaviour 
 {    
@@ -15,9 +16,12 @@ public class Main : MonoBehaviour
 
     private void Awake()
     {
+		// initialise the di container and installers
         container = new DiContainer();
         CoreServicesInstaller.Install(container);
+		GameServiceInstaller.Install(container);
 
+		// add core services
         gameSystems = new Systems()
             .Add(container.Resolve<DatabaseService>())
             .Add(container.Resolve<DataVersionService>())
@@ -26,7 +30,7 @@ public class Main : MonoBehaviour
             .Add(container.Resolve<GUIService>());
 
         gameSystems.Initialize();
-    }
+	}
 
     private void Update()
     {

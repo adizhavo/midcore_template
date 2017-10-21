@@ -1,6 +1,5 @@
 {
 	"root" : [
-		{ "id" : "some_id", "path" : "some/path" },
-		{ "id" : "some_id_2", "path" : "some/path/2" }
+		{ "id" : "level_dir", "path" : "Data/Level" }
 	]
 }
