@@ -61,7 +61,7 @@ namespace Services.Core.DataVersion
         public bool HasVersion(string version)
         {
             Version currVersion = new Version(version);
-            return appVersions.Find( v => new Version(v.version).CompareTo(currVersion) == 0 ) != null;
+            return appVersions.Find(v => new Version(v.version).CompareTo(currVersion) == 0) != null;
         }
 
         public override string ToString()
@@ -109,7 +109,7 @@ namespace Services.Core.DataVersion
                 var fromVersion = appVersions[appVersions.Count - 1].version;
                 var toVersion = APP_VERSION;
 
-                foreach(var block in migratorBlocks)
+                foreach (var block in migratorBlocks)
                 {
                     if (block.CanExecute(fromVersion, toVersion))
                     {
@@ -119,7 +119,7 @@ namespace Services.Core.DataVersion
                 }
             }
         }
-      
+
         [System.Serializable]
         public class VersionData
         {

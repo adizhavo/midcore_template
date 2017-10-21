@@ -118,7 +118,7 @@ namespace Services.Core.Gesture
 
         private void Handle(GestureEvent gestureEvent)
         {
-            foreach(var transition in transitions)
+            foreach (var transition in transitions)
             {
                 if (transition.current.Equals(current) && transition.gestureEvent.Equals(gestureEvent))
                 {
@@ -179,9 +179,9 @@ namespace Services.Core.Gesture
             return 
                 #if UNITY_EDITOR
                 Input.GetMouseButton(0) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0);
-                #else
+            #else
                 Input.touchCount > 0;
-                #endif
+            #endif
         }
 
         public static float ScreenToInches(float screenPixels)
@@ -194,9 +194,9 @@ namespace Services.Core.Gesture
             return
                 #if UNITY_EDITOR
                 Input.GetMouseButtonDown(0);
-                #else
+            #else
                 Input.touchCount > 0 && Input.GetTouch(0).phase.Equals(TouchPhase.Began);
-                #endif
+            #endif
         }
 
         public static bool HasTauchedUp()
@@ -204,19 +204,19 @@ namespace Services.Core.Gesture
             return 
                 #if UNITY_EDITOR
                 Input.GetMouseButtonUp(0);
-                #else
+            #else
                 Input.touchCount > 0 && Input.GetTouch(0).phase.Equals(TouchPhase.Ended);
-                #endif
+            #endif
         }
 
         public static bool IsHolding()
         {
             return !IsPerformingDrag() && !IsPinching() && holdTime > appConfig.holdMinElapseTime &&
                 #if UNITY_EDITOR
-                Input.GetMouseButton(0);
-                #else
+            Input.GetMouseButton(0);
+            #else
                 Input.touchCount > 0;
-                #endif
+            #endif
         }
 
         public static bool HasDoubleTouched()
@@ -247,10 +247,10 @@ namespace Services.Core.Gesture
             float dragDistance = ScreenToInches((GetTouchPos() - tapDownPosition).magnitude);
             return !IsPinching() && Mathf.Abs(dragDistance) > appConfig.dragMinDistance &&
                 #if UNITY_EDITOR
-                DetectAnyTouch();
-                #else
+            DetectAnyTouch();
+            #else
                 DetectAnyTouch() && Input.GetTouch(0).phase.Equals(TouchPhase.Moved);
-                #endif
+            #endif
         }
 
         public static bool IsPinching()
@@ -258,9 +258,9 @@ namespace Services.Core.Gesture
             return 
                 #if UNITY_EDITOR
                 Input.GetAxis("Mouse ScrollWheel") != 0;
-                #else
+            #else
                 Input.touchCount >= 2 && (Input.GetTouch(0).phase.Equals(TouchPhase.Moved) || Input.GetTouch(1).phase.Equals(TouchPhase.Moved));
-                #endif
+            #endif
         }
 
         public static Vector2 GetTouchPos()
@@ -304,14 +304,14 @@ namespace Services.Core.Gesture
         private void HandleTouchDown()
         {
             tapDownPosition = GetTouchPos();
-            foreach(var th in touchHandlers)
+            foreach (var th in touchHandlers)
                 if (th.HandleTouchDown(tapDownPosition))
                     break;
         }
 
         private void HandleTouchUp()
         {
-            foreach(var th in touchHandlers)
+            foreach (var th in touchHandlers)
                 if (th.HandleTouchUp(GetTouchPos()))
                     break;
             ResetTouchStats();
@@ -319,21 +319,21 @@ namespace Services.Core.Gesture
 
         private void HandleDragStart()
         {
-            foreach(var dh in dragHandlers)
+            foreach (var dh in dragHandlers)
                 if (dh.HandleDragStart(GetTouchPos()))
                     break;
         }
 
         private void HandleDrag()
         {
-            foreach(var dh in dragHandlers)
+            foreach (var dh in dragHandlers)
                 if (dh.HandleDrag(GetTouchPos()))
                     break;
         }
 
         private void HandleDragEnd()
         {
-            foreach(var dh in dragHandlers)
+            foreach (var dh in dragHandlers)
                 if (dh.HandleDragEnd(GetTouchPos()))
                     break;
             ResetTouchStats();
@@ -341,7 +341,7 @@ namespace Services.Core.Gesture
 
         private void HandleDoubleTouch()
         {
-            foreach(var th in touchHandlers)
+            foreach (var th in touchHandlers)
                 if (th.HandleDoubleTouch(GetTouchPos()))
                     break;
             ResetTouchStats();
@@ -349,21 +349,21 @@ namespace Services.Core.Gesture
 
         private void HandlePinchStart()
         {
-            foreach(var ph in pinchHandlers)
+            foreach (var ph in pinchHandlers)
                 if (ph.HandlePinchStart(Input.GetTouch(0).position, Input.GetTouch(1).position))
                     break;
         }
 
         private void HandlePinch()
         {
-            foreach(var ph in pinchHandlers)
+            foreach (var ph in pinchHandlers)
                 if (ph.HandlePinch(Input.GetTouch(0).position, Input.GetTouch(1).position))
                     break;
         }
 
         private void HandlePinchEnd()
         {
-            foreach(var ph in pinchHandlers)
+            foreach (var ph in pinchHandlers)
                 if (ph.HandlePinchEnd(Input.GetTouch(0).position, Input.GetTouch(1).position))
                     break;
             ResetTouchStats();
@@ -371,21 +371,21 @@ namespace Services.Core.Gesture
 
         private void HandleTouchHoldStart()
         {
-            foreach(var hh in touchHoldHandlers)
+            foreach (var hh in touchHoldHandlers)
                 if (hh.HandleTouchHoldStart(GetTouchPos(), holdTime))
                     break;
         }
 
         private void HandleTouchHold()
         {
-            foreach(var hh in touchHoldHandlers)
+            foreach (var hh in touchHoldHandlers)
                 if (hh.HandleTouchHold(GetTouchPos(), holdTime))
                     break;
         }
 
         private void HandleTouchHoldEnd()
         {
-            foreach(var hh in touchHoldHandlers)
+            foreach (var hh in touchHoldHandlers)
                 if (hh.HandleTouchHoldEnd(GetTouchPos(), holdTime))
                     break;
             ResetTouchStats();

@@ -9,7 +9,7 @@ namespace Services.Core.Databinding
         public string Id;
         // the depth of this node in the tree
         public int treeDepth;
-        // full branch 
+        // full branch
         public string branch;
 
         public Node parent;
@@ -59,10 +59,11 @@ namespace Services.Core.Databinding
     public class Data<T> : Node
     {
         private T _value;
-        public T value 
+
+        public T value
         {
-            set 
-            {   _value = value; 
+            set {
+                _value = value; 
                 NotifyComponents(); 
             }
             get { return _value; }
@@ -72,7 +73,7 @@ namespace Services.Core.Databinding
 
         public void NotifyComponents()
         {
-            foreach(var component in bindedComponents)
+            foreach (var component in bindedComponents)
                 component.OnValueChanged(branch, value);
         }
 

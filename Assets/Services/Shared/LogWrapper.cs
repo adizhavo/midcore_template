@@ -1,6 +1,6 @@
 ﻿namespace Services.Core
 {
-    public static class LogWrapper 
+    public static class LogWrapper
     {
         public static void DebugLog(string message)
         {

@@ -9,6 +9,7 @@ namespace Services.Core.Databinding
         private List<Node> dataRoots = new List<Node>();
 
         public const char DATA_BRANCH_SEPARATOR = '.';
+
         /// <summary>
         /// Adds data to the data tree as a node
         /// </summary>
@@ -81,7 +82,7 @@ namespace Services.Core.Databinding
                 if (extracted == null)
                     CreateEmptyNode(branch.ToString(), splittedBranch, treeDepth);
 
-                if (treeDepth != splittedBranch.Length - 2) 
+                if (treeDepth != splittedBranch.Length - 2)
                     branch.Append(DATA_BRANCH_SEPARATOR);
             }
 
@@ -142,7 +143,7 @@ namespace Services.Core.Databinding
         {
             if (!string.IsNullOrEmpty(Id))
             {
-                foreach(var node in ExtractNodes(dataRoots, treeDepth))
+                foreach (var node in ExtractNodes(dataRoots, treeDepth))
                     if (string.Equals(node.Id, Id))
                         return node;
 

@@ -2,11 +2,11 @@
 
 namespace Services.Core
 {
-    public static class ExtensionMethods 
+    public static class ExtensionMethods
     {
         public static bool Contains(this string[] collection, string collect)
         {
-            foreach(var item in collection)
+            foreach (var item in collection)
             {
                 if (string.Equals(item, collect))
                     return true;
@@ -19,7 +19,7 @@ namespace Services.Core
         {
             List<string> collected = new List<string>();
 
-            foreach(var item in collection)
+            foreach (var item in collection)
             {
                 if (filter.Contains(item))
                     collected.Add(item);
