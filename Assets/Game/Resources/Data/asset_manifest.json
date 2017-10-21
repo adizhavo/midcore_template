@@ -1,5 +1,5 @@
 {
 	"root" : [
-		{ "id" : "level_dir", "path" : "Data/Level" }
+		{ "id" : "TILED_map_dir", "path" : "Data/TILED_map" }
 	]
 }

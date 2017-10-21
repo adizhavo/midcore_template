@@ -2,7 +2,7 @@
 {
     // ids
     public const string APP_CONFIG_ID = "app_config";
-    public const string LEVEL_DATA_ID = "level_dir";
+    public const string TILED_MAP_DIR_ID = "TILED_map_dir";
 
     // paths
     public const string APP_CONFIG_PATH = "Data/app_config";
