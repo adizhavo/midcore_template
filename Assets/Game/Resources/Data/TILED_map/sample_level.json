@@ -30,11 +30,11 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"Tileset\/tile_tileset.json"
+         "source":"TILED_tilesets\/tile_tileset.json"
         }, 
         {
          "firstgid":2,
-         "source":"Tileset\/object_tileset.json"
+         "source":"TILED_tilesets\/object_tileset.json"
         }],
  "tilewidth":32,
  "type":"map",
