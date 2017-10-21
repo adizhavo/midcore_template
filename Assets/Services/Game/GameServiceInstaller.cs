@@ -14,7 +14,7 @@ namespace Services.Game
 
         public override void InstallBindings()
         {
-            Container.Bind<TiledAdapter>().AsSingle().NonLazy();
+            Container.Bind<TILED_Adapter>().AsSingle().NonLazy();
 
             LogWrapper.DebugLog("[{0}] installation of game bindings successfull", GetType());
         }
