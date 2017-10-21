@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Services.Core
 {
-    public static class Utils 
+    public static class Utils
     {
         private static volatile object writeLock = new object();
 
@@ -94,19 +94,19 @@ namespace Services.Core
             }
         }
 
-		public static T[] ReadAllJsonResourcesDirectory<T>(string directoryPath)
-		{
-			var jsons = Resources.LoadAll<TextAsset>(directoryPath);
+        public static T[] ReadAllJsonResourcesDirectory<T>(string directoryPath)
+        {
+            var jsons = Resources.LoadAll<TextAsset>(directoryPath);
 
-			if (jsons != null)
-			{
-				T[] files = new T[jsons.Length];
-				for (int i = 0; i < jsons.Length; i++)
-					files[i] = JsonConvert.DeserializeObject<T>(jsons[i].text);
+            if (jsons != null)
+            {
+                T[] files = new T[jsons.Length];
+                for (int i = 0; i < jsons.Length; i++)
+                    files[i] = JsonConvert.DeserializeObject<T>(jsons[i].text);
 				
-				return files;
-			}
-			else throw new UnityException("Directory not found: " + directoryPath);
-		}
+                return files;
+            }
+            else throw new UnityException("Directory not found: " + directoryPath);
+        }
     }
 }

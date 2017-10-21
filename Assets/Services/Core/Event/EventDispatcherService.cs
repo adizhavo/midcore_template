@@ -33,7 +33,7 @@ namespace Services.Core.Event
 
         public static void Dispatch(string eventId, T value)
         {
-            foreach(var subscriber in subscribers)
+            foreach (var subscriber in subscribers)
             {
                 if (string.IsNullOrEmpty(subscriber.eventId) || string.Equals(eventId, subscriber.eventId))
                 {

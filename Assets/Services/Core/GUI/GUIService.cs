@@ -122,11 +122,11 @@ namespace Services.Core.GUI
 
                 // Refresh panels that will remain active
                 var refreshPanels = newState.GetFilteredPanels(this, stateActivePanels);
-                foreach(var panel in refreshPanels)
+                foreach (var panel in refreshPanels)
                     GetPanelView(panel).OnRefresh();
 
                 // Close panels that will not remain active
-                foreach(var panel in stateActivePanels)
+                foreach (var panel in stateActivePanels)
                     if (!refreshPanels.Contains(panel))
                         GetPanelView(panel).OnDisappear();
                 

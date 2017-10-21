@@ -13,7 +13,7 @@ namespace Services.Core.GUI
         {
             transform.GetComponentsInChildren<IGUIView>(true, views);
 
-            foreach(var view in views)
+            foreach (var view in views)
                 view.Init();
         }
 
@@ -35,7 +35,7 @@ namespace Services.Core.GUI
 
         public T GetView<T>(string id) where T : MonoBehaviour
         {
-            foreach(var v in views)
+            foreach (var v in views)
                 if (string.Equals(v.GetId(), id))
                     return (T)v;
 
@@ -51,7 +51,7 @@ namespace Services.Core.GUI
 
         internal void OnRefresh()
         {
-            foreach(var c in controllers)
+            foreach (var c in controllers)
                 c.OnRefresh();
         }
 
@@ -59,13 +59,13 @@ namespace Services.Core.GUI
         {
             gameObject.SetActive(true);
 
-            foreach(var c in controllers)
+            foreach (var c in controllers)
                 c.OnAppear();
         }
 
         internal void OnDisappear()
         {
-            foreach(var c in controllers)
+            foreach (var c in controllers)
                 c.OnDisappear();
 
             gameObject.SetActive(false);

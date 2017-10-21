@@ -51,7 +51,8 @@ namespace Services.Core.Data
             mdata.persist = persist;
             mdata.isReadonly = true;
             metaData.Add(mdata);
-            if (flush) Flush();
+            if (flush)
+                Flush();
         }
 
         public void Set(string key, object value, bool persist, bool flush = false)
@@ -76,21 +77,24 @@ namespace Services.Core.Data
                 mdata.persist = persist;
             }
 
-            if (flush) Flush();
+            if (flush)
+                Flush();
         }
 
         public void Clear(string key, bool flush = false)
         {
             metaData.RemoveAll(md => string.Equals(key, md.key));
 
-            if (flush) Flush();
+            if (flush)
+                Flush();
         }
 
         public void ClearAll(bool flush = false)
         {
             metaData.Clear();
 
-            if (flush) Flush();
+            if (flush)
+                Flush();
         }
 
         public T Get<T>(string key, T defaultValue = default(T))

@@ -3,6 +3,7 @@
     public interface IGUIView
     {
         void Init();
+
         string GetId();
     }
 }

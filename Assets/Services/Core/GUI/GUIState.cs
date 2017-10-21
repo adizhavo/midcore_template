@@ -17,16 +17,16 @@ namespace Services.Core.GUI
 
             if (additiveStates != null)
             {
-                foreach(var stateId in additiveStates)
+                foreach (var stateId in additiveStates)
                 {
                     var result = gramGUI.GetState(stateId).GetAllPanels(gramGUI);
-                    foreach(var panel in result)
+                    foreach (var panel in result)
                         if (!allPanels.Contains(panel))
                             allPanels.Add(panel);
                 }
             }
 
-            foreach(var panelId in activePanels)
+            foreach (var panelId in activePanels)
             {
                 if (!allPanels.Contains(panelId))
                     allPanels.Add(panelId);
@@ -40,16 +40,16 @@ namespace Services.Core.GUI
             List<string> collected = new List<string>();
             if (additiveStates != null)
             {
-                foreach(var stateId in additiveStates)
+                foreach (var stateId in additiveStates)
                 {
                     var result = gramGUI.GetState(stateId).GetFilteredPanels(gramGUI, filter);
-                    foreach(var panel in result)
+                    foreach (var panel in result)
                         if (!collected.Contains(panel))
                             collected.Add(panel);
                 }
             }
 
-            foreach(var panelId in activePanels)
+            foreach (var panelId in activePanels)
             {
                 if (filter.Contains(panelId) && !collected.Contains(panelId))
                     collected.Add(panelId);

@@ -11,39 +11,51 @@ namespace Services.Core.Gesture
     public class GestureEventDispatcher : ITouchHandler, IDragHandler, IPinchHandler, ITouchHoldHandler
     {
         public delegate void TouchDown(Vector3 screenPos);
-        public static event TouchDown OnTouchDown;
 
         public delegate void TouchUp(Vector3 screenPos);
-        public static event TouchUp OnTouchUp;
 
         public delegate void DoubleTouch(Vector3 screenPos);
-        public static event DoubleTouch OnDoubleTouch;
 
         public delegate void DragStart(Vector3 screenPos);
-        public static event DragStart OnDragStart;
 
         public delegate void Drag(Vector3 screenPos);
-        public static event Drag OnDrag;
 
         public delegate void DragEnd(Vector3 screenPos);
-        public static event DragEnd OnDragEnd;
 
         public delegate void PinchStart(Vector3 firstScreenPos, Vector3 secondScreenPos);
-        public static event PinchStart OnPinchStart;
 
         public delegate void Pinch(Vector3 firstScreenPos, Vector3 secondScreenPos);
-        public static event Pinch OnPinch;
 
         public delegate void PinchEnd(Vector3 firstScreenPos, Vector3 secondScreenPos);
-        public static event PinchEnd OnPinchEnd;
 
         public delegate void HoldStart(Vector3 screenPos, float holdTime);
-        public static event HoldStart OnHoldStart;
 
         public delegate void Hold(Vector3 screenPos, float holdTime);
-        public static event Hold OnHold;
 
         public delegate void HoldEnd(Vector3 screenPos, float holdTime);
+
+        public static event TouchUp OnTouchUp;
+
+        public static event TouchDown OnTouchDown;
+
+        public static event DoubleTouch OnDoubleTouch;
+
+        public static event DragStart OnDragStart;
+
+        public static event Drag OnDrag;
+
+        public static event DragEnd OnDragEnd;
+
+        public static event PinchStart OnPinchStart;
+
+        public static event Pinch OnPinch;
+
+        public static event PinchEnd OnPinchEnd;
+
+        public static event HoldStart OnHoldStart;
+
+        public static event Hold OnHold;
+
         public static event HoldEnd OnHoldEnd;
 
         #region ITouchHandler implementation
