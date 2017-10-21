@@ -93,5 +93,20 @@ namespace Services.Core
                 LogWrapper.Log("binaries successfully saved to: {1}", path);
             }
         }
+
+		public static T[] ReadAllJsonResourcesDirectory<T>(string directoryPath)
+		{
+			var jsons = Resources.LoadAll<TextAsset>(directoryPath);
+
+			if (jsons != null)
+			{
+				T[] files = new T[jsons.Length];
+				for (int i = 0; i < jsons.Length; i++)
+					files[i] = JsonConvert.DeserializeObject<T>(jsons[i].text);
+				
+				return files;
+			}
+			else throw new UnityException("Directory not found: " + directoryPath);
+		}
     }
 }
