@@ -38,7 +38,7 @@ namespace Services.Core
             Container.Bind<AssetManifestReader>().AsSingle().NonLazy();
             Container.Bind<GUIService>().AsSingle().NonLazy();
 
-            LogWrapper.DebugLog("[{0}] installation of bindings successfull", GetType());
+            LogWrapper.DebugLog("[{0}] installation of core bindings successfull", GetType());
         }
 
         #endregion
