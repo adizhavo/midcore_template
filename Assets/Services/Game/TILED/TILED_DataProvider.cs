@@ -12,7 +12,7 @@ namespace Services.Game.Tiled
     /// The assumption is that the folder containing the tilesets will always be in the same folder of the levels
     /// </summary>
 
-    public class TILED_Adapter
+    public class TILED_DataProvider
     {
         [Inject] DatabaseService database;
 
@@ -130,6 +130,11 @@ namespace Services.Game.Tiled
         public string GetMapTilesetObjectId(string mapPath, int gid)
         {
             return GetMapTilesetProperties(mapPath, gid).objectId;
+        }
+
+        public string GetMapTilesetTileTypeId(string mapPath, int gid)
+        {
+            return GetMapTilesetProperties(mapPath, gid).tileId;
         }
 
         // -------------------------------------------
