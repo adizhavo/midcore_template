@@ -1,6 +1,7 @@
 ﻿using Zenject;
 using Services.Core;
 using Services.Game.Grid;
+using System;
 using System.Collections.Generic;
 
 namespace Services.Game.Tiled
@@ -15,6 +16,10 @@ namespace Services.Game.Tiled
             var mapSize = tiledDataProvider.GetMapSize(mapPath);
             var grid = new GridData(mapPath, mapSize, settings);
             var tileLayer = tiledDataProvider.GetMapLayer(mapPath, Constants.TILED_TILE_LAYER);
+
+            if (tileLayer == null)
+                throw new NullReferenceException("Could not file layer in the map " + mapPath + " with name " + Constants.TILED_TILE_LAYER);
+
             for (int i = 0; i < tileLayer.data.Length; i++)
             {
                 var gid = tileLayer.data[i];
@@ -38,6 +43,10 @@ namespace Services.Game.Tiled
 
             var mapSize = tiledDataProvider.GetMapSize(mapPath);
             var objectLayer = tiledDataProvider.GetMapLayer(mapPath, Constants.TILED_OBJECTS_LAYER);
+
+            if (objectLayer == null)
+                throw new NullReferenceException("Could not file layer in the map " + mapPath + " with name " + Constants.TILED_OBJECTS_LAYER);
+
             for (int i = 0; i < objectLayer.data.Length; i++)
             {
                 var gid = objectLayer.data[i];
