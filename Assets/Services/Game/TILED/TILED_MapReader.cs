@@ -14,7 +14,7 @@ namespace Services.Game.Tiled
         {
             var mapSize = tiledDataProvider.GetMapSize(mapPath);
             var grid = new GridData(mapPath, mapSize, settings);
-            var tileLayer = tiledDataProvider.GetMapLayer(mapPath, "Tiles");
+            var tileLayer = tiledDataProvider.GetMapLayer(mapPath, Constants.TILED_TILE_LAYER);
             for (int i = 0; i < tileLayer.data.Length; i++)
             {
                 var gid = tileLayer.data[i];
@@ -37,7 +37,7 @@ namespace Services.Game.Tiled
             var gridObjects = new Dictionary<IntVector2, string>();
 
             var mapSize = tiledDataProvider.GetMapSize(mapPath);
-            var objectLayer = tiledDataProvider.GetMapLayer(mapPath, "Objects");
+            var objectLayer = tiledDataProvider.GetMapLayer(mapPath, Constants.TILED_OBJECTS_LAYER);
             for (int i = 0; i < objectLayer.data.Length; i++)
             {
                 var gid = objectLayer.data[i];

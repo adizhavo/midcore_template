@@ -10,4 +10,6 @@
 
     // Misc
     public const string JSON_FILE_EXTENSION = ".json";
+    public const string TILED_TILE_LAYER = "Tiles";
+    public const string TILED_OBJECTS_LAYER = "Objects";
 }
