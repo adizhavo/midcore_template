@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace Services.Game.Grid
 {
-    public enum GridPivot
-    {
-        TOP_LEFT,
-        TOP_RIGHT,
-        BOTTOM_LEFT,
-        BOTTOM_RIGHT,
-        CENTER
-    }
-
     public class GridSettings
     {
+        public enum GridPivot
+        {
+            TOP_LEFT,
+            TOP_RIGHT,
+            BOTTOM_LEFT,
+            BOTTOM_RIGHT,
+            CENTER
+        }
+
         public FloatVector3 startPos = new FloatVector3(0f, 0f, 0f);
         public FloatVector2 cellSpacing = new FloatVector2(1f, 1f);
         public GridPivot pivot = GridPivot.TOP_LEFT;
