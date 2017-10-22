@@ -9,12 +9,14 @@ namespace Services.Game
         #region Installer implementation
 
         /// <summary>
-        /// Setup framework's bindings
+        /// Setup game's bindings
         /// </summary>
 
         public override void InstallBindings()
         {
-            Container.Bind<TILED_Adapter>().AsSingle().NonLazy();
+            Container.Bind<TILED_DataProvider>().AsSingle().NonLazy();
+            Container.Bind<TILED_MapReader>().AsSingle().NonLazy();
+            Container.Bind<CellFactory>().AsSingle().NonLazy();
 
             LogWrapper.DebugLog("[{0}] installation of game bindings successfull", GetType());
         }
