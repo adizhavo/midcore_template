@@ -21,8 +21,8 @@ namespace Services.Game.Grid
 
     public class Cell
     {
-        public int x;
-        public int y;
+        public int row;
+        public int column;
         public string typeId;
         public string objectId;
         public Entity occupant;
@@ -37,8 +37,8 @@ namespace Services.Game.Grid
     {
         public NullCell() : base(string.Empty)
         {
-            x = -1;
-            y = -1;
+            row = -1;
+            column = -1;
         }
     }
 }

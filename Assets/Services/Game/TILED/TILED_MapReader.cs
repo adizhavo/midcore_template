@@ -28,8 +28,8 @@ namespace Services.Game.Tiled
                     var typeId = tiledDataProvider.GetMapTilesetTileTypeId(mapPath, gid);
                     var objectId = tiledDataProvider.GetMapTilesetObjectId(mapPath, gid);
                     var cell = cellFactory.GetCell(typeId);
-                    cell.x = i % mapSize.x;
-                    cell.y = (i / mapSize.x) % mapSize.y;
+                    cell.row = i % mapSize.x;
+                    cell.column = (i / mapSize.x) % mapSize.y;
                     cell.objectId = objectId;
                     grid.cells.Add(cell);
                 }
@@ -53,9 +53,9 @@ namespace Services.Game.Tiled
                 if (gid != 0) // 0 is empty
                 {
                     var objectId = tiledDataProvider.GetMapTilesetObjectId(mapPath, gid);
-                    var x = i % mapSize.x;
-                    var y = (i / mapSize.x) % mapSize.y;
-                    gridObjects.Add(new IntVector2(x, y), objectId);
+                    var row = i % mapSize.x;
+                    var column = (i / mapSize.x) % mapSize.y;
+                    gridObjects.Add(new IntVector2(row, column), objectId);
                 }
             }
 
