@@ -288,9 +288,12 @@ namespace Services.Game.Grid
                 {
                     var f_row = entity.grid.footprint.data[i, 0] + entity.grid.pivot.row;
                     var f_column = entity.grid.footprint.data[i, 1] + entity.grid.pivot.column;
-
-                    GetCell(f_row, f_column).occupant = entity;
+                    var f_cell = GetCell(f_row, f_column);
+                    f_cell.occupant = entity;
+                    entity.grid.cells.Add(f_cell);
                 }
+
+                entity.grid.pivot = cell;
             }
         }
 
