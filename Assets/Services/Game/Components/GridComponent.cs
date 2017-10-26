@@ -15,9 +15,6 @@ namespace Services.Game.Components
 
     public class Footprint
     {
-        // default footprint data for 1x1
-        // int[,] -> { {0, 0} }
-
         // 2x2 sample footprint data
         // int[,] -> {
         //             {0, 0},
@@ -25,6 +22,9 @@ namespace Services.Game.Components
         //             {1, 0},
         //             {1, 1},
         //           }
-        public int[,] data;
+
+        // default footprint data for 1x1
+        // int[,] -> { {0, 0} }
+        public int[,] data = new int[,] { {0, 0} };
     }
 }
