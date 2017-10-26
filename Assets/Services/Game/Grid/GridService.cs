@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Zenject;
 using Entitas;
 using UnityEngine;
 using Services.Core;
 using Services.Game.Tiled;
-using System.Collections.Generic;
+using Services.Game.Factory;
 using Services.Game.Components;
+using System;
+using System.Collections.Generic;
 
 namespace Services.Game.Grid
 {
@@ -15,6 +17,8 @@ namespace Services.Game.Grid
 
     public class GridService
     {
+        [Inject] FactoryEntity factoryEntity;
+
         public string activeMap
         {
             get { return grid != null ? grid.mapPath : string.Empty; }
@@ -38,13 +42,20 @@ namespace Services.Game.Grid
             PositionGridCellsView();
         }
 
-        // WIP
         public void Unload()
         {
             if (grid != null)
             {
-                // DeAttach occupants
-                // Destroy cells view
+                foreach(var cell in grid.cells)
+                {
+                    if (cell.occupant != null)
+                    {
+                        DeAttach(cell.occupant);
+                        cell.occupant.Destroy();
+                    }
+
+                    cell.entity.Destroy();
+                }
 
                 grid.cells.Clear();
                 grid = null;
@@ -321,14 +332,22 @@ namespace Services.Game.Grid
             }
         }
 
-        // WIP
         private void PositionGridCellsView()
         {
             foreach (var cell in grid.cells)
             {
-                // destroy the cell current view
-                // create cell GameObject
-                // position cell GamObjects based on settings
+                if (cell.entity == null)
+                {
+                    // WIP : shpuld pass the objectId data
+                    cell.entity = factoryEntity.CreateCell();
+                }
+
+                cell.entity.position = grid.settings.startPos.ToVector3();
+                cell.entity.xPosition += cell.row * grid.settings.cellSpacing.x;
+                cell.entity.zPosition -= cell.column * grid.settings.cellSpacing.y;
+                #if UNITY_EDITOR
+                cell.entity.viewObject.name = string.Format("cell_{0}_{1}_{2}_{3}", cell.objectId, cell.typeId, cell.row, cell.column);
+                #endif
             }
         }
     }
