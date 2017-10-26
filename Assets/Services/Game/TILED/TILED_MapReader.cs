@@ -1,6 +1,7 @@
 ﻿using Zenject;
 using Services.Core;
 using Services.Game.Grid;
+using Services.Game.Factory;
 using System;
 using System.Collections.Generic;
 
@@ -9,9 +10,9 @@ namespace Services.Game.Tiled
     public class TILED_MapReader
     {
         [Inject] TILED_DataProvider tiledDataProvider;
-        [Inject] CellFactory cellFactory;
+        [Inject] FactoryCell cellFactory;
 
-        public GridData TILED_ReadGrid(string mapPath, GridSettings settings = default(GridSettings))
+        public GridData TILED_ReadGrid(string mapPath, GridSettings settings)
         {
             var mapSize = tiledDataProvider.GetMapSize(mapPath);
             var grid = new GridData(mapPath, mapSize, settings);
