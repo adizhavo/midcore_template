@@ -324,9 +324,6 @@ namespace Services.Game.Grid
                 cell.position = grid.settings.startPos.ToVector3();
                 cell.xPosition += cell.cell.row * grid.settings.cellSpacing.x;
                 cell.zPosition -= cell.cell.column * grid.settings.cellSpacing.y;
-                #if UNITY_EDITOR
-                cell.viewObject.name = string.Format("cell_{0}_{1}_{2}_{3}_{4}", cell.objectId, cell.typeId, cell.row, cell.column, cell.uniqueId);
-                #endif
             }
         }
     }

@@ -37,6 +37,9 @@ namespace Services.Game.Factory
             entity.AddCell(row, column, occupant);
             var view = FactoryPool.GetPooled(prefabPath);
             entity.AddView(view);
+            #if UNITY_EDITOR
+            entity.viewObject.name = string.Format("cell_{0}_{1}_{2}_{3}_{4}", entity.objectId, entity.typeId, entity.row, entity.column, entity.uniqueId);
+            #endif
             return entity;
         }
 
@@ -50,6 +53,9 @@ namespace Services.Game.Factory
             entity.AddGrid(null, new List<GameEntity>(), new Footprint());
             var view = FactoryPool.GetPooled(prefabPath);
             entity.AddView(view);
+            #if UNITY_EDITOR
+            entity.viewObject.name = string.Format("ent_{0}_{1}_{2}", entity.objectId, entity.typeId, entity.uniqueId);
+            #endif
             return entity;
         }
 
