@@ -113,7 +113,7 @@ namespace Services.Game.Tiled
         public TILED_Tileset GetMapTileset(string mapPath, int gid)
         {
             var mapTileset = GetMapTilesetWithFirstgid(mapPath, gid);
-            var tilesetPath = Path.Combine(database.Get<string>(Constants.TILED_MAP_DIR_ID), mapTileset.source.Replace(Constants.JSON_FILE_EXTENSION, ""));
+            var tilesetPath = Path.Combine(database.Get<string>(Constants.TILED_MAP_DIR_DB_KEY), mapTileset.source.Replace(Constants.JSON_FILE_EXTENSION, ""));
             return GetTileset(tilesetPath);
         }
 

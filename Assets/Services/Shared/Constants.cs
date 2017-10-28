@@ -1,9 +1,11 @@
 ﻿public partial class Constants
 {
-    // ids
-    public const string APP_CONFIG_ID = "app_config";
+    // DB keys
+    public const string APP_CONFIG_DB_KEY = "app_config";
 
-    public const string TILED_MAP_DIR_ID = "TILED_map_dir";
+    public const string GUI_DB_KEY = "gui_config";
+
+    public const string TILED_MAP_DIR_DB_KEY = "TILED_map_dir";
 
     public const string TILED_TILE_LAYER = "Tiles";
 

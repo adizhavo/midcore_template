@@ -29,13 +29,13 @@ namespace Services.Core.Data
         private void ReadApplicationConfig()
         {
             var appConfig = Utils.ReadJsonFromResources<ApplicationConfig>(Constants.APP_CONFIG_PATH);
-            AddReadonly(Constants.APP_CONFIG_ID, appConfig, false);
-            LogWrapper.Log("[{0}] loaded app config succesfully and added to the database with key: {1}", GetType(), Constants.APP_CONFIG_ID);
+            AddReadonly(Constants.APP_CONFIG_DB_KEY, appConfig, false);
+            LogWrapper.Log("[{0}] loaded app config succesfully and added to the database with key: {1}", GetType(), Constants.APP_CONFIG_DB_KEY);
         }
 
         private void TryLoadDatabase()
         {
-            databasePath = Path.Combine(Application.persistentDataPath, Get<ApplicationConfig>(Constants.APP_CONFIG_ID).databaseId);
+            databasePath = Path.Combine(Application.persistentDataPath, Get<ApplicationConfig>(Constants.APP_CONFIG_DB_KEY).databaseId);
             if (File.Exists(databasePath))
             {
                 var readData = Utils.ReadBinary<List<MetaData>>(databasePath);
@@ -156,6 +156,5 @@ namespace Services.Core.Data
         public float holdMinElapseTime;
         public string databaseId;
         public string assetManifestPath;
-        public string guiConfigPath;
     }
 }
