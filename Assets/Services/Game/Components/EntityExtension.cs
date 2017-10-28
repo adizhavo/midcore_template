@@ -145,4 +145,9 @@ public sealed partial class GameEntity
         get { return cell.column; }
         set { cell.column = value; }
     }
+
+    public void PositionOnCell()
+    {
+        position = grid.pivot.position;
+    }
 }
