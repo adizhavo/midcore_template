@@ -19,7 +19,7 @@ namespace Services.Game.Tiled
             var tileLayer = tiledDataProvider.GetMapLayer(mapPath, Constants.TILED_TILE_LAYER);
 
             if (tileLayer == null)
-                throw new NullReferenceException("Could not file layer in the map " + mapPath + " with name " + Constants.TILED_TILE_LAYER + ", please add a layer with that name.");
+                throw new NullReferenceException("Could not find layer in the map " + mapPath + " with name " + Constants.TILED_TILE_LAYER + ", please add a layer with that name.");
 
             for (int i = 0; i < tileLayer.data.Length; i++)
             {
@@ -43,7 +43,7 @@ namespace Services.Game.Tiled
             var objectLayer = tiledDataProvider.GetMapLayer(mapPath, Constants.TILED_OBJECTS_LAYER);
 
             if (objectLayer == null)
-                throw new NullReferenceException("Could not file layer in the map " + mapPath + " with name " + Constants.TILED_OBJECTS_LAYER + ", please add a layer with that name.");
+                throw new NullReferenceException("Could not find layer in the map " + mapPath + " with name " + Constants.TILED_OBJECTS_LAYER + ", please add a layer with that name.");
 
             for (int i = 0; i < objectLayer.data.Length; i++)
             {
