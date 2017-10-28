@@ -6,6 +6,7 @@ using Services.Game.Factory;
 using System.Linq;
 using System.Collections.Generic;
 using Services.Core.GUI;
+using System;
 
 namespace Services.Game.HUD
 {
@@ -30,6 +31,7 @@ namespace Services.Game.HUD
             HUDParent = new GameObject("_HUDParent");
             HUDParent.AddComponent<RectTransform>();
             HUDParent.transform.SetParent(guiService.Canvas.transform, false);
+            HUDParent.transform.SetSiblingIndex(0);
         }
 
         #endregion
@@ -80,6 +82,16 @@ namespace Services.Game.HUD
                 var hudClone = FactoryPool.GetPooled(prefabPath);
                 hudClone.transform.SetParent(HUDParent.transform, false);
                 hud = hudClone.GetComponent<HUD_Object>();
+
+                if (hud != null)
+                {
+                    hud.id = hudId;
+                }
+                else
+                {
+                    throw new NullReferenceException("Prefab " + prefabPath + " and id " + hudId + " doesn't have a HUD_Object component");
+                }
+
                 activeHUDs.Add(entity, hud);
                 return hud;
             }
