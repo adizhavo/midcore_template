@@ -6,6 +6,7 @@ namespace Services.Game.Components
     public class GameObjectComponent : IComponent
     {
         public string objectId;
+        public string typeId;
         public int uniqueId;
     }
 }

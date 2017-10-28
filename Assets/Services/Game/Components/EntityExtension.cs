@@ -10,6 +10,18 @@ public sealed partial class GameEntity
         set { gameObject.uniqueId = value; }
     }
 
+    public string objectId
+    {
+        get { return gameObject.objectId; }
+        set { gameObject.objectId = value; }
+    }
+
+    public string typeId
+    {
+        get { return gameObject.typeId; }
+        set { gameObject.typeId = value; }
+    }
+
     public string resourcePath
     {
         get { return resource.path; }
@@ -120,5 +132,17 @@ public sealed partial class GameEntity
     {
         get { return transform.localRotation; }
         set { transform.localRotation = value; }
+    }
+
+    public int row
+    {
+        get { return cell.row; }
+        set { cell.row = value; }
+    }
+
+    public int column
+    {
+        get { return cell.column; }
+        set { cell.column = value; }
     }
 }

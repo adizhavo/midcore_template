@@ -7,8 +7,6 @@ namespace Services.Game.Components
     {
         public int row;
         public int column;
-        public string typeId;
-        public string objectId;
         public GameEntity occupant;
     }
 }

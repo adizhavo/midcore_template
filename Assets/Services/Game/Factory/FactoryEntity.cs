@@ -28,9 +28,9 @@ namespace Services.Game.Factory
             // TODO : read this from the database
             var view = FactoryPool.GetPooled("Prefabs/Map/Tile");
             entity.AddView(view);
-            entity.AddGameObject(string.Empty, -1);
+            entity.AddGameObject(objectId, typeId, -1);
             entity.AddResource(string.Empty);
-            entity.AddCell(row, column, typeId, objectId, occupant);
+            entity.AddCell(row, column, occupant);
             return entity;
         }
 
@@ -41,7 +41,7 @@ namespace Services.Game.Factory
             // TODO : read this from the database
             var view = FactoryPool.GetPooled("Prefabs/Objects/Object");
             entity.AddView(view);
-            entity.AddGameObject(string.Empty, -1);
+            entity.AddGameObject(string.Empty, string.Empty, -1);
             entity.AddResource(string.Empty);
             entity.AddGrid(null, new List<GameEntity>(), new Footprint());
             return entity;

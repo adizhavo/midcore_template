@@ -11,24 +11,20 @@ public partial class GameEntity {
     public Services.Game.Components.CellComponent cell { get { return (Services.Game.Components.CellComponent)GetComponent(GameComponentsLookup.Cell); } }
     public bool hasCell { get { return HasComponent(GameComponentsLookup.Cell); } }
 
-    public void AddCell(int newRow, int newColumn, string newTypeId, string newObjectId, GameEntity newOccupant) {
+    public void AddCell(int newRow, int newColumn, GameEntity newOccupant) {
         var index = GameComponentsLookup.Cell;
         var component = CreateComponent<Services.Game.Components.CellComponent>(index);
         component.row = newRow;
         component.column = newColumn;
-        component.typeId = newTypeId;
-        component.objectId = newObjectId;
         component.occupant = newOccupant;
         AddComponent(index, component);
     }
 
-    public void ReplaceCell(int newRow, int newColumn, string newTypeId, string newObjectId, GameEntity newOccupant) {
+    public void ReplaceCell(int newRow, int newColumn, GameEntity newOccupant) {
         var index = GameComponentsLookup.Cell;
         var component = CreateComponent<Services.Game.Components.CellComponent>(index);
         component.row = newRow;
         component.column = newColumn;
-        component.typeId = newTypeId;
-        component.objectId = newObjectId;
         component.occupant = newOccupant;
         ReplaceComponent(index, component);
     }

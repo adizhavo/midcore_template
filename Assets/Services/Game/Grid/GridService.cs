@@ -99,17 +99,17 @@ namespace Services.Game.Grid
 
         public List<GameEntity> GetAllCellsWithTypeId(string typeId)
         {
-            return grid.cells.FindAll(c => !string.IsNullOrEmpty(typeId) && c.cell.typeId.Equals(typeId)); 
+            return grid.cells.FindAll(c => !string.IsNullOrEmpty(typeId) && c.typeId.Equals(typeId)); 
         }
 
         public List<GameEntity> GetAllCellsWithObjectId(string objectId)
         {
-            return grid.cells.FindAll(c => !string.IsNullOrEmpty(objectId) && c.cell.objectId.Equals(objectId)); 
+            return grid.cells.FindAll(c => !string.IsNullOrEmpty(objectId) && c.objectId.Equals(objectId)); 
         }
 
         public List<GameEntity> GetAllCellsWith(string typeId, string objectId)
         {
-            return grid.cells.FindAll(c => !string.IsNullOrEmpty(typeId) && !string.IsNullOrEmpty(objectId) && c.cell.typeId.Equals(typeId) && c.cell.objectId.Equals(objectId)); 
+            return grid.cells.FindAll(c => !string.IsNullOrEmpty(typeId) && !string.IsNullOrEmpty(objectId) && c.typeId.Equals(typeId) && c.objectId.Equals(objectId)); 
         }
 
         public GameEntity GetClosestCell(int row, int column, bool empty = false, List<Entity> ignore = null)
@@ -137,7 +137,7 @@ namespace Services.Game.Grid
                     }
                     else
                     {
-                        float sqrDistance = Mathf.Pow(selected.cell.row - cell.cell.row, 2) + Mathf.Pow(selected.cell.column - cell.cell.column, 2);
+                        float sqrDistance = Mathf.Pow(selected.row - cell.row, 2) + Mathf.Pow(selected.column - cell.column, 2);
                         if (sqrDistance < minSqrDistance)
                         {
                             selected = cell;
@@ -168,8 +168,8 @@ namespace Services.Game.Grid
 
             for (int i = 0; i < footprint.data.GetLength(0); i++)
             {
-                var f_row = footprint.data[i, 0] + pivot.cell.row;
-                var f_column = footprint.data[i, 1] + pivot.cell.column;
+                var f_row = footprint.data[i, 0] + pivot.row;
+                var f_column = footprint.data[i, 1] + pivot.column;
                 var f_cell = GetCell(f_row, f_column);
 
                 if (f_cell != null
@@ -185,8 +185,8 @@ namespace Services.Game.Grid
         {
             for (int i = 0; i < footprint.data.GetLength(0); i++)
             {
-                var f_row = footprint.data[i, 0] + pivot.cell.row;
-                var f_column = footprint.data[i, 1] + pivot.cell.column;
+                var f_row = footprint.data[i, 0] + pivot.row;
+                var f_column = footprint.data[i, 1] + pivot.column;
                 var f_cell = GetCell(f_row, f_column);
 
                 if (f_cell == null) return true;
@@ -220,7 +220,7 @@ namespace Services.Game.Grid
                     }
                     else
                     {
-                        float sqrDistance = Mathf.Pow(selected.cell.row - cell.cell.row, 2) + Mathf.Pow(selected.cell.column - cell.cell.column, 2);
+                        float sqrDistance = Mathf.Pow(selected.row - cell.row, 2) + Mathf.Pow(selected.column - cell.column, 2);
                         if (sqrDistance < minSqrDistance)
                         {
                             selected = cell;
@@ -283,8 +283,8 @@ namespace Services.Game.Grid
                 {
                     for (int i = 0; i < entity.grid.footprint.data.GetLength(0); i++)
                     {
-                        var f_row = entity.grid.footprint.data[i, 0] + entity.grid.pivot.cell.row;
-                        var f_column = entity.grid.footprint.data[i, 1] + entity.grid.pivot.cell.column;
+                        var f_row = entity.grid.footprint.data[i, 0] + entity.grid.pivot.row;
+                        var f_column = entity.grid.footprint.data[i, 1] + entity.grid.pivot.column;
 
                         GetCell(f_row, f_column).cell.occupant = null;
                     }
@@ -306,8 +306,8 @@ namespace Services.Game.Grid
 
                 for (int i = 0; i < entity.grid.footprint.data.GetLength(0); i++)
                 {
-                    var f_row = entity.grid.footprint.data[i, 0] + entity.grid.pivot.cell.row;
-                    var f_column = entity.grid.footprint.data[i, 1] + entity.grid.pivot.cell.column;
+                    var f_row = entity.grid.footprint.data[i, 0] + entity.grid.pivot.row;
+                    var f_column = entity.grid.footprint.data[i, 1] + entity.grid.pivot.column;
                     var f_cell = GetCell(f_row, f_column);
                     f_cell.cell.occupant = entity;
                     entity.grid.cells.Add(f_cell);
@@ -325,7 +325,7 @@ namespace Services.Game.Grid
                 cell.xPosition += cell.cell.row * grid.settings.cellSpacing.x;
                 cell.zPosition -= cell.cell.column * grid.settings.cellSpacing.y;
                 #if UNITY_EDITOR
-                cell.viewObject.name = string.Format("cell_{0}_{1}_{2}_{3}", cell.cell.objectId, cell.cell.typeId, cell.cell.row, cell.cell.column);
+                cell.viewObject.name = string.Format("cell_{0}_{1}_{2}_{3}", cell.objectId, cell.typeId, cell.row, cell.column);
                 #endif
             }
         }
