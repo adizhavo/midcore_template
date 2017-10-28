@@ -22,7 +22,7 @@ namespace Services.Game.Factory
         }
 
         // WIP
-        public GameEntity CreateCell()
+        public GameEntity CreateCell(int row, int column, string typeId, string objectId, GameEntity occupant = null)
         {
             var entity = Contexts.sharedInstance.game.CreateEntity();
             // TODO : read this from the database
@@ -30,6 +30,7 @@ namespace Services.Game.Factory
             entity.AddView(view);
             entity.AddGameObject(string.Empty, -1);
             entity.AddResource(string.Empty);
+            entity.AddCell(row, column, typeId, objectId, occupant);
             return entity;
         }
 
@@ -42,7 +43,7 @@ namespace Services.Game.Factory
             entity.AddView(view);
             entity.AddGameObject(string.Empty, -1);
             entity.AddResource(string.Empty);
-            entity.AddGrid(null, new List<Cell>(), new Footprint());
+            entity.AddGrid(null, new List<GameEntity>(), new Footprint());
             return entity;
         }
 

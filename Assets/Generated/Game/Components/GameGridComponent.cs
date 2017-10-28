@@ -11,7 +11,7 @@ public partial class GameEntity {
     public Services.Game.Components.GridComponent grid { get { return (Services.Game.Components.GridComponent)GetComponent(GameComponentsLookup.Grid); } }
     public bool hasGrid { get { return HasComponent(GameComponentsLookup.Grid); } }
 
-    public void AddGrid(Services.Game.Grid.Cell newPivot, System.Collections.Generic.List<Services.Game.Grid.Cell> newCells, Services.Game.Components.Footprint newFootprint) {
+    public void AddGrid(GameEntity newPivot, System.Collections.Generic.List<GameEntity> newCells, Services.Game.Components.Footprint newFootprint) {
         var index = GameComponentsLookup.Grid;
         var component = CreateComponent<Services.Game.Components.GridComponent>(index);
         component.pivot = newPivot;
@@ -20,7 +20,7 @@ public partial class GameEntity {
         AddComponent(index, component);
     }
 
-    public void ReplaceGrid(Services.Game.Grid.Cell newPivot, System.Collections.Generic.List<Services.Game.Grid.Cell> newCells, Services.Game.Components.Footprint newFootprint) {
+    public void ReplaceGrid(GameEntity newPivot, System.Collections.Generic.List<GameEntity> newCells, Services.Game.Components.Footprint newFootprint) {
         var index = GameComponentsLookup.Grid;
         var component = CreateComponent<Services.Game.Components.GridComponent>(index);
         component.pivot = newPivot;

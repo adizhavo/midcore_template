@@ -48,13 +48,13 @@ namespace Services.Game.Grid
             {
                 foreach(var cell in grid.cells)
                 {
-                    if (cell.occupant != null)
+                    if (cell.cell.occupant != null)
                     {
-                        DeAttach(cell.occupant);
-                        cell.occupant.Destroy();
+                        DeAttach(cell.cell.occupant);
+                        cell.cell.occupant.Destroy();
                     }
 
-                    cell.entity.Destroy();
+                    cell.Destroy();
                 }
 
                 grid.cells.Clear();
@@ -64,92 +64,80 @@ namespace Services.Game.Grid
 
         public bool IsOccupied(int row, int column)
         {
-            return GetCell(row, column).occupant != null;
+            return GetCell(row, column).cell.occupant != null;
         }
 
-        public bool IsOccupied(Cell cell)
+        public bool IsOccupied(GameEntity cell)
         {
-            return cell.occupant != null;
+            return cell.hasCell && cell.cell.occupant != null;
         }
 
-        public bool IsNull(int row, int column)
+        public GameEntity GetCell(int row, int column)
         {
-            return GetCell(row, column) is NullCell;
+            return grid.cells.Find(c => c.cell.row == row && c.cell.column == column);
         }
 
-        public bool IsNull(Cell cell)
+        public List<GameEntity> GetCells(Entity occupant)
         {
-            return cell is NullCell;
+            return grid.cells.FindAll(c => c.cell.occupant == occupant);
         }
 
-        public Cell GetCell(int row, int column)
+        public List<GameEntity> GetAllOccupiedCells()
         {
-            var cell = grid.cells.Find(c => c.row == row && c.column == column);
-            return cell != null ? cell : default(NullCell);
+            return grid.cells.FindAll(c => c.cell.occupant != null);
         }
 
-        public List<Cell> GetCells(Entity occupant)
-        {
-            return grid.cells.FindAll(c => c.occupant == occupant);
-        }
-
-        public List<Cell> GetAllOccupiedCells()
-        {
-            return grid.cells.FindAll(c => c.occupant != null);
-        }
-
-        public List<Cell> GetAllEmptyCells()
+        public List<GameEntity> GetAllEmptyCells()
         {
             return GetCells(null);
         }
 
-        public List<Cell> GetAllCells()
+        public List<GameEntity> GetAllCells()
         {
             return grid.cells;
         }
 
-        public List<Cell> GetAllCellsWithTypeId(string typeId)
+        public List<GameEntity> GetAllCellsWithTypeId(string typeId)
         {
-            return grid.cells.FindAll(c => !string.IsNullOrEmpty(typeId) && c.typeId.Equals(typeId)); 
+            return grid.cells.FindAll(c => !string.IsNullOrEmpty(typeId) && c.cell.typeId.Equals(typeId)); 
         }
 
-        public List<Cell> GetAllCellsWithObjectId(string objectId)
+        public List<GameEntity> GetAllCellsWithObjectId(string objectId)
         {
-            return grid.cells.FindAll(c => !string.IsNullOrEmpty(objectId) && c.objectId.Equals(objectId)); 
+            return grid.cells.FindAll(c => !string.IsNullOrEmpty(objectId) && c.cell.objectId.Equals(objectId)); 
         }
 
-        public List<Cell> GetAllCellsWith(string typeId, string objectId)
+        public List<GameEntity> GetAllCellsWith(string typeId, string objectId)
         {
-            return grid.cells.FindAll(c => !string.IsNullOrEmpty(typeId) && !string.IsNullOrEmpty(objectId) && c.typeId.Equals(typeId) && c.objectId.Equals(objectId)); 
+            return grid.cells.FindAll(c => !string.IsNullOrEmpty(typeId) && !string.IsNullOrEmpty(objectId) && c.cell.typeId.Equals(typeId) && c.cell.objectId.Equals(objectId)); 
         }
 
-        public Cell GetClosestCell(int row, int column, bool empty = false, List<Entity> ignore = null)
+        public GameEntity GetClosestCell(int row, int column, bool empty = false, List<Entity> ignore = null)
         {
             return GetClosestCell(GetCell(row, column), empty, ignore != null ? ignore : new List<Entity>());
         }
 
-        public Cell GetClosestCell(Cell from, bool empty = false, List<Entity> ignore = null)
+        public GameEntity GetClosestCell(GameEntity from, bool empty = false, List<Entity> ignore = null)
         {
             if (ignore == null)
                 ignore = new List<Entity>();
 
-            Cell selected = default(NullCell);
+            GameEntity selected = null;
             float minSqrDistance = float.MaxValue;
 
             foreach (var cell in grid.cells)
             {
                 if (cell != from
-                    && !IsNull(cell)
                     && (!empty || (empty && !IsOccupied(cell)))
-                    && !ignore.Contains(cell.occupant))
+                    && !ignore.Contains(cell.cell.occupant))
                 {
-                    if (IsNull(selected))
+                    if (selected == null)
                     {
                         selected = cell;
                     }
                     else
                     {
-                        float sqrDistance = Mathf.Pow(selected.row - cell.row, 2) + Mathf.Pow(selected.column - cell.column, 2);
+                        float sqrDistance = Mathf.Pow(selected.cell.row - cell.cell.row, 2) + Mathf.Pow(selected.cell.column - cell.cell.column, 2);
                         if (sqrDistance < minSqrDistance)
                         {
                             selected = cell;
@@ -166,7 +154,7 @@ namespace Services.Game.Grid
             return DoesFit(entity, GetCell(row, column));
         }
 
-        public bool DoesFit(GameEntity entity, Cell pivot)
+        public bool DoesFit(GameEntity entity, GameEntity pivot)
         {
             if (!entity.hasGrid)
                 return false;
@@ -174,68 +162,65 @@ namespace Services.Game.Grid
             return GetOccupants(pivot, entity.grid.footprint).Count == 0 && !IsThereAnyNullCell(pivot, entity.grid.footprint);
         }
 
-        public List<GameEntity> GetOccupants(Cell pivot, Footprint footprint)
+        public List<GameEntity> GetOccupants(GameEntity pivot, Footprint footprint)
         {
             var entities = new List<GameEntity>();
 
             for (int i = 0; i < footprint.data.GetLength(0); i++)
             {
-                var f_row = footprint.data[i, 0] + pivot.row;
-                var f_column = footprint.data[i, 1] + pivot.column;
+                var f_row = footprint.data[i, 0] + pivot.cell.row;
+                var f_column = footprint.data[i, 1] + pivot.cell.column;
                 var f_cell = GetCell(f_row, f_column);
 
-                if (!IsNull(f_cell) 
+                if (f_cell != null
                     && IsOccupied(f_cell) 
-                    && !entities.Contains((GameEntity)f_cell.occupant))
-                    entities.Add((GameEntity)f_cell.occupant);
+                    && !entities.Contains((GameEntity)f_cell.cell.occupant))
+                    entities.Add((GameEntity)f_cell.cell.occupant);
             }
 
             return entities;
         }
 
-        public bool IsThereAnyNullCell(Cell pivot, Footprint footprint)
+        public bool IsThereAnyNullCell(GameEntity pivot, Footprint footprint)
         {
             for (int i = 0; i < footprint.data.GetLength(0); i++)
             {
-                var f_row = footprint.data[i, 0] + pivot.row;
-                var f_column = footprint.data[i, 1] + pivot.column;
+                var f_row = footprint.data[i, 0] + pivot.cell.row;
+                var f_column = footprint.data[i, 1] + pivot.cell.column;
                 var f_cell = GetCell(f_row, f_column);
 
-                if (IsNull(f_cell))
-                    return true;
+                if (f_cell == null) return true;
             }
             return false;
         }
 
-        public Cell GetFitPivotCell(GameEntity entity)
+        public GameEntity GetFitPivotCell(GameEntity entity)
         {
-            var cell = grid.cells.Find(c => DoesFit(entity, c));
-            return cell != null ? cell : default(NullCell);
+            return grid.cells.Find(c => DoesFit(entity, c));
         }
 
-        public Cell GetClosestFitPivotCell(GameEntity entity, int row, int column)
+        public GameEntity GetClosestFitPivotCell(GameEntity entity, int row, int column)
         {
             return GetClosestFitPivotCell(entity, GetCell(row, column));
         }
 
-        public Cell GetClosestFitPivotCell(GameEntity entity, Cell from)
+        public GameEntity GetClosestFitPivotCell(GameEntity entity, GameEntity from)
         {
-            Cell selected = default(NullCell);
+            GameEntity selected = null;
             float minSqrDistance = float.MaxValue;
 
             foreach (var cell in grid.cells)
             {
                 if (cell != from
-                    && !IsNull(cell)
                     && DoesFit(entity, cell))
                 {
-                    if (IsNull(selected))
+                    if (selected == null)
                     {
                         selected = cell;
                     }
                     else
                     {
-                        float sqrDistance = Mathf.Pow(selected.row - cell.row, 2) + Mathf.Pow(selected.column - cell.column, 2);
+                        float sqrDistance = Mathf.Pow(selected.cell.row - cell.cell.row, 2) + Mathf.Pow(selected.cell.column - cell.cell.column, 2);
                         if (sqrDistance < minSqrDistance)
                         {
                             selected = cell;
@@ -252,7 +237,7 @@ namespace Services.Game.Grid
             SetEntityOn(entity, GetCell(row, column));
         }
 
-        public void SetEntityOn(GameEntity entity, Cell pivot)
+        public void SetEntityOn(GameEntity entity, GameEntity pivot)
         {
             if (DoesFit(entity, pivot))
             {
@@ -264,7 +249,7 @@ namespace Services.Game.Grid
                 if (occupants.Count > 1)
                 {
                     var fit = GetClosestFitPivotCell(entity, pivot);
-                    if (IsNull(fit))
+                    if (fit == null)
                     {
                         throw new NullReferenceException("There is not enough space to position the entity");
                     }
@@ -277,7 +262,7 @@ namespace Services.Game.Grid
                 {
                     var occupant = occupants[0];
                     var fit = GetClosestFitPivotCell(occupant, pivot); 
-                    if (IsNull(fit))
+                    if (fit == null)
                     {
                         throw new NullReferenceException("There is not enough space to position the entity");
                     }
@@ -298,10 +283,10 @@ namespace Services.Game.Grid
                 {
                     for (int i = 0; i < entity.grid.footprint.data.GetLength(0); i++)
                     {
-                        var f_row = entity.grid.footprint.data[i, 0] + entity.grid.pivot.row;
-                        var f_column = entity.grid.footprint.data[i, 1] + entity.grid.pivot.column;
+                        var f_row = entity.grid.footprint.data[i, 0] + entity.grid.pivot.cell.row;
+                        var f_column = entity.grid.footprint.data[i, 1] + entity.grid.pivot.cell.column;
 
-                        GetCell(f_row, f_column).occupant = null;
+                        GetCell(f_row, f_column).cell.occupant = null;
                     }
 
                     entity.grid.pivot = null;
@@ -313,7 +298,7 @@ namespace Services.Game.Grid
         // Will force position the entity to the cell, ingoring if its occupied or not
         // Suggested to use rarely if you know what you're doing
         // Use 'SetEntityOn' instead. It will resolve all the positioning
-        public void Attach(GameEntity entity, Cell cell)
+        public void Attach(GameEntity entity, GameEntity cell)
         {
             if (entity.hasGrid && DoesFit(entity, cell))
             {
@@ -321,10 +306,10 @@ namespace Services.Game.Grid
 
                 for (int i = 0; i < entity.grid.footprint.data.GetLength(0); i++)
                 {
-                    var f_row = entity.grid.footprint.data[i, 0] + entity.grid.pivot.row;
-                    var f_column = entity.grid.footprint.data[i, 1] + entity.grid.pivot.column;
+                    var f_row = entity.grid.footprint.data[i, 0] + entity.grid.pivot.cell.row;
+                    var f_column = entity.grid.footprint.data[i, 1] + entity.grid.pivot.cell.column;
                     var f_cell = GetCell(f_row, f_column);
-                    f_cell.occupant = entity;
+                    f_cell.cell.occupant = entity;
                     entity.grid.cells.Add(f_cell);
                 }
 
@@ -336,17 +321,11 @@ namespace Services.Game.Grid
         {
             foreach (var cell in grid.cells)
             {
-                if (cell.entity == null)
-                {
-                    // WIP : shpuld pass the objectId data
-                    cell.entity = factoryEntity.CreateCell();
-                }
-
-                cell.entity.position = grid.settings.startPos.ToVector3();
-                cell.entity.xPosition += cell.row * grid.settings.cellSpacing.x;
-                cell.entity.zPosition -= cell.column * grid.settings.cellSpacing.y;
+                cell.position = grid.settings.startPos.ToVector3();
+                cell.xPosition += cell.cell.row * grid.settings.cellSpacing.x;
+                cell.zPosition -= cell.cell.column * grid.settings.cellSpacing.y;
                 #if UNITY_EDITOR
-                cell.entity.viewObject.name = string.Format("cell_{0}_{1}_{2}_{3}", cell.objectId, cell.typeId, cell.row, cell.column);
+                cell.viewObject.name = string.Format("cell_{0}_{1}_{2}_{3}", cell.cell.objectId, cell.cell.typeId, cell.cell.row, cell.cell.column);
                 #endif
             }
         }

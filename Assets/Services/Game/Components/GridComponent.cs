@@ -7,9 +7,9 @@ namespace Services.Game.Components
     [Game]
     public class GridComponent : IComponent
     {
-        public Cell pivot;
+        public GameEntity pivot;
         // will contain the pivot cell
-        public List<Cell> cells;
+        public List<GameEntity> cells;
         public Footprint footprint;
     }
 
