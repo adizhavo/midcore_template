@@ -26,17 +26,21 @@ namespace Template.Sample
             CoreServicesInstaller.Install(container);
             GameServiceInstaller.Install(container);
 
+            container.Bind<SampleDataProvider>().AsSingle().NonLazy();
+
             // add core services
             gameSystems = new Systems()
                 .Add(container.Resolve<DatabaseService>())
                 .Add(container.Resolve<DataVersionService>())
                 .Add(container.Resolve<GestureService>())
                 .Add(container.Resolve<AssetManifestReader>())
-                .Add(container.Resolve<GUIService>());
+                .Add(container.Resolve<GUIService>())
+                .Add(container.Resolve<SampleDataProvider>());
 
             gameSystems.Initialize();
 
-            var grid = container.Resolve<TILED_MapReader>().TILED_ReadGrid("Data/TILED_map/sample_level", new GridSettings());
+            var sampleLevel = container.Resolve<DatabaseService>().Get<string>("player_map");
+            var grid = container.Resolve<TILED_MapReader>().TILED_ReadGrid(sampleLevel, new GridSettings());
             container.Resolve<GridService>().Load(grid);
         }
 
