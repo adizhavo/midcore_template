@@ -25,8 +25,7 @@ namespace Template.Sample
             container = new DiContainer();
             CoreServicesInstaller.Install(container);
             GameServiceInstaller.Install(container);
-
-            container.Bind<SampleDataProvider>().AsSingle().NonLazy();
+            SampleInstaller.Install(container);
 
             // add core services
             gameSystems = new Systems()
@@ -39,9 +38,7 @@ namespace Template.Sample
 
             gameSystems.Initialize();
 
-            var sampleLevel = container.Resolve<DatabaseService>().Get<string>("player_map");
-            var grid = container.Resolve<TILED_MapReader>().TILED_ReadGrid(sampleLevel, new GridSettings());
-            container.Resolve<GridService>().Load(grid);
+            container.Resolve<SampleCamp>().LoadCamp();
         }
 
         private void Update()
