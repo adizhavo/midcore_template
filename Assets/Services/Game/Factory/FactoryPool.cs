@@ -30,6 +30,7 @@ namespace Services.Game.Factory
 
         public string prefabPath;
         private GameObject prefab;
+        private GameObject poolObject;
         private List<GameObject> objects;
 
         public FactoryPool(string prefabPath)
@@ -37,6 +38,7 @@ namespace Services.Game.Factory
             this.prefabPath = prefabPath;
             prefab = Resources.Load<GameObject>(prefabPath);
             objects = new List<GameObject>();
+            poolObject = new GameObject("pool_" + prefab.name);
         }
 
         public GameObject GetObject(bool pooled = true)
@@ -60,6 +62,7 @@ namespace Services.Game.Factory
 
             var go = GameObject.Instantiate<GameObject>(prefab);
             objects.Add(go);
+            go.transform.SetParent(poolObject.transform);
             return go;
         }
     }

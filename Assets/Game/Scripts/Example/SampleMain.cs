@@ -25,6 +25,7 @@ namespace Template.Sample
             container = new DiContainer();
             CoreServicesInstaller.Install(container);
             GameServiceInstaller.Install(container);
+            SampleInstaller.Install(container);
 
             // add core services
             gameSystems = new Systems()
@@ -32,12 +33,12 @@ namespace Template.Sample
                 .Add(container.Resolve<DataVersionService>())
                 .Add(container.Resolve<GestureService>())
                 .Add(container.Resolve<AssetManifestReader>())
-                .Add(container.Resolve<GUIService>());
+                .Add(container.Resolve<GUIService>())
+                .Add(container.Resolve<SampleDataProvider>());
 
             gameSystems.Initialize();
 
-            var grid = container.Resolve<TILED_MapReader>().TILED_ReadGrid("Data/TILED_map/sample_level", new GridSettings());
-            container.Resolve<GridService>().Load(grid);
+            container.Resolve<SampleCamp>().LoadCamp();
         }
 
         private void Update()

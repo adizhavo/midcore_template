@@ -10,37 +10,13 @@ namespace Services.Game.Grid
         public string mapPath;
         public IntVector2 size;
         public GridSettings settings;
-        public List<Cell> cells = new List<Cell>();
+        public List<GameEntity> cells = new List<GameEntity>();
 
         public GridData(string mapPath, IntVector2 size, GridSettings settings)
         {
             this.mapPath = mapPath;
             this.size = size;
             this.settings = settings;
-        }
-    }
-
-    public class Cell
-    {
-        public int row;
-        public int column;
-        public string typeId;
-        public string objectId;
-        public GameEntity occupant;
-        public GameEntity entity;
-
-        public Cell(string typeId)
-        {
-            this.typeId = typeId;
-        }
-    }
-
-    public class NullCell : Cell
-    {
-        public NullCell() : base(string.Empty)
-        {
-            row = -1;
-            column = -1;
         }
     }
 

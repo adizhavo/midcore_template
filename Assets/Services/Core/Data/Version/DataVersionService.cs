@@ -79,7 +79,7 @@ namespace Services.Core.DataVersion
 
         private void ReadAppVersion()
         {
-            var appConfig = database.Get<ApplicationConfig>(Constants.APP_CONFIG_ID);
+            var appConfig = database.Get<ApplicationConfig>(Constants.APP_CONFIG_DB_KEY);
             APP_VERSION = appConfig.version;
         }
 

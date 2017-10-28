@@ -51,7 +51,7 @@ namespace Services.Core.Gesture
 
         public void Initialize()
         {
-            appConfig = database.Get<ApplicationConfig>(Constants.APP_CONFIG_ID);
+            appConfig = database.Get<ApplicationConfig>(Constants.APP_CONFIG_DB_KEY);
             SetupTransitions();
             SetupGestureEventDispatcher();
         }

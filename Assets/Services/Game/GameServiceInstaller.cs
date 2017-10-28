@@ -19,7 +19,6 @@ namespace Services.Game
             Container.Bind<TILED_DataProvider>().AsSingle().NonLazy();
             Container.Bind<TILED_MapReader>().AsSingle().NonLazy();
             Container.Bind<GridService>().AsSingle().NonLazy();
-            Container.Bind<FactoryCell>().AsSingle().NonLazy();
             Container.Bind<FactoryEntity>().AsSingle().NonLazy();
 
             LogWrapper.DebugLog("[{0}] installation of game bindings successfull", GetType());

@@ -108,5 +108,13 @@ namespace Services.Core
             }
             else throw new UnityException("Directory not found: " + directoryPath);
         }
+
+        public static string GenerateUniqueId()
+        {
+            var ticks = DateTime.Now.Ticks;
+            var guid = Guid.NewGuid().ToString();
+            var uniqueId = ticks.ToString() +'-'+ guid;
+            return uniqueId;
+        }
     }
 }

@@ -4,10 +4,22 @@ using Services.Core;
 
 public sealed partial class GameEntity
 {
-    public int uniqueId
+    public string uniqueId
     {
         get { return gameObject.uniqueId; }
         set { gameObject.uniqueId = value; }
+    }
+
+    public string objectId
+    {
+        get { return gameObject.objectId; }
+        set { gameObject.objectId = value; }
+    }
+
+    public string typeId
+    {
+        get { return gameObject.typeId; }
+        set { gameObject.typeId = value; }
     }
 
     public string resourcePath
@@ -120,5 +132,22 @@ public sealed partial class GameEntity
     {
         get { return transform.localRotation; }
         set { transform.localRotation = value; }
+    }
+
+    public int row
+    {
+        get { return cell.row; }
+        set { cell.row = value; }
+    }
+
+    public int column
+    {
+        get { return cell.column; }
+        set { cell.column = value; }
+    }
+
+    public void PositionOnCell()
+    {
+        position = grid.pivot.position;
     }
 }

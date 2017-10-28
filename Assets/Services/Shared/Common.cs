@@ -5,7 +5,7 @@ namespace Services.Core
 {
     /// <summary>
     /// Common data structures
-    /// Mostly some wrappers on the Unity structure so its possible to use threads
+    /// Mostly some wrappers on the Unity structure so its possible to use threads if needed
     /// </summary>
 
     [System.Serializable]
