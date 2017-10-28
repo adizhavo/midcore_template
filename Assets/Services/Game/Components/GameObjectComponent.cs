@@ -7,6 +7,6 @@ namespace Services.Game.Components
     {
         public string objectId;
         public string typeId;
-        public int uniqueId;
+        public string uniqueId;
     }
 }

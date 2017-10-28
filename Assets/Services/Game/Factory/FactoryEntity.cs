@@ -1,5 +1,6 @@
 ﻿using Zenject;
 using Entitas;
+using Services.Core;
 using Services.Core.Data;
 using Services.Game.Data;
 using Services.Game.Grid;
@@ -31,7 +32,7 @@ namespace Services.Game.Factory
             var entity = Contexts.sharedInstance.game.CreateEntity();
             var objectData = database.Get<ObjectData>(objectId);
             var prefabPath = database.Get<string>(objectData.prefab);
-            entity.AddGameObject(objectData.objectId, objectData.typeId, -1);
+            entity.AddGameObject(objectData.objectId, objectData.typeId, Utils.GenerateUniqueId());
             entity.AddResource(prefabPath);
             entity.AddCell(row, column, occupant);
             var view = FactoryPool.GetPooled(prefabPath);
@@ -44,7 +45,7 @@ namespace Services.Game.Factory
             var entity = Contexts.sharedInstance.game.CreateEntity();
             var objectData = database.Get<ObjectData>(objectId);
             var prefabPath = database.Get<string>(objectData.prefab);
-            entity.AddGameObject(objectData.objectId, objectData.typeId, -1);
+            entity.AddGameObject(objectData.objectId, objectData.typeId, Utils.GenerateUniqueId());
             entity.AddResource(prefabPath);
             entity.AddGrid(null, new List<GameEntity>(), new Footprint());
             var view = FactoryPool.GetPooled(prefabPath);

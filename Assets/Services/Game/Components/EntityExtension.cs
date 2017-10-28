@@ -4,7 +4,7 @@ using Services.Core;
 
 public sealed partial class GameEntity
 {
-    public int uniqueId
+    public string uniqueId
     {
         get { return gameObject.uniqueId; }
         set { gameObject.uniqueId = value; }
