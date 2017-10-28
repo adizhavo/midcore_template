@@ -1,4 +1,7 @@
-﻿using Entitas;
+﻿using Zenject;
+using Entitas;
+using Services.Core.Data;
+using Services.Game.Data;
 using Services.Game.Grid;
 using Services.Game.Components;
 using System.Collections.Generic;
@@ -11,6 +14,8 @@ namespace Services.Game.Factory
 
     public sealed partial class FactoryEntity 
     {
+        [Inject] DatabaseService database;
+
         public FactoryEntity()
         {
             Contexts.sharedInstance.game.OnEntityWillBeDestroyed += CleanupEntity;
@@ -21,29 +26,29 @@ namespace Services.Game.Factory
             Contexts.sharedInstance.game.OnEntityWillBeDestroyed -= CleanupEntity;
         }
 
-        // WIP
-        public GameEntity CreateCell(int row, int column, string typeId, string objectId, GameEntity occupant = null)
+        public GameEntity CreateCell(int row, int column, string objectId, GameEntity occupant = null)
         {
             var entity = Contexts.sharedInstance.game.CreateEntity();
-            // TODO : read this from the database
-            var view = FactoryPool.GetPooled("Prefabs/Map/Tile");
-            entity.AddView(view);
-            entity.AddGameObject(objectId, typeId, -1);
-            entity.AddResource(string.Empty);
+            var objectData = database.Get<ObjectData>(objectId);
+            var prefabPath = database.Get<string>(objectData.prefab);
+            entity.AddGameObject(objectData.objectId, objectData.typeId, -1);
+            entity.AddResource(prefabPath);
             entity.AddCell(row, column, occupant);
+            var view = FactoryPool.GetPooled(prefabPath);
+            entity.AddView(view);
             return entity;
         }
 
-        // WIP
-        public GameEntity CreateGridObject()
+        public GameEntity CreateGridObject(string objectId)
         {
             var entity = Contexts.sharedInstance.game.CreateEntity();
-            // TODO : read this from the database
-            var view = FactoryPool.GetPooled("Prefabs/Objects/Object");
-            entity.AddView(view);
-            entity.AddGameObject(string.Empty, string.Empty, -1);
-            entity.AddResource(string.Empty);
+            var objectData = database.Get<ObjectData>(objectId);
+            var prefabPath = database.Get<string>(objectData.prefab);
+            entity.AddGameObject(objectData.objectId, objectData.typeId, -1);
+            entity.AddResource(prefabPath);
             entity.AddGrid(null, new List<GameEntity>(), new Footprint());
+            var view = FactoryPool.GetPooled(prefabPath);
+            entity.AddView(view);
             return entity;
         }
 
