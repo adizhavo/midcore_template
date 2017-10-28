@@ -304,6 +304,8 @@ namespace Services.Game.Grid
             {
                 DeAttach(entity);
 
+                entity.grid.pivot = cell;
+
                 for (int i = 0; i < entity.grid.footprint.data.GetLength(0); i++)
                 {
                     var f_row = entity.grid.footprint.data[i, 0] + entity.grid.pivot.row;
@@ -312,8 +314,6 @@ namespace Services.Game.Grid
                     f_cell.cell.occupant = entity;
                     entity.grid.cells.Add(f_cell);
                 }
-
-                entity.grid.pivot = cell;
             }
         }
 
