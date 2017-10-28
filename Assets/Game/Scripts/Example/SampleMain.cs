@@ -10,6 +10,7 @@ using Services.Core.GUI;
 using Services.Game;
 using Services.Game.Tiled;
 using Services.Game.Grid;
+using Services.Game.HUD;
 
 namespace Template.Sample
 {
@@ -34,6 +35,7 @@ namespace Template.Sample
                 .Add(container.Resolve<GestureService>())
                 .Add(container.Resolve<AssetManifestReader>())
                 .Add(container.Resolve<GUIService>())
+                .Add(container.Resolve<HUD_Service>())
                 .Add(container.Resolve<SampleDataProvider>());
 
             gameSystems.Initialize();

@@ -4,6 +4,7 @@ using Services.Core.Data;
 using Services.Game.Tiled;
 using Services.Game.Grid;
 using Services.Game.Factory;
+using Services.Game.HUD;
 
 namespace Template.Sample
 {
@@ -13,6 +14,7 @@ namespace Template.Sample
         [Inject] TILED_MapReader mapReader;
         [Inject] GridService gridService;
         [Inject] FactoryEntity factoryEntity;
+        [Inject] HUD_Service hudService;
 
         public void LoadCamp()
         {
@@ -29,6 +31,8 @@ namespace Template.Sample
                 var gridEntity = factoryEntity.CreateGridObject(gridObject.Value);
                 gridService.SetEntityOn(gridEntity, gridObject.Key.x, gridObject.Key.y);
                 gridEntity.PositionOnCell();
+
+                hudService.AssignHUD("sample_hud", gridEntity);
             }
         }
     }
