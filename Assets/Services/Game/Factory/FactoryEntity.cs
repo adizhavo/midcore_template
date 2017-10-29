@@ -48,11 +48,11 @@ namespace Services.Game.Factory
         public GameEntity CreateGridObject(string objectId)
         {
             var entity = Contexts.sharedInstance.game.CreateEntity();
-            var objectData = database.Get<ObjectData>(objectId);
+            var objectData = database.Get<GridObjectData>(objectId);
             var prefabPath = database.Get<string>(objectData.prefab);
             entity.AddGameObject(objectData.objectId, objectData.typeId, Utils.GenerateUniqueId());
             entity.AddResource(prefabPath);
-            entity.AddGrid(null, new List<GameEntity>(), new Footprint());
+            entity.AddGrid(null, new List<GameEntity>(), new Footprint(objectData.footprintData));
             var view = FactoryPool.GetPooled(prefabPath);
             entity.AddView(view);
             #if UNITY_EDITOR
