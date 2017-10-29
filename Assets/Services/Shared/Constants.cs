@@ -18,4 +18,10 @@
 
     // Misc
     public const string JSON_FILE_EXTENSION = ".json";
+
+    public const string GRID_ENTITY_CREATION_EVENT_ID = "create_grid_entity";
+
+    public const string CELL_ENTITY_CREATION_EVENT_ID = "create_grid_entity";
+
+    public const string ENTITY_DESTRUCTION_EVENT_ID = "create_grid_entity";
 }
