@@ -11,6 +11,7 @@ using Services.Game;
 using Services.Game.Tiled;
 using Services.Game.Grid;
 using Services.Game.HUD;
+using Services.Game.Factory;
 
 namespace Template.Sample
 {
@@ -36,6 +37,7 @@ namespace Template.Sample
                 .Add(container.Resolve<AssetManifestReader>())
                 .Add(container.Resolve<GUIService>())
                 .Add(container.Resolve<HUD_Service>())
+                .Add(container.Resolve<FactoryGUI>())
                 .Add(container.Resolve<SampleDataProvider>());
 
             gameSystems.Initialize();
@@ -46,6 +48,12 @@ namespace Template.Sample
         private void Update()
         {
             gameSystems.Execute();
+
+            if ((int)Time.timeSinceLevelLoad % 2 == 0)
+            {
+                var fromEntity = Contexts.sharedInstance.game.GetEntities(GameMatcher.Grid)[0];
+                container.Resolve<FactoryGUI>().AnimateFloatingUIWorldPos("sample_floating_UI", fromEntity, "sample_panel_id", "sample_view_id");
+            }
         }
     }
 }
