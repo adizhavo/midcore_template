@@ -7,4 +7,9 @@ namespace Template.Sample
     {
         public List<ObjectData> root;   
     }
+
+    public class GridObjectDataRoot
+    {
+        public List<GridObjectData> root;
+    }
 }

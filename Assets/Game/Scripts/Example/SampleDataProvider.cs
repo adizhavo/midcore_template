@@ -14,7 +14,7 @@ namespace Template.Sample
 
         public void Initialize()
         {
-            var objectDataRoot = Utils.ReadJsonFromResources<ObjectDataRoot>(database.Get<string>("game_objects"));
+            var objectDataRoot = Utils.ReadJsonFromResources<GridObjectDataRoot>(database.Get<string>("game_objects"));
             var tileDataRoot = Utils.ReadJsonFromResources<ObjectDataRoot>(database.Get<string>("tile_objects"));
 
             foreach(var objectData in objectDataRoot.root)
