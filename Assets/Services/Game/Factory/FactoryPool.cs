@@ -38,7 +38,7 @@ namespace Services.Game.Factory
             this.prefabPath = prefabPath;
             prefab = Resources.Load<GameObject>(prefabPath);
             objects = new List<GameObject>();
-            poolObject = new GameObject("pool_" + prefab.name);
+            poolObject = new GameObject("_pool_" + prefab.name);
         }
 
         public GameObject GetObject(bool pooled = true)

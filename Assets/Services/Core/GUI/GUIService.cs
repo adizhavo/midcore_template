@@ -56,6 +56,12 @@ namespace Services.Core.GUI
             }
         }
 
+        public GameObject Canvas
+        {
+            private set;
+            get;
+        }
+
         [Inject] private DatabaseService database;
         private GUIConfig guiConfig;
         private string configPath;
@@ -74,11 +80,11 @@ namespace Services.Core.GUI
             var configPath = database.Get<string>(Constants.GUI_DB_KEY);
             guiConfig = Utils.ReadJsonFromResources<GUIConfig>(configPath);
             var canvasObject = Utils.ReadFromResources<GameObject>(guiConfig.canvasObjectPath);
-            var parent = GameObject.Instantiate<GameObject>(canvasObject).transform;
+            Canvas = GameObject.Instantiate<GameObject>(canvasObject);
 
             // Instatiation
             foreach (var panelObject in guiConfig.availablePanels)
-                panelObject.Instantiate(parent, false);
+                panelObject.Instantiate(Canvas.transform, false);
 
             // Set render order / sibling index
             foreach (var panelObject in guiConfig.availablePanels)

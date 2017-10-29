@@ -1,6 +1,7 @@
 ﻿using Entitas;
 using UnityEngine;
 using Services.Core;
+using Services.Game.Components;
 
 public sealed partial class GameEntity
 {
@@ -149,5 +150,21 @@ public sealed partial class GameEntity
     public void PositionOnCell()
     {
         position = grid.pivot.position;
+    }
+
+    public Vector3 HUDPivot
+    {
+        get 
+        {
+            var viewMono = viewObject.GetComponent<ViewMonoComponent>();
+            if (viewMono != null) 
+            {
+                return viewMono.HUDpivot.position;
+            }
+            else
+            {
+                return position;
+            }
+        }
     }
 }

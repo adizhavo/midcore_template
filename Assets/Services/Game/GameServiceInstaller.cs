@@ -3,6 +3,7 @@ using Services.Core;
 using Services.Game.Tiled;
 using Services.Game.Grid;
 using Services.Game.Factory;
+using Services.Game.HUD;
 
 namespace Services.Game
 {
@@ -20,6 +21,7 @@ namespace Services.Game
             Container.Bind<TILED_MapReader>().AsSingle().NonLazy();
             Container.Bind<GridService>().AsSingle().NonLazy();
             Container.Bind<FactoryEntity>().AsSingle().NonLazy();
+            Container.Bind<HUD_Service>().AsSingle().NonLazy();
 
             LogWrapper.DebugLog("[{0}] installation of game bindings successfull", GetType());
         }
