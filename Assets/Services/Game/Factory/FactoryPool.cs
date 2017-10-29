@@ -43,6 +43,10 @@ namespace Services.Game.Factory
 
         public GameObject GetObject(bool pooled = true)
         {
+            #if UNITY_EDITOR
+            ResetPoolHierarchy();
+            #endif
+
             if (pooled)
             {
                 for (int i = 0; i < objects.Count; i++)
@@ -64,6 +68,17 @@ namespace Services.Game.Factory
             objects.Add(go);
             go.transform.SetParent(poolObject.transform);
             return go;
+        }
+
+        private void ResetPoolHierarchy()
+        {
+            foreach(var ob in objects)
+            {
+                if (!ob.activeSelf)
+                {
+                    ob.transform.SetParent(poolObject.transform, false);
+                }
+            }
         }
     }
 }
