@@ -41,9 +41,9 @@ namespace MergeWar
             int direction = Input.GetAxis("Mouse ScrollWheel") > 0 ? -1 : 1;
             var zoom = cameraService.zoom + direction * 0.3f;
             #else
-            firstDelta = (this.firstScreenPos - firstScreenPos).magnitude;
-            secondDelta = (this.secondScreenPos - secondScreenPos).magnitude;
-            delta = firstScreenPos + secondScreenPos;
+            var firstDelta = (this.firstScreenPos - firstScreenPos).magnitude;
+            var secondDelta = (this.secondScreenPos - secondScreenPos).magnitude;
+            var delta = firstDelta + secondDelta;
             var zoom = cameraService.zoom + delta * gameConfig.cameraZoomSpeed * Time.unscaledDeltaTime;
             #endif
             zoom = Mathf.Clamp(zoom, gameConfig.cameraZoomRange.min, gameConfig.cameraZoomRange.max);
