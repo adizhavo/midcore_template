@@ -1,16 +1,16 @@
 ﻿using Zenject;
 using Services.Core;
 
-namespace Template.Sample
+namespace MergeWar
 {
-    public class SampleInstaller : Installer<SampleInstaller>
+    public class GameInstaller : Installer<GameInstaller>
     {
         #region implemented abstract members of InstallerBase
 
         public override void InstallBindings()
         {
-            Container.Bind<SampleDataProvider>().AsSingle().NonLazy();
-            Container.Bind<SampleCamp>().AsSingle().NonLazy();
+            Container.Bind<DataProviderSystem>().AsSingle().NonLazy();
+            Container.Bind<CampSystem>().AsSingle().NonLazy();
 
             LogWrapper.DebugLog("[{0}] installation of sample bindings successfull", GetType());
         }

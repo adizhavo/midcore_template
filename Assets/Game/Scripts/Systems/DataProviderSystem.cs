@@ -4,9 +4,9 @@ using UnityEngine;
 using Services.Core;
 using Services.Core.Data;
 
-namespace Template.Sample
+namespace MergeWar
 {
-    public class SampleDataProvider : IInitializeSystem
+    public class DataProviderSystem : IInitializeSystem
     {
         [Inject] DatabaseService database;
 

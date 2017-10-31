@@ -6,9 +6,9 @@ using Services.Game.Grid;
 using Services.Game.Factory;
 using Services.Game.HUD;
 
-namespace Template.Sample
+namespace MergeWar
 {
-    public class SampleCamp 
+    public class CampSystem 
     {
         [Inject] DatabaseService database;
         [Inject] TILED_MapReader mapReader;
