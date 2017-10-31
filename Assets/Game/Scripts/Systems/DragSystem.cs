@@ -11,7 +11,7 @@ namespace MergeWar
     /// Handle camera movement and drag/drop of objects
     /// </summary>
 
-    public class DragSystem : IInitializeSystem, IDragHandler
+    public class DragSystem : IInitializeSystem, IExecuteSystem, IDragHandler
     {
         [Inject] CameraService cameraService;
         [Inject] DataProviderSystem dataProvider;
@@ -24,6 +24,8 @@ namespace MergeWar
 
         private Vector3 currentPos;
         private Vector3 deltaPos;
+        private float timer;
+        private bool inertia = false;
         private GameConfig gameConfig;
 
         #region IInitializeSystem implementation
@@ -37,6 +39,7 @@ namespace MergeWar
 
         public bool HandleDragStart(Vector3 screenPos)
         {
+            inertia = false;
             currentPos = screenPos;
             #if UNITY_EDITOR
             startPos = currentPos;
@@ -59,7 +62,24 @@ namespace MergeWar
 
         public bool HandleDragEnd(Vector3 screenPos)
         {
+            deltaPos = cameraService.camera.ScreenToWorldPoint(currentPos) - cameraService.camera.ScreenToWorldPoint(screenPos);
+            inertia = true;
+            timer = 0f;
             return false;
+        }
+
+        #endregion
+
+        #region IExecuteSystem implementation
+
+        public void Execute()
+        {
+            if (inertia && timer <= gameConfig.cameraInertiaDuration)
+            {
+                cameraService.SetPosition(cameraService.position + deltaPos);
+                deltaPos = Vector3.Lerp(deltaPos, Vector3.zero, timer);
+                timer += Time.smoothDeltaTime;
+            }
         }
 
         #endregion

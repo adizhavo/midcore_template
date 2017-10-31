@@ -54,5 +54,6 @@ namespace MergeWar
         public Rect cameraBoundaries;
         public float cameraZoomSpeed;
         public FloatRange cameraZoomRange;
+        public float cameraInertiaDuration;
     }
 }
