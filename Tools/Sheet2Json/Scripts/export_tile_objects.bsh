@@ -1,0 +1,8 @@
+#!/bin/bash
+
+/Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
+-configPath=./config.json \
+-sheetTab=TILE_OBJECTS \
+-keyRange=A1:C \
+-valueRange=A2:C \
+-outputFileName=tile_objects.json \
