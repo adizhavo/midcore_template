@@ -23,12 +23,35 @@ namespace MergeWar
 
         private void Awake()
         {
+            InstallDIContainer();
+            InitialiseGesture();
+            InitializeGameSystem();
+
+            container.Resolve<CampSystem>().LoadCamp();
+        }
+
+        private void Update()
+        {
+            gameSystems.Execute();
+
+            if ((int)Time.timeSinceLevelLoad % 2 == 0)
+            {
+                var fromEntity = Contexts.sharedInstance.game.GetEntities(GameMatcher.Grid)[0];
+                container.Resolve<FactoryGUI>().AnimateFloatingUIWorldPos("sample_floating_UI", fromEntity, "sample_panel_id", "sample_view_id");
+            }
+        }
+
+        private void InstallDIContainer()
+        {
             // initialise the di container and installers
             container = new DiContainer();
             CoreServicesInstaller.Install(container);
             GameServiceInstaller.Install(container);
             GameInstaller.Install(container);
+        }
 
+        private void InitializeGameSystem()
+        {
             // add core services
             gameSystems = new Systems()
                 .Add(container.Resolve<DatabaseService>())
@@ -41,21 +64,14 @@ namespace MergeWar
                 .Add(container.Resolve<DataProviderSystem>());
 
             gameSystems.Initialize();
-
-            container.Resolve<CampSystem>().LoadCamp();
-
-            container.Resolve<GestureService>().AddDragHandler(new DragSystem());
         }
 
-        private void Update()
+        private void InitialiseGesture()
         {
-            gameSystems.Execute();
+            var dragSystem = new DragSystem();
 
-            if ((int)Time.timeSinceLevelLoad % 2 == 0)
-            {
-                var fromEntity = Contexts.sharedInstance.game.GetEntities(GameMatcher.Grid)[0];
-                container.Resolve<FactoryGUI>().AnimateFloatingUIWorldPos("sample_floating_UI", fromEntity, "sample_panel_id", "sample_view_id");
-            }
+            var gestureService = container.Resolve<GestureService>();
+            gestureService.AddDragHandler(dragSystem);
         }
     }
 }
