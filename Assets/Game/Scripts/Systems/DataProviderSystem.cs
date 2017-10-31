@@ -23,7 +23,7 @@ namespace MergeWar
 
         #endregion
 
-        public T LoadFile<T>(string db_keyId) where T : object
+        public T LoadFile<T>(string db_keyId)
         {
             return Utils.ReadJsonFromResources<T>(database.Get<string>(db_keyId));
         }
