@@ -1,54 +1,63 @@
-﻿using UnityEngine;
+﻿using Zenject;
+using Entitas;
+using UnityEngine;
 using Services.Core.Gesture;
+using Services.Game.SceneCamera;
+using Services.Core.Data;
 
 namespace MergeWar
 {
-    public class DragSystem : IDragHandler, IPinchHandler
+    /// <summary>
+    /// Handle camera movement and drag/drop of objects
+    /// </summary>
+
+    public class DragSystem : IInitializeSystem, IDragHandler
     {
+        [Inject] CameraService cameraService;
+        [Inject] DataProviderSystem dataProvider;
+
         #region IDragHandler implementation
 
-        private Vector3 initPos;
+        #if UNITY_EDITOR
+        private Vector3 startPos;
+        #endif
+
+        private Vector3 currentPos;
         private Vector3 deltaPos;
+        private GameConfig gameConfig;
+
+        #region IInitializeSystem implementation
+
+        public void Initialize()
+        {
+            gameConfig = dataProvider.GetGameConfig();
+        }
+
+        #endregion
 
         public bool HandleDragStart(Vector3 screenPos)
         {
-            initPos = screenPos;
+            currentPos = screenPos;
+            #if UNITY_EDITOR
+            startPos = currentPos;
+            #endif
             return false;
         }
 
         public bool HandleDrag(Vector3 screenPos)
         {
-            var currPos = screenPos;
-            deltaPos = Camera.main.ScreenToWorldPoint(initPos) - Camera.main.ScreenToWorldPoint(currPos);
+            deltaPos = cameraService.camera.ScreenToWorldPoint(currentPos) - cameraService.camera.ScreenToWorldPoint(screenPos);
+            cameraService.SetPosition(cameraService.position + deltaPos);
+            currentPos = screenPos;
 
-            Camera.main.transform.position += deltaPos;
-
-            Debug.DrawLine(initPos, currPos);
-            initPos = currPos;
+            #if UNITY_EDITOR
+            Debug.DrawLine(startPos, currentPos);
+            #endif
 
             return false;
         }
 
         public bool HandleDragEnd(Vector3 screenPos)
-        {
-            return false;
-        }
-
-        #endregion
-
-        #region IPinchHandler implementation
-
-        public bool HandlePinchStart(Vector3 firstScreenPos, Vector3 secondScreenPos)
-        {
-            return false;
-        }
-
-        public bool HandlePinch(Vector3 firstScreenPos, Vector3 secondScreenPos)
-        {
-            return false;
-        }
-
-        public bool HandlePinchEnd(Vector3 firstScreenPos, Vector3 secondScreenPos)
         {
             return false;
         }

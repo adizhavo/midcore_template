@@ -1,0 +1,10 @@
+#!/bin/bash
+
+/Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
+-configPath=./config.json \
+-sheetTab=GAME_CONFIG \
+-keyRange=A2:B \
+-valueRange=A2:B \
+-outputFileName=game_config.json \
+-isSingleObject \
+-isLiteral=cameraBoundaries
