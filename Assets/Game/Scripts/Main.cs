@@ -65,7 +65,8 @@ namespace MergeWar
                 .Add(container.Resolve<DataProviderSystem>())
 
                 // Gameplay
-                .Add(container.Resolve<DragSystem>());
+                .Add(container.Resolve<DragSystem>())
+                .Add(container.Resolve<PinchSystem>());
 
             gameSystems.Initialize();
         }
@@ -73,9 +74,11 @@ namespace MergeWar
         private void InitialiseGesture()
         {
             var dragSystem = container.Resolve<DragSystem>();
+            var pinchSystem = container.Resolve<PinchSystem>();
 
             var gestureService = container.Resolve<GestureService>();
             gestureService.AddDragHandler(dragSystem);
+            gestureService.AddPinchHandler(pinchSystem);
         }
     }
 }

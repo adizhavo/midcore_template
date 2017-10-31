@@ -107,6 +107,7 @@ namespace Services.Core.Gesture
                     new Transition(GestureState.TOUCH_DOWN,     GestureEvent.DRAG,      GestureState.TOUCH_DRAG,    HandleDragStart),
                     new Transition(GestureState.TOUCH_HOLD,     GestureEvent.HOLD,      GestureState.TOUCH_HOLD,    HandleTouchHold),
                     new Transition(GestureState.TOUCH_HOLD,     GestureEvent.DRAG,      GestureState.TOUCH_DRAG,    ()=>{HandleTouchHoldEnd();HandleDragStart();}),
+                    new Transition(GestureState.TOUCH_HOLD,     GestureEvent.PINCH,     GestureState.TOUCH_PINCH,   ()=>{HandleTouchHoldEnd();HandlePinchStart();}),
                     new Transition(GestureState.TOUCH_DRAG,     GestureEvent.DRAG,      GestureState.TOUCH_DRAG,    HandleDrag),
                     new Transition(GestureState.TOUCH_DOWN,     GestureEvent.DOUBLE,    GestureState.NO_TOUCH,      HandleDoubleTouch),
                     new Transition(GestureState.TOUCH_DOWN,     GestureEvent.UP,        GestureState.NO_TOUCH,      HandleTouchUp),
@@ -350,21 +351,33 @@ namespace Services.Core.Gesture
         private void HandlePinchStart()
         {
             foreach (var ph in pinchHandlers)
+                #if UNITY_EDITOR
+                if (ph.HandlePinchStart(Input.mousePosition, Input.mousePosition))
+                #else
                 if (ph.HandlePinchStart(Input.GetTouch(0).position, Input.GetTouch(1).position))
+                #endif
                     break;
         }
 
         private void HandlePinch()
         {
             foreach (var ph in pinchHandlers)
+                #if UNITY_EDITOR
+                if (ph.HandlePinch(Input.mousePosition, Input.mousePosition))
+                #else
                 if (ph.HandlePinch(Input.GetTouch(0).position, Input.GetTouch(1).position))
+                #endif
                     break;
         }
 
         private void HandlePinchEnd()
         {
             foreach (var ph in pinchHandlers)
+                #if UNITY_EDITOR
+                if (ph.HandlePinchEnd(Input.mousePosition, Input.mousePosition))
+                #else
                 if (ph.HandlePinchEnd(Input.GetTouch(0).position, Input.GetTouch(1).position))
+                #endif
                     break;
             ResetTouchStats();
         }

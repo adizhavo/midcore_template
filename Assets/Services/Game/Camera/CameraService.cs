@@ -22,6 +22,11 @@ namespace Services.Game.SceneCamera
             get { return camera.transform.position; }
         }
 
+        public float zoom
+        {
+            get { return camera.orthographicSize; }
+        }
+
         private LTDescr zoomAnim;
         private LTDescr posAnim;
 
