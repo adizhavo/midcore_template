@@ -1,0 +1,8 @@
+#!/bin/bash
+
+/Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
+-configPath=./config.json \
+-sheetTab=ASSET_MANIFEST \
+-keyRange=B1:C \
+-valueRange=B2:C \
+-outputFileName=asset_manifest.json \

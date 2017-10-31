@@ -4,9 +4,9 @@ using UnityEngine;
 using Services.Core;
 using Services.Core.Data;
 
-namespace Template.Sample
+namespace MergeWar
 {
-    public class SampleDataProvider : IInitializeSystem
+    public class DataProviderSystem : IInitializeSystem
     {
         [Inject] DatabaseService database;
 
@@ -14,7 +14,7 @@ namespace Template.Sample
 
         public void Initialize()
         {
-            var objectDataRoot = Utils.ReadJsonFromResources<ObjectDataRoot>(database.Get<string>("game_objects"));
+            var objectDataRoot = Utils.ReadJsonFromResources<GridObjectDataRoot>(database.Get<string>("game_objects"));
             var tileDataRoot = Utils.ReadJsonFromResources<ObjectDataRoot>(database.Get<string>("tile_objects"));
 
             foreach(var objectData in objectDataRoot.root)

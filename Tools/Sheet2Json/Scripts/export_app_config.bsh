@@ -1,0 +1,9 @@
+#!/bin/bash
+
+/Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
+-configPath=./config.json \
+-sheetTab=APP_CONFIG \
+-keyRange=A2:B \
+-valueRange=A2:B \
+-outputFileName=app_config.json \
+-isSingleObject \

@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 224538278951902456}
   - component: {fileID: 222746675677697022}
   - component: {fileID: 114436595605704140}
-  - component: {fileID: 114700869024421854}
+  - component: {fileID: 114758240016131444}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dcbbec227fc3442689e632c104787a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114700869024421854
+--- !u!114 &114758240016131444
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -142,9 +142,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1188188037290166}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dcbbec227fc3442689e632c104787a5, type: 3}
+  m_Script: {fileID: 11500000, guid: beb324065b8b34867bc04848b1df22b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: sample_view_id
 --- !u!222 &222274915266898230
 CanvasRenderer:
   m_ObjectHideFlags: 1

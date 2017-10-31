@@ -16,15 +16,22 @@ namespace Services.Game.Components
     public class Footprint
     {
         // 2x2 sample footprint data
-        // int[,] -> {
-        //             {0, 0},
-        //             {0, 1},
-        //             {1, 0},
-        //             {1, 1},
-        //           }
+        // [
+        // [1, 1],
+        // [1, 1]
+        // ]
 
         // default footprint data for 1x1
-        // int[,] -> { {0, 0} }
-        public int[,] data = new int[,] { {0, 0} };
+        public List<List<int>> data = new List<List<int>>()
+        {
+            new List<int>() { 1 }
+        };
+
+        public Footprint() { }
+
+        public Footprint(List<List<int>> data)
+        {
+            this.data = data;
+        }
     }
 }

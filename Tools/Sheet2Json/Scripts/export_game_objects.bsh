@@ -1,0 +1,9 @@
+#!/bin/bash
+
+/Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
+-configPath=./config.json \
+-sheetTab=GAME_OBJECTS \
+-keyRange=A1:D \
+-valueRange=A2:D \
+-outputFileName=game_objects.json \
+-isLiteral=footprintData \

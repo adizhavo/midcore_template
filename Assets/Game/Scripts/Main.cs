@@ -11,14 +11,15 @@ using Services.Game;
 using Services.Game.Tiled;
 using Services.Game.Grid;
 using Services.Game.HUD;
+using Services.Game.Factory;
 
-namespace Template.Sample
+namespace MergeWar
 {
-    public class SampleMain : MonoBehaviour
+    public class Main : MonoBehaviour
     {
         private Systems gameSystems;
         private DiContainer container;
-        private SampleCamp camp;
+        private CampSystem camp;
 
         private void Awake()
         {
@@ -26,7 +27,7 @@ namespace Template.Sample
             container = new DiContainer();
             CoreServicesInstaller.Install(container);
             GameServiceInstaller.Install(container);
-            SampleInstaller.Install(container);
+            GameInstaller.Install(container);
 
             // add core services
             gameSystems = new Systems()
@@ -36,16 +37,25 @@ namespace Template.Sample
                 .Add(container.Resolve<AssetManifestReader>())
                 .Add(container.Resolve<GUIService>())
                 .Add(container.Resolve<HUD_Service>())
-                .Add(container.Resolve<SampleDataProvider>());
+                .Add(container.Resolve<FactoryGUI>())
+                .Add(container.Resolve<DataProviderSystem>());
 
             gameSystems.Initialize();
 
-            container.Resolve<SampleCamp>().LoadCamp();
+            container.Resolve<CampSystem>().LoadCamp();
+
+            container.Resolve<GestureService>().AddDragHandler(new DragSystem());
         }
 
         private void Update()
         {
             gameSystems.Execute();
+
+            if ((int)Time.timeSinceLevelLoad % 2 == 0)
+            {
+                var fromEntity = Contexts.sharedInstance.game.GetEntities(GameMatcher.Grid)[0];
+                container.Resolve<FactoryGUI>().AnimateFloatingUIWorldPos("sample_floating_UI", fromEntity, "sample_panel_id", "sample_view_id");
+            }
         }
     }
 }

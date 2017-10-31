@@ -1,0 +1,7 @@
+{
+  "applicationName" : "GoogleSheet2Json",
+	"userName" : "Adi Zhavo",
+	"spreadSheetId" : "1PnKZzMfM762HAWQBUMWxO0TNIEG3RZEGI_0rKm47x0U",
+	"clientSecret" : "client_secret.json",
+	"outputDirectory" : "../../Assets/Game/Resources/Data/"
+}

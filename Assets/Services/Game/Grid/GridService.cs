@@ -166,16 +166,24 @@ namespace Services.Game.Grid
         {
             var entities = new List<GameEntity>();
 
-            for (int i = 0; i < footprint.data.GetLength(0); i++)
+            for (int i = 0; i < footprint.data.Count; i++)
             {
-                var f_row = footprint.data[i, 0] + pivot.row;
-                var f_column = footprint.data[i, 1] + pivot.column;
-                var f_cell = GetCell(f_row, f_column);
+                var foot_column = footprint.data[i];
 
-                if (f_cell != null
-                    && IsOccupied(f_cell) 
-                    && !entities.Contains((GameEntity)f_cell.cell.occupant))
-                    entities.Add((GameEntity)f_cell.cell.occupant);
+                for (int j = 0; j < foot_column.Count; j++)
+                {
+                    if (foot_column[j] == 1)
+                    {
+                        var f_row = j + pivot.row;
+                        var f_column = i + pivot.column;
+                        var f_cell = GetCell(f_row, f_column);
+
+                        if (f_cell != null
+                            && IsOccupied(f_cell) 
+                            && !entities.Contains((GameEntity)f_cell.cell.occupant))
+                            entities.Add((GameEntity)f_cell.cell.occupant);
+                    }
+                }
             }
 
             return entities;
@@ -183,13 +191,21 @@ namespace Services.Game.Grid
 
         public bool IsThereAnyNullCell(GameEntity pivot, Footprint footprint)
         {
-            for (int i = 0; i < footprint.data.GetLength(0); i++)
+            for (int i = 0; i < footprint.data.Count; i++)
             {
-                var f_row = footprint.data[i, 0] + pivot.row;
-                var f_column = footprint.data[i, 1] + pivot.column;
-                var f_cell = GetCell(f_row, f_column);
+                var foot_column = footprint.data[i];
 
-                if (f_cell == null) return true;
+                for (int j = 0; j < foot_column.Count; j++)
+                {
+                    if (foot_column[j] == 1)
+                    {
+                        var f_row = j + pivot.row;
+                        var f_column = i + pivot.column;
+                        var f_cell = GetCell(f_row, f_column);
+
+                        if (f_cell == null) return true;
+                    }
+                }
             }
             return false;
         }
@@ -281,12 +297,20 @@ namespace Services.Game.Grid
             {
                 if (entity.grid.pivot != null && entity.grid.cells.Count > 0)
                 {
-                    for (int i = 0; i < entity.grid.footprint.data.GetLength(0); i++)
+                    for (int i = 0; i < entity.grid.footprint.data.Count; i++)
                     {
-                        var f_row = entity.grid.footprint.data[i, 0] + entity.grid.pivot.row;
-                        var f_column = entity.grid.footprint.data[i, 1] + entity.grid.pivot.column;
+                        var foot_column = entity.grid.footprint.data[i];
 
-                        GetCell(f_row, f_column).cell.occupant = null;
+                        for (int j = 0; j < foot_column.Count; j++)
+                        {
+                            if (foot_column[j] == 1)
+                            {
+                                var f_row = j + entity.grid.pivot.row;
+                                var f_column = i + entity.grid.pivot.column;
+
+                                GetCell(f_row, f_column).cell.occupant = null;
+                            }
+                        }
                     }
 
                     entity.grid.pivot = null;
@@ -306,13 +330,21 @@ namespace Services.Game.Grid
 
                 entity.grid.pivot = cell;
 
-                for (int i = 0; i < entity.grid.footprint.data.GetLength(0); i++)
+                for (int i = 0; i < entity.grid.footprint.data.Count; i++)
                 {
-                    var f_row = entity.grid.footprint.data[i, 0] + entity.grid.pivot.row;
-                    var f_column = entity.grid.footprint.data[i, 1] + entity.grid.pivot.column;
-                    var f_cell = GetCell(f_row, f_column);
-                    f_cell.cell.occupant = entity;
-                    entity.grid.cells.Add(f_cell);
+                    var foot_column = entity.grid.footprint.data[i];
+
+                    for (int j = 0; j < foot_column.Count; j++)
+                    {
+                        if (foot_column[j] == 1)
+                        {
+                            var f_row = j + entity.grid.pivot.row;
+                            var f_column = i + entity.grid.pivot.column;
+                            var f_cell = GetCell(f_row, f_column);
+                            f_cell.cell.occupant = entity;
+                            entity.grid.cells.Add(f_cell);
+                        }
+                    }
                 }
             }
         }
