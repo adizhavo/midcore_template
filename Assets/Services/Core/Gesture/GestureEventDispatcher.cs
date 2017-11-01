@@ -22,11 +22,13 @@ namespace Services.Core.Gesture
 
         public delegate void DragEnd(Vector3 screenPos);
 
+        public delegate void DragCancel(Vector3 screenPos);
+
         public delegate void PinchStart(Vector3 firstScreenPos, Vector3 secondScreenPos);
 
         public delegate void Pinch(Vector3 firstScreenPos, Vector3 secondScreenPos);
 
-        public delegate void PinchEnd(Vector3 firstScreenPos, Vector3 secondScreenPos);
+        public delegate void PinchEnd();
 
         public delegate void HoldStart(Vector3 screenPos, float holdTime);
 
@@ -45,6 +47,8 @@ namespace Services.Core.Gesture
         public static event Drag OnDrag;
 
         public static event DragEnd OnDragEnd;
+
+        public static event DragCancel OnDragCancel;
 
         public static event PinchStart OnPinchStart;
 
@@ -106,6 +110,13 @@ namespace Services.Core.Gesture
             return false;
         }
 
+        public bool HandleDragCancel(Vector3 screenPos)
+        {
+            if (OnDragCancel != null)
+                OnDragCancel(screenPos);
+            return false;
+        }
+
         #endregion
 
         #region IPinchHandler implementation
@@ -124,10 +135,10 @@ namespace Services.Core.Gesture
             return false;
         }
 
-        public bool HandlePinchEnd(Vector3 firstScreenPos, Vector3 secondScreenPos)
+        public bool HandlePinchEnd()
         {
             if (OnPinchEnd != null)
-                OnPinchEnd(firstScreenPos, secondScreenPos);
+                OnPinchEnd(); 
             return false;
         }
 

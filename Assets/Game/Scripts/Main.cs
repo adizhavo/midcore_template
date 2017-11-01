@@ -34,11 +34,11 @@ namespace MergeWar
         private void Update()
         {
             gameSystems.Execute();
-//            if ((int)Time.timeSinceLevelLoad % 2 == 0)
-//            {
-//                var fromEntity = Contexts.sharedInstance.game.GetEntities(GameMatcher.Grid)[0];
-//                container.Resolve<FactoryGUI>().AnimateFloatingUIWorldPos("sample_floating_UI", fromEntity, "sample_panel_id", "sample_view_id");
-//            }
+            if ((int)Time.timeSinceLevelLoad % 2 == 0)
+            {
+                var fromEntity = Contexts.sharedInstance.game.GetEntities(GameMatcher.Grid)[0];
+                container.Resolve<FactoryGUI>().AnimateFloatingUIWorldPos("sample_floating_UI", fromEntity, "sample_panel_id", "sample_view_id");
+            }
         }
 
         private void InstallDIContainer()

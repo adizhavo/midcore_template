@@ -26,6 +26,7 @@ namespace MergeWar
         private Vector3 deltaPos;
         private float timer;
         private bool inertia = false;
+        private bool isDragging = false;
         private GameConfig gameConfig;
 
         #region IInitializeSystem implementation
@@ -39,32 +40,48 @@ namespace MergeWar
 
         public bool HandleDragStart(Vector3 screenPos)
         {
-            inertia = false;
-            currentPos = screenPos;
-            #if UNITY_EDITOR
-            startPos = currentPos;
-            #endif
+            if (!GestureService.IsOnUI())
+            {
+                inertia = false;
+                isDragging = true;
+                currentPos = screenPos;
+                #if UNITY_EDITOR
+                startPos = currentPos;
+                #endif
+            }
             return false;
         }
 
         public bool HandleDrag(Vector3 screenPos)
         {
-            deltaPos = cameraService.camera.ScreenToWorldPoint(currentPos) - cameraService.camera.ScreenToWorldPoint(screenPos);
-            cameraService.SetPosition(cameraService.position + deltaPos);
-            currentPos = screenPos;
+            if (isDragging)
+            {
+                deltaPos = cameraService.camera.ScreenToWorldPoint(currentPos) - cameraService.camera.ScreenToWorldPoint(screenPos);
+                cameraService.SetPosition(cameraService.position + deltaPos);
+                currentPos = screenPos;
 
-            #if UNITY_EDITOR
-            Debug.DrawLine(startPos, currentPos);
-            #endif
-
+                #if UNITY_EDITOR
+                Debug.DrawLine(startPos, currentPos);
+                #endif
+            }
             return false;
         }
 
         public bool HandleDragEnd(Vector3 screenPos)
         {
-            deltaPos = cameraService.camera.ScreenToWorldPoint(currentPos) - cameraService.camera.ScreenToWorldPoint(screenPos);
-            inertia = true;
-            timer = 0f;
+            if (isDragging)
+            {
+                inertia = true;
+                timer = 0f;
+                isDragging = false;
+            }
+            return false;
+        }
+
+        public bool HandleDragCancel(Vector3 screenPos)
+        {
+            inertia = false;
+            isDragging = false;
             return false;
         }
 
