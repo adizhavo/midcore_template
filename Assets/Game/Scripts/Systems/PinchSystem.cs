@@ -49,7 +49,7 @@ namespace MergeWar.Game.Systems
             this.firstScreenPos = firstScreenPos;
             this.secondScreenPos = secondScreenPos;
             #endif
-            zoom = Mathf.Clamp(zoom, gameConfig.cameraZoomRange.min, gameConfig.cameraZoomRange.max);
+            zoom = Mathf.Clamp(zoom, gameConfig.cameraStretchedRange.min, gameConfig.cameraStretchedRange.max);
             cameraService.SetZoom(zoom);
             var cursorPos = cameraService.camera.ScreenToWorldPoint((firstScreenPos + secondScreenPos) / 2);
             var deltaPos = startPos - cursorPos;
@@ -59,6 +59,15 @@ namespace MergeWar.Game.Systems
 
         public bool HandlePinchEnd()
         {
+            if (cameraService.zoom < gameConfig.cameraZoomRange.min)
+            {
+                cameraService.LerpZoom(gameConfig.cameraZoomRange.min, 0.5f);
+            }
+            else if (cameraService.zoom > gameConfig.cameraZoomRange.max)
+            {
+                cameraService.LerpZoom(gameConfig.cameraZoomRange.max, 0.5f);
+            }
+
             return false;
         }
 

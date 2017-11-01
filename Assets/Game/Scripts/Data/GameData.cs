@@ -54,6 +54,7 @@ namespace MergeWar.Data
         public Rect cameraBoundaries;
         public float cameraZoomSpeed;
         public FloatRange cameraZoomRange;
+        public FloatRange cameraStretchedRange;
         public float cameraInertiaDuration;
     }
 }
