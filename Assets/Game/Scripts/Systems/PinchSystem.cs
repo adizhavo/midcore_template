@@ -49,7 +49,7 @@ namespace MergeWar.Game.Systems
             this.firstScreenPos = firstScreenPos;
             this.secondScreenPos = secondScreenPos;
             #endif
-            zoom = Mathf.Clamp(zoom, gameConfig.cameraStretchedRange.min, gameConfig.cameraStretchedRange.max);
+            zoom = Mathf.Clamp(zoom, gameConfig.cameraStretchedZoomRange.min, gameConfig.cameraStretchedZoomRange.max);
             cameraService.SetZoom(zoom);
             var cursorPos = cameraService.camera.ScreenToWorldPoint((firstScreenPos + secondScreenPos) / 2);
             var deltaPos = startPos - cursorPos;

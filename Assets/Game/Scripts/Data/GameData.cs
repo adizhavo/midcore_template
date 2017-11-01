@@ -51,10 +51,11 @@ namespace MergeWar.Data
     public class GameConfig
     {
         public string id;
-        public Rect cameraBoundaries;
-        public float cameraZoomSpeed;
-        public FloatRange cameraZoomRange;
-        public FloatRange cameraStretchedRange;
         public float cameraInertiaDuration;
+        public float cameraZoomSpeed;
+        public float cameraInitZoom;
+        public FloatRange cameraZoomRange;
+        public FloatRange cameraStretchedZoomRange;
+        public Rect cameraBoundaries;
     }
 }
