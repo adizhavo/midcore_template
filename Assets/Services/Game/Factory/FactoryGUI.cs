@@ -2,6 +2,7 @@
 using Entitas;
 using UnityEngine;
 using Services.Game.GUI;
+using Services.Game.SceneCamera;
 using Services.Core.Data;
 using Services.Core.GUI;
 
@@ -17,6 +18,7 @@ namespace Services.Game.Factory
     {
         [Inject] DatabaseService database;
         [Inject] GUIService guiService;
+        [Inject] CameraService cameraService;
 
         private GameObject floatingUIParent;
 
@@ -60,7 +62,7 @@ namespace Services.Game.Factory
         public FloatingUI AnimateFloatingUIWorldPos(string id, Vector3 fromWorldPos, string panelId, string viewId, float duration = 0.5f)
         {
             var floatingUI = CreateFloatingUI(id);
-            var screenPos = Camera.main.WorldToScreenPoint(fromWorldPos);
+            var screenPos = cameraService.camera.WorldToScreenPoint(fromWorldPos);
             floatingUI.Move(screenPos, guiService, panelId, viewId, duration);
             return floatingUI;
         }
@@ -68,7 +70,7 @@ namespace Services.Game.Factory
         public FloatingUI AnimateFloatingUIWorldPos(string id, Vector3 fromWorldPos, RectTransform to, float duration = 0.5f)
         {
             var floatingUI = CreateFloatingUI(id);
-            var screenPos = Camera.main.WorldToScreenPoint(fromWorldPos);
+            var screenPos = cameraService.camera.WorldToScreenPoint(fromWorldPos);
             floatingUI.Move(screenPos, to, duration);
             return floatingUI;
         }
@@ -76,7 +78,7 @@ namespace Services.Game.Factory
         public FloatingUI AnimateFloatingUIWorldPos(string id, GameEntity fromEntity, string panelId, string viewId, float duration = 0.5f)
         {
             var floatingUI = CreateFloatingUI(id);
-            var screenPos = Camera.main.WorldToScreenPoint(fromEntity.position);
+            var screenPos = cameraService.camera.WorldToScreenPoint(fromEntity.position);
             floatingUI.Move(screenPos, guiService, panelId, viewId, duration);
             return floatingUI;
         }
@@ -84,7 +86,7 @@ namespace Services.Game.Factory
         public FloatingUI AnimateFloatingUIWorldPos(string id, GameEntity fromEntity, RectTransform to, float duration = 0.5f)
         {
             var floatingUI = CreateFloatingUI(id);
-            var screenPos = Camera.main.WorldToScreenPoint(fromEntity.position);
+            var screenPos = cameraService.camera.WorldToScreenPoint(fromEntity.position);
             floatingUI.Move(screenPos, to, duration);
             return floatingUI;
         }

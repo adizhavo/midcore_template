@@ -66,7 +66,7 @@ namespace Services.Core.Gesture
             {
                 UpdateTouchStats();
 
-                if (enableTapDown && HasTouchedDown() && !IsOnUIObject())
+                if (enableTapDown && HasTouchedDown())
                 {
                     Handle(GestureEvent.DOWN);
                 }
@@ -107,12 +107,15 @@ namespace Services.Core.Gesture
                     new Transition(GestureState.TOUCH_DOWN,     GestureEvent.DRAG,      GestureState.TOUCH_DRAG,    HandleDragStart),
                     new Transition(GestureState.TOUCH_HOLD,     GestureEvent.HOLD,      GestureState.TOUCH_HOLD,    HandleTouchHold),
                     new Transition(GestureState.TOUCH_HOLD,     GestureEvent.DRAG,      GestureState.TOUCH_DRAG,    ()=>{HandleTouchHoldEnd();HandleDragStart();}),
+                    new Transition(GestureState.TOUCH_HOLD,     GestureEvent.PINCH,     GestureState.TOUCH_PINCH,   ()=>{HandleTouchHoldEnd();HandlePinchStart();}),
                     new Transition(GestureState.TOUCH_DRAG,     GestureEvent.DRAG,      GestureState.TOUCH_DRAG,    HandleDrag),
                     new Transition(GestureState.TOUCH_DOWN,     GestureEvent.DOUBLE,    GestureState.NO_TOUCH,      HandleDoubleTouch),
                     new Transition(GestureState.TOUCH_DOWN,     GestureEvent.UP,        GestureState.NO_TOUCH,      HandleTouchUp),
                     new Transition(GestureState.TOUCH_HOLD,     GestureEvent.UP,        GestureState.NO_TOUCH,      HandleTouchHoldEnd),
                     new Transition(GestureState.TOUCH_PINCH,    GestureEvent.UP,        GestureState.NO_TOUCH,      HandlePinchEnd),
                     new Transition(GestureState.TOUCH_DRAG,     GestureEvent.UP,        GestureState.NO_TOUCH,      HandleDragEnd),
+                    new Transition(GestureState.TOUCH_PINCH,    GestureEvent.DRAG,      GestureState.TOUCH_DRAG,    ()=>{HandlePinchEnd();HandleDragStart();}),
+                    new Transition(GestureState.TOUCH_DRAG,     GestureEvent.PINCH,     GestureState.TOUCH_PINCH,   ()=>{HandleDragCancel();HandlePinchStart();})
                 };
         }
 
@@ -169,9 +172,15 @@ namespace Services.Core.Gesture
             #endif
         }
 
-        public static bool IsOnUIObject()
+        public static bool IsOnUI()
         {
-            return EventSystem.current.IsPointerOverGameObject();
+            PointerEventData pointer = new PointerEventData(EventSystem.current);
+            pointer.position = Input.mousePosition;
+
+            List<RaycastResult> raycastResults = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointer, raycastResults);
+
+            return raycastResults.Count > 0;
         }
 
         public static bool DetectAnyTouch()
@@ -339,6 +348,14 @@ namespace Services.Core.Gesture
             ResetTouchStats();
         }
 
+        private void HandleDragCancel()
+        {
+            foreach (var dh in dragHandlers)
+                if (dh.HandleDragCancel(GetTouchPos()))
+                    break;
+            ResetTouchStats();
+        }
+
         private void HandleDoubleTouch()
         {
             foreach (var th in touchHandlers)
@@ -350,21 +367,33 @@ namespace Services.Core.Gesture
         private void HandlePinchStart()
         {
             foreach (var ph in pinchHandlers)
+                #if UNITY_EDITOR
+                if (ph.HandlePinchStart(Input.mousePosition, Input.mousePosition))
+                #else
                 if (ph.HandlePinchStart(Input.GetTouch(0).position, Input.GetTouch(1).position))
+                #endif
                     break;
         }
 
         private void HandlePinch()
         {
             foreach (var ph in pinchHandlers)
+                #if UNITY_EDITOR
+                if (ph.HandlePinch(Input.mousePosition, Input.mousePosition))
+                #else
                 if (ph.HandlePinch(Input.GetTouch(0).position, Input.GetTouch(1).position))
+                #endif
                     break;
         }
 
         private void HandlePinchEnd()
         {
             foreach (var ph in pinchHandlers)
-                if (ph.HandlePinchEnd(Input.GetTouch(0).position, Input.GetTouch(1).position))
+                #if UNITY_EDITOR
+                if (ph.HandlePinchEnd())
+                #else
+                if (ph.HandlePinchEnd())
+                #endif
                     break;
             ResetTouchStats();
         }

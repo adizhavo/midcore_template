@@ -20,13 +20,14 @@ namespace Services.Core.Gesture
         bool HandleDragStart        (Vector3 screenPos);
         bool HandleDrag             (Vector3 screenPos);
         bool HandleDragEnd          (Vector3 screenPos);
+        bool HandleDragCancel       (Vector3 screenPos);
     }
 
     public interface IPinchHandler
     {
         bool HandlePinchStart       (Vector3 firstScreenPos, Vector3 secondScreenPos);
         bool HandlePinch            (Vector3 firstScreenPos, Vector3 secondScreenPos);
-        bool HandlePinchEnd         (Vector3 firstScreenPos, Vector3 secondScreenPos);
+        bool HandlePinchEnd         ();
     }
 
     public interface ITouchHoldHandler

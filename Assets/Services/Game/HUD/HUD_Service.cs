@@ -2,11 +2,12 @@
 using Entitas;
 using UnityEngine;
 using Services.Core.Data;
+using Services.Core.GUI;
+using Services.Game.SceneCamera;
 using Services.Game.Factory;
+using System;
 using System.Linq;
 using System.Collections.Generic;
-using Services.Core.GUI;
-using System;
 
 namespace Services.Game.HUD
 {
@@ -19,6 +20,7 @@ namespace Services.Game.HUD
     {
         [Inject] DatabaseService database;
         [Inject] GUIService guiService;
+        [Inject] CameraService cameraService;
 
         private GameObject HUDParent;
 
@@ -51,7 +53,7 @@ namespace Services.Game.HUD
                 }
                 else
                 {
-                    var hudPosition = Camera.main.WorldToScreenPoint(activeHUD.Key.HUDPivot);
+                    var hudPosition = cameraService.camera.WorldToScreenPoint(activeHUD.Key.HUDPivot);
                     activeHUD.Value.transform.position = hudPosition;
                 }
             }
