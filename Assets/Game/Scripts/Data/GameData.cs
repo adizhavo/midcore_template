@@ -2,7 +2,7 @@
 using Services.Game.Data;
 using System.Collections.Generic;
 
-namespace MergeWar
+namespace MergeWar.Data
 {
     /// <summary>
     /// Will contain all game specifi data structure

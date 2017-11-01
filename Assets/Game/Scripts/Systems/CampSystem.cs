@@ -6,7 +6,7 @@ using Services.Game.Grid;
 using Services.Game.Factory;
 using Services.Game.HUD;
 
-namespace MergeWar
+namespace MergeWar.Game.Systems
 {
     public class CampSystem 
     {

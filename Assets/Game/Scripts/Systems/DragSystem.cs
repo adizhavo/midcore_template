@@ -4,8 +4,9 @@ using UnityEngine;
 using Services.Core.Gesture;
 using Services.Game.SceneCamera;
 using Services.Core.Data;
+using MergeWar.Data;
 
-namespace MergeWar
+namespace MergeWar.Game.Systems
 {
     /// <summary>
     /// Handle camera movement and drag/drop of objects
