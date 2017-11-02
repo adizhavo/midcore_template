@@ -3,8 +3,9 @@ using Entitas;
 using UnityEngine;
 using Services.Core;
 using Services.Core.Data;
+using MergeWar.Data;
 
-namespace MergeWar
+namespace MergeWar.Game.Systems
 {
     /// <summary>
     /// Add here all game specific data

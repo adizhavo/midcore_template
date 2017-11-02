@@ -2,7 +2,7 @@
 using Services.Game.Data;
 using System.Collections.Generic;
 
-namespace MergeWar
+namespace MergeWar.Data
 {
     /// <summary>
     /// Will contain all game specifi data structure
@@ -51,9 +51,11 @@ namespace MergeWar
     public class GameConfig
     {
         public string id;
-        public Rect cameraBoundaries;
-        public float cameraZoomSpeed;
-        public FloatRange cameraZoomRange;
         public float cameraInertiaDuration;
+        public float cameraZoomSpeed;
+        public float cameraInitZoom;
+        public FloatRange cameraZoomRange;
+        public FloatRange cameraStretchedZoomRange;
+        public Rect cameraBoundaries;
     }
 }

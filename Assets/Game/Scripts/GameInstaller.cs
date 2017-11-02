@@ -1,7 +1,8 @@
 ﻿using Zenject;
 using Services.Core;
+using MergeWar.Game.Systems;
 
-namespace MergeWar
+namespace MergeWar.Game
 {
     public class GameInstaller : Installer<GameInstaller>
     {

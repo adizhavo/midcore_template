@@ -5,8 +5,9 @@ using Services.Game.Tiled;
 using Services.Game.Grid;
 using Services.Game.Factory;
 using Services.Game.HUD;
+using Services.Game.SceneCamera;
 
-namespace MergeWar
+namespace MergeWar.Game.Systems
 {
     public class CampSystem 
     {
@@ -15,6 +16,8 @@ namespace MergeWar
         [Inject] GridService gridService;
         [Inject] FactoryEntity factoryEntity;
         [Inject] HUD_Service hudService;
+        [Inject] CameraService cameraService;
+        [Inject] DataProviderSystem dataProvider;
 
         public void LoadCamp()
         {
@@ -34,6 +37,9 @@ namespace MergeWar
 
                 hudService.AssignHUD("sample_hud", gridEntity);
             }
+
+            // setup camera
+            cameraService.SetZoom(dataProvider.GetGameConfig().cameraInitZoom);
         }
     }
 }

@@ -41,6 +41,12 @@ namespace Services.Game.SceneCamera
 
         public void SetZoom(float zoom)
         {
+            if (zoomAnim != null)
+            {
+                LeanTween.cancel(zoomAnim.uniqueId);
+                zoomAnim = null;
+            }
+
             camera.orthographicSize = zoom;
         }
 
@@ -53,7 +59,7 @@ namespace Services.Game.SceneCamera
 
             zoomAnim = LeanTween.value(camera.orthographicSize, zoom, duration).setOnUpdate(
                 (value) => camera.orthographicSize = value
-            );
+            ).setEaseOutExpo();
         }
 
         public void SetPosition(Vector3 position)
@@ -74,7 +80,7 @@ namespace Services.Game.SceneCamera
                 LeanTween.cancel(posAnim.uniqueId);
             }
 
-            posAnim = LeanTween.move(camera.gameObject, position, duration);
+            posAnim = LeanTween.move(camera.gameObject, position, duration).setEaseOutExpo();
         }
     }
 }
