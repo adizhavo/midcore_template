@@ -16,6 +16,8 @@
 
     public const string EVENT_ENTITY_CANCEL_DRAG = "cancel_drag";
 
+    public const string EVENT_GAME_GRID_ENTITY_CREATION = "create_game_grid_entity";
+
     // sorting layers
     public const string SORTING_LAYER_DEFAULT = "Default";
 
