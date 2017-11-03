@@ -139,7 +139,7 @@ namespace MergeWar.Game.Systems
         private void StartDragEntity()
         {
             // start and drag the touched entity
-            if (touched != null)
+            if (touched != null && touched.isDraggable)
             {
                 dragged = touched;
                 touched = null;
@@ -158,7 +158,7 @@ namespace MergeWar.Game.Systems
                 EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_END_DRAG, dragged);
                 Utils.SetSortingLayer(dragged, Constants.SORTING_LAYER_DEFAULT);
                 var pos = Utils.GetPlaneTouchPos(screenPos, cameraService.camera);
-                var closestCell = gridService.GetClosestCell(pos, true);
+                var closestCell = gridService.GetClosestCell(pos, false);
                 gridService.SetEntityOn(dragged, closestCell);
                 dragged.TweenToCell();
                 dragged = null;
