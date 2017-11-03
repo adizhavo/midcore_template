@@ -26,7 +26,7 @@ namespace MergeWar
 
         private void Awake()
         {
-            #if UNITY_EDITOR
+            #if ADHOC
             SRDebug.Init();
             #endif
 
