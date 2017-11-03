@@ -52,7 +52,8 @@ namespace Services.Game.Factory
             var prefabPath = database.Get<string>(objectData.prefab);
             entity.AddGameObject(objectData.objectId, objectData.typeId, Utils.GenerateUniqueId());
             entity.AddResource(prefabPath);
-            entity.AddGrid(null, new List<GameEntity>(), new Footprint(objectData.footprintData));
+            var defaultFootprint = new List<List<int>>() { new List<int>() { 1 } };
+            entity.AddGrid(null, new List<GameEntity>(), new Footprint(objectData.footprintData == null ? defaultFootprint : objectData.footprintData));
             var view = FactoryPool.GetPooled(prefabPath);
             entity.AddView(view);
             #if UNITY_EDITOR

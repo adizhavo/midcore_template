@@ -12,9 +12,6 @@ namespace Services.Game.Data
         // ]
 
         // default footprint data for 1x1
-        public List<List<int>> footprintData = new List<List<int>>()
-        {
-            new List<int>() { 1 }
-        };
+        public List<List<int>> footprintData;
     }
 }
