@@ -1,1 +1,1 @@
-{"root":[{"objectId":"sample_object","typeId":"","prefab":"sample_object_prefab","footprintData":[ [ 1 ] ],"canDrag":"true"}]}
+{"root":[{"objectId":"sample_object","prefab":"sample_object_prefab","canDrag":"true"}]}
