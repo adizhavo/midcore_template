@@ -43,9 +43,14 @@ namespace MergeWar.Data
         public List<ObjectData> root;   
     }
 
-    public class GridObjectDataRoot
+    public class GameGridObjecDataRoot
     {
-        public List<GridObjectData> root;
+        public List<GameGridObjecData> root;
+    }
+
+    public class GameGridObjecData : GridObjectData
+    {
+        public bool canDrag;
     }
 
     public class GameConfig
