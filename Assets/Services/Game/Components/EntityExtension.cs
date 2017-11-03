@@ -149,10 +149,11 @@ public sealed partial class GameEntity
 
     public void PositionOnCell(bool tween = false)
     {
+        CancelTween();
         position = grid.pivot.position;
     }
 
-    public void TweenToCell(float duration = 0.3f, LeanTweenType tweenType = LeanTweenType.linear)
+    public void TweenToCell(float duration = 0.3f, LeanTweenType tweenType = LeanTweenType.easeOutBack)
     {
         TweenToPosition(grid.pivot.position, duration, tweenType);
     }
