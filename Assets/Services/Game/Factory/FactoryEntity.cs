@@ -62,7 +62,7 @@ namespace Services.Game.Factory
             return entity;
         }
 
-        private void CleanupEntity(IContext context, IEntity entity)
+        public void CleanupEntity(IContext context, IEntity entity)
         {
             var gameEntity = (GameEntity)entity;
 

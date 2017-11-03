@@ -19,7 +19,6 @@
     // Misc
     public const string JSON_FILE_EXTENSION = ".json";
 
-
     // events
     public const string EVENT_GRID_ENTITY_CREATION = "create_grid_entity";
 
