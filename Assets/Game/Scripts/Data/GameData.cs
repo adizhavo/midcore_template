@@ -8,14 +8,6 @@ namespace MergeWar.Data
     /// Will contain all game specifi data structure
     /// </summary>
 
-    public class Rect
-    {
-        public float x;
-        public float y;
-        public float width;
-        public float height;
-    }
-
     public class FloatRange
     {
         public float min;
@@ -61,6 +53,5 @@ namespace MergeWar.Data
         public float cameraInitZoom;
         public FloatRange cameraZoomRange;
         public FloatRange cameraStretchedZoomRange;
-        public Rect cameraBoundaries;
     }
 }
