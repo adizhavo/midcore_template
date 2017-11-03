@@ -3,7 +3,7 @@
 /Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
 -configPath=./config.json \
 -sheetTab=GAME_OBJECTS \
--keyRange=A1:D \
--valueRange=A2:D \
+-keyRange=A1:E \
+-valueRange=A2:E \
 -outputFileName=game_objects.json \
 -isLiteral=footprintData \

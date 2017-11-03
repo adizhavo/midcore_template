@@ -31,7 +31,7 @@ namespace MergeWar.Game.Systems
 
             foreach(var gridObject in gridObjects)
             {
-                var gridEntity = factoryEntity.CreateGridObject(gridObject.Value);
+                var gridEntity = factoryEntity.CreateGameGridObject(gridObject.Value);
                 gridService.SetEntityOn(gridEntity, gridObject.Key.x, gridObject.Key.y);
                 gridEntity.PositionOnCell();
 

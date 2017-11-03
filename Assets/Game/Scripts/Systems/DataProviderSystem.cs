@@ -19,7 +19,7 @@ namespace MergeWar.Game.Systems
 
         public void Initialize()
         {
-            foreach(var objectData in LoadFile<GridObjectDataRoot>(Constants.OBJECT_DATA_DATA_ID).root)
+            foreach(var objectData in LoadFile<GameGridObjecDataRoot>(Constants.OBJECT_DATA_DATA_ID).root)
                 database.AddReadonly(objectData.objectId, objectData, false);
 
             foreach(var objectData in LoadFile<ObjectDataRoot>(Constants.TILE_DATA_DATA_ID).root)
