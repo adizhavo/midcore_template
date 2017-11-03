@@ -159,8 +159,13 @@ public sealed partial class GameEntity
 
     public void TweenToPosition(Vector3 position, float duration = 0.3f, LeanTweenType tweenType = LeanTweenType.linear)
     {
-        LeanTween.cancel(viewObject);
+        CancelTween();
         LeanTween.move(viewObject, position, duration).setEase(tweenType);
+    }
+
+    public void CancelTween()
+    {
+        LeanTween.cancel(viewObject);
     }
 
     public Vector3 HUDPivot

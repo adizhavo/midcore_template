@@ -147,6 +147,7 @@ namespace MergeWar.Game.Systems
                 EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_START_DRAG, dragged);
                 draggedInitCell = dragged.grid.pivot;
                 gridService.DeAttach(dragged);
+                dragged.CancelTween();
             }
         }
 
