@@ -125,18 +125,11 @@ namespace Services.Game.Grid
                 if ((!empty || (empty && !IsOccupied(cell)))
                     && !ignore.Contains(cell.cell.occupant))
                 {
-                    if (selected == null)
+                    float sqrDistance = (worldPos - cell.position).sqrMagnitude;
+                    if (sqrDistance < minSqrDistance)
                     {
                         selected = cell;
-                    }
-                    else
-                    {
-                        float sqrDistance = (worldPos - cell.position).sqrMagnitude;
-                        if (sqrDistance < minSqrDistance)
-                        {
-                            selected = cell;
-                            minSqrDistance = sqrDistance;
-                        }
+                        minSqrDistance = sqrDistance;
                     }
                 }
             }
@@ -163,18 +156,11 @@ namespace Services.Game.Grid
                     && (!empty || (empty && !IsOccupied(cell)))
                     && !ignore.Contains(cell.cell.occupant))
                 {
-                    if (selected == null)
+                    float sqrDistance = Mathf.Pow(from.row - cell.row, 2) + Mathf.Pow(from.column - cell.column, 2);
+                    if (sqrDistance < minSqrDistance)
                     {
                         selected = cell;
-                    }
-                    else
-                    {
-                        float sqrDistance = Mathf.Pow(selected.row - cell.row, 2) + Mathf.Pow(selected.column - cell.column, 2);
-                        if (sqrDistance < minSqrDistance)
-                        {
-                            selected = cell;
-                            minSqrDistance = sqrDistance;
-                        }
+                        minSqrDistance = sqrDistance;
                     }
                 }
             }
@@ -259,21 +245,13 @@ namespace Services.Game.Grid
 
             foreach (var cell in grid.cells)
             {
-                if (cell != from
-                    && DoesFit(entity, cell))
+                if (cell != from && DoesFit(entity, cell))
                 {
-                    if (selected == null)
+                    float sqrDistance = Mathf.Pow(from.row - cell.row, 2) + Mathf.Pow(from.column - cell.column, 2);
+                    if (sqrDistance < minSqrDistance)
                     {
                         selected = cell;
-                    }
-                    else
-                    {
-                        float sqrDistance = Mathf.Pow(selected.row - cell.row, 2) + Mathf.Pow(selected.column - cell.column, 2);
-                        if (sqrDistance < minSqrDistance)
-                        {
-                            selected = cell;
-                            minSqrDistance = sqrDistance;
-                        }
+                        minSqrDistance = sqrDistance;
                     }
                 }
             }
@@ -318,6 +296,7 @@ namespace Services.Game.Grid
                     {
                         Attach(occupant, fit);
                         Attach(entity, pivot);
+                        occupant.TweenToCell();
                     }
                 }
             }
