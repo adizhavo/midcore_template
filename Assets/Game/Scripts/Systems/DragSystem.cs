@@ -144,10 +144,10 @@ namespace MergeWar.Game.Systems
                 dragged = touched;
                 touched = null;
                 Utils.SetSortingLayer(dragged, Constants.SORTING_LAYER_DRAG);
-                EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_START_DRAG, dragged);
                 draggedInitCell = dragged.grid.pivot;
                 gridService.DeAttach(dragged);
                 dragged.CancelTween();
+                EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_START_DRAG, dragged);
             }
         }
 
@@ -160,7 +160,6 @@ namespace MergeWar.Game.Systems
                 var pos = Utils.GetPlaneTouchPos(screenPos, cameraService.camera);
                 var closestCell = gridService.GetClosestCell(pos, false);
                 gridService.SetEntityOn(dragged, closestCell);
-                dragged.TweenToCell();
                 dragged = null;
             }
         }
@@ -172,7 +171,6 @@ namespace MergeWar.Game.Systems
                 EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_CANCEL_DRAG, dragged);
                 Utils.SetSortingLayer(dragged, Constants.SORTING_LAYER_DEFAULT);
                 gridService.SetEntityOn(dragged, draggedInitCell);
-                dragged.TweenToCell();
                 dragged = null;
             } 
         }

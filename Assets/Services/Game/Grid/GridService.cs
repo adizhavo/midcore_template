@@ -268,6 +268,7 @@ namespace Services.Game.Grid
             if (DoesFit(entity, pivot))
             {
                 Attach(entity, pivot);
+                entity.TweenToCell();
             }
             else
             {
@@ -282,6 +283,7 @@ namespace Services.Game.Grid
                     else
                     {
                         Attach(entity, fit);
+                        entity.TweenToCell();
                     }
                 }
                 else if (occupants.Count == 1)
@@ -297,6 +299,7 @@ namespace Services.Game.Grid
                         Attach(occupant, fit);
                         Attach(entity, pivot);
                         occupant.TweenToCell();
+                        entity.TweenToCell();
                     }
                 }
             }
@@ -340,6 +343,7 @@ namespace Services.Game.Grid
                 DeAttach(entity);
 
                 entity.grid.pivot = cell;
+                entity.grid.cells.Add(cell);
 
                 for (int i = 0; i < entity.grid.footprint.data.Count; i++)
                 {
