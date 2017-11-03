@@ -8,14 +8,6 @@ namespace MergeWar.Data
     /// Will contain all game specifi data structure
     /// </summary>
 
-    public class Rect
-    {
-        public float x;
-        public float y;
-        public float width;
-        public float height;
-    }
-
     public class FloatRange
     {
         public float min;
@@ -43,9 +35,14 @@ namespace MergeWar.Data
         public List<ObjectData> root;   
     }
 
-    public class GridObjectDataRoot
+    public class GameGridObjecDataRoot
     {
-        public List<GridObjectData> root;
+        public List<GameGridObjecData> root;
+    }
+
+    public class GameGridObjecData : GridObjectData
+    {
+        public bool canDrag;
     }
 
     public class GameConfig
@@ -56,6 +53,5 @@ namespace MergeWar.Data
         public float cameraInitZoom;
         public FloatRange cameraZoomRange;
         public FloatRange cameraStretchedZoomRange;
-        public Rect cameraBoundaries;
     }
 }

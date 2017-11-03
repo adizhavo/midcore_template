@@ -77,7 +77,7 @@ namespace Services.Game.Grid
             return grid.cells.Find(c => c.cell.row == row && c.cell.column == column);
         }
 
-        public List<GameEntity> GetCells(Entity occupant)
+        public List<GameEntity> GetCells(GameEntity occupant)
         {
             return grid.cells.FindAll(c => c.cell.occupant == occupant);
         }
@@ -112,15 +112,40 @@ namespace Services.Game.Grid
             return grid.cells.FindAll(c => !string.IsNullOrEmpty(typeId) && !string.IsNullOrEmpty(objectId) && c.typeId.Equals(typeId) && c.objectId.Equals(objectId)); 
         }
 
-        public GameEntity GetClosestCell(int row, int column, bool empty = false, List<Entity> ignore = null)
-        {
-            return GetClosestCell(GetCell(row, column), empty, ignore != null ? ignore : new List<Entity>());
-        }
-
-        public GameEntity GetClosestCell(GameEntity from, bool empty = false, List<Entity> ignore = null)
+        public GameEntity GetClosestCell(Vector3 worldPos, bool empty = false,  List<GameEntity> ignore = null)
         {
             if (ignore == null)
-                ignore = new List<Entity>();
+                ignore = new List<GameEntity>();
+
+            GameEntity selected = null;
+            float minSqrDistance = float.MaxValue;
+
+            foreach (var cell in grid.cells)
+            {
+                if ((!empty || (empty && !IsOccupied(cell)))
+                    && !ignore.Contains(cell.cell.occupant))
+                {
+                    float sqrDistance = (worldPos - cell.position).sqrMagnitude;
+                    if (sqrDistance < minSqrDistance)
+                    {
+                        selected = cell;
+                        minSqrDistance = sqrDistance;
+                    }
+                }
+            }
+            return selected;
+        }
+
+
+        public GameEntity GetClosestCell(int row, int column, bool empty = false, List<GameEntity> ignore = null)
+        {
+            return GetClosestCell(GetCell(row, column), empty, ignore != null ? ignore : new List<GameEntity>());
+        }
+
+        public GameEntity GetClosestCell(GameEntity from, bool empty = false, List<GameEntity> ignore = null)
+        {
+            if (ignore == null)
+                ignore = new List<GameEntity>();
 
             GameEntity selected = null;
             float minSqrDistance = float.MaxValue;
@@ -131,18 +156,11 @@ namespace Services.Game.Grid
                     && (!empty || (empty && !IsOccupied(cell)))
                     && !ignore.Contains(cell.cell.occupant))
                 {
-                    if (selected == null)
+                    float sqrDistance = Mathf.Pow(from.row - cell.row, 2) + Mathf.Pow(from.column - cell.column, 2);
+                    if (sqrDistance < minSqrDistance)
                     {
                         selected = cell;
-                    }
-                    else
-                    {
-                        float sqrDistance = Mathf.Pow(selected.row - cell.row, 2) + Mathf.Pow(selected.column - cell.column, 2);
-                        if (sqrDistance < minSqrDistance)
-                        {
-                            selected = cell;
-                            minSqrDistance = sqrDistance;
-                        }
+                        minSqrDistance = sqrDistance;
                     }
                 }
             }
@@ -227,21 +245,13 @@ namespace Services.Game.Grid
 
             foreach (var cell in grid.cells)
             {
-                if (cell != from
-                    && DoesFit(entity, cell))
+                if (cell != from && DoesFit(entity, cell))
                 {
-                    if (selected == null)
+                    float sqrDistance = Mathf.Pow(from.row - cell.row, 2) + Mathf.Pow(from.column - cell.column, 2);
+                    if (sqrDistance < minSqrDistance)
                     {
                         selected = cell;
-                    }
-                    else
-                    {
-                        float sqrDistance = Mathf.Pow(selected.row - cell.row, 2) + Mathf.Pow(selected.column - cell.column, 2);
-                        if (sqrDistance < minSqrDistance)
-                        {
-                            selected = cell;
-                            minSqrDistance = sqrDistance;
-                        }
+                        minSqrDistance = sqrDistance;
                     }
                 }
             }
@@ -258,6 +268,7 @@ namespace Services.Game.Grid
             if (DoesFit(entity, pivot))
             {
                 Attach(entity, pivot);
+                entity.TweenToCell();
             }
             else
             {
@@ -272,6 +283,7 @@ namespace Services.Game.Grid
                     else
                     {
                         Attach(entity, fit);
+                        entity.TweenToCell();
                     }
                 }
                 else if (occupants.Count == 1)
@@ -286,6 +298,8 @@ namespace Services.Game.Grid
                     {
                         Attach(occupant, fit);
                         Attach(entity, pivot);
+                        occupant.TweenToCell();
+                        entity.TweenToCell();
                     }
                 }
             }
@@ -329,6 +343,7 @@ namespace Services.Game.Grid
                 DeAttach(entity);
 
                 entity.grid.pivot = cell;
+                entity.grid.cells.Add(cell);
 
                 for (int i = 0; i < entity.grid.footprint.data.Count; i++)
                 {

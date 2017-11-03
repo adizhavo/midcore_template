@@ -8,15 +8,17 @@
 //------------------------------------------------------------------------------
 public static class GameComponentsLookup {
 
-    public const int Cell = 0;
-    public const int GameObject = 1;
-    public const int Grid = 2;
-    public const int Resource = 3;
-    public const int View = 4;
+    public const int Draggable = 0;
+    public const int Cell = 1;
+    public const int GameObject = 2;
+    public const int Grid = 3;
+    public const int Resource = 4;
+    public const int View = 5;
 
-    public const int TotalComponents = 5;
+    public const int TotalComponents = 6;
 
     public static readonly string[] componentNames = {
+        "Draggable",
         "Cell",
         "GameObject",
         "Grid",
@@ -25,6 +27,7 @@ public static class GameComponentsLookup {
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(MergeWar.Game.Components.DraggableComponent),
         typeof(Services.Game.Components.CellComponent),
         typeof(Services.Game.Components.GameObjectComponent),
         typeof(Services.Game.Components.GridComponent),

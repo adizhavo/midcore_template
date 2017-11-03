@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BelowDragAboveGrid
+    uniqueID: 766940573
+    locked: 0
+  - name: Drag
+    uniqueID: 3936960359
+    locked: 0
+  - name: AboveDrag
+    uniqueID: 1698728645
+    locked: 0
+  - name: InGameUI
+    uniqueID: 3479511791
+    locked: 0

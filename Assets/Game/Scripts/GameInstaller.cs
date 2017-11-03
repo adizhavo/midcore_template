@@ -11,6 +11,7 @@ namespace MergeWar.Game
         public override void InstallBindings()
         {
             Container.Bind<DataProviderSystem>().AsSingle().NonLazy();
+            Container.Bind<SceneSystem>().AsSingle().NonLazy();
             Container.Bind<DragSystem>().AsSingle().NonLazy();
             Container.Bind<PinchSystem>().AsSingle().NonLazy();
             Container.Bind<CampSystem>().AsSingle().NonLazy();

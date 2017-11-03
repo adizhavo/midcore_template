@@ -1,10 +1,13 @@
 ﻿using Zenject;
 using Entitas;
 using UnityEngine;
-using Services.Core.Gesture;
-using Services.Game.SceneCamera;
 using Services.Core.Data;
+using Services.Core.Event;
+using Services.Core.Gesture;
+using Services.Game.Grid;
+using Services.Game.SceneCamera;
 using MergeWar.Data;
+using MergeWar.Game.Utilities;
 
 namespace MergeWar.Game.Systems
 {
@@ -12,12 +15,21 @@ namespace MergeWar.Game.Systems
     /// Handle camera movement and drag/drop of objects
     /// </summary>
 
-    public class DragSystem : IInitializeSystem, IExecuteSystem, IDragHandler
+    public class DragSystem : IInitializeSystem, IExecuteSystem, IDragHandler, ITouchHandler
     {
+        [Inject] SceneSystem sceneSystem;
         [Inject] CameraService cameraService;
         [Inject] DataProviderSystem dataProvider;
+        [Inject] GridService gridService;
 
-        #region IDragHandler implementation
+        #region IInitializeSystem implementation
+
+        public void Initialize()
+        {
+            gameConfig = dataProvider.GetGameConfig();
+        }
+
+        #endregion
 
         #if UNITY_EDITOR
         private Vector3 startPos;
@@ -29,15 +41,25 @@ namespace MergeWar.Game.Systems
         private bool inertia = false;
         private bool isDragging = false;
         private GameConfig gameConfig;
+        private GameEntity touched;
+        private GameEntity dragged;
+        private GameEntity draggedInitCell;
 
-        #region IInitializeSystem implementation
+        #region ITouchHandler implementation
 
-        public void Initialize()
+        public bool HandleTouchDown(Vector3 screenPos)
         {
-            gameConfig = dataProvider.GetGameConfig();
+            touched = Utils.GetInputTarget(screenPos, sceneSystem, cameraService.camera);
+            return false;
         }
 
+        public bool HandleTouchUp(Vector3 screenPos) { return false; }
+
+        public bool HandleDoubleTouch(Vector3 screenPos) { return false; }
+
         #endregion
+
+        #region IDragHandler implementation
 
         public bool HandleDragStart(Vector3 screenPos)
         {
@@ -46,6 +68,8 @@ namespace MergeWar.Game.Systems
                 inertia = false;
                 isDragging = true;
                 currentPos = screenPos;
+                StartDragEntity();
+
                 #if UNITY_EDITOR
                 startPos = currentPos;
                 #endif
@@ -57,9 +81,17 @@ namespace MergeWar.Game.Systems
         {
             if (isDragging)
             {
-                deltaPos = cameraService.camera.ScreenToWorldPoint(currentPos) - cameraService.camera.ScreenToWorldPoint(screenPos);
-                cameraService.SetPosition(cameraService.position + deltaPos);
-                currentPos = screenPos;
+                if (dragged == null)
+                {
+                    deltaPos = cameraService.camera.ScreenToWorldPoint(currentPos) - cameraService.camera.ScreenToWorldPoint(screenPos);
+                    cameraService.SetPosition(cameraService.position + deltaPos);
+                    currentPos = screenPos;
+                }
+                else
+                {
+                    var pos = Utils.GetPlaneTouchPos(screenPos, cameraService.camera);
+                    dragged.position = pos;
+                }
 
                 #if UNITY_EDITOR
                 Debug.DrawLine(startPos, currentPos);
@@ -75,6 +107,7 @@ namespace MergeWar.Game.Systems
                 inertia = true;
                 timer = 0f;
                 isDragging = false;
+                PositionDraggedObject(screenPos);
             }
             return false;
         }
@@ -83,6 +116,7 @@ namespace MergeWar.Game.Systems
         {
             inertia = false;
             isDragging = false;
+            CancelDraggedObject();
             return false;
         }
 
@@ -101,5 +135,44 @@ namespace MergeWar.Game.Systems
         }
 
         #endregion
+
+        private void StartDragEntity()
+        {
+            // start and drag the touched entity
+            if (touched != null && touched.isDraggable)
+            {
+                dragged = touched;
+                touched = null;
+                Utils.SetSortingLayer(dragged, Constants.SORTING_LAYER_DRAG);
+                draggedInitCell = dragged.grid.pivot;
+                gridService.DeAttach(dragged);
+                dragged.CancelTween();
+                EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_START_DRAG, dragged);
+            }
+        }
+
+        private void PositionDraggedObject(Vector3 screenPos)
+        {
+            if (dragged != null)
+            {
+                EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_END_DRAG, dragged);
+                Utils.SetSortingLayer(dragged, Constants.SORTING_LAYER_DEFAULT);
+                var pos = Utils.GetPlaneTouchPos(screenPos, cameraService.camera);
+                var closestCell = gridService.GetClosestCell(pos, false);
+                gridService.SetEntityOn(dragged, closestCell);
+                dragged = null;
+            }
+        }
+
+        private void CancelDraggedObject()
+        {
+            if (dragged != null)
+            {
+                EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_CANCEL_DRAG, dragged);
+                Utils.SetSortingLayer(dragged, Constants.SORTING_LAYER_DEFAULT);
+                gridService.SetEntityOn(dragged, draggedInitCell);
+                dragged = null;
+            } 
+        }
     }
 }

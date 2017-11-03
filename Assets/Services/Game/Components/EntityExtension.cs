@@ -147,9 +147,26 @@ public sealed partial class GameEntity
         set { cell.column = value; }
     }
 
-    public void PositionOnCell()
+    public void PositionOnCell(bool tween = false)
     {
+        CancelTween();
         position = grid.pivot.position;
+    }
+
+    public void TweenToCell(float duration = 0.3f, LeanTweenType tweenType = LeanTweenType.easeOutBack)
+    {
+        TweenToPosition(grid.pivot.position, duration, tweenType);
+    }
+
+    public void TweenToPosition(Vector3 position, float duration = 0.3f, LeanTweenType tweenType = LeanTweenType.linear)
+    {
+        CancelTween();
+        LeanTween.move(viewObject, position, duration).setEase(tweenType);
+    }
+
+    public void CancelTween()
+    {
+        LeanTween.cancel(viewObject);
     }
 
     public Vector3 HUDPivot

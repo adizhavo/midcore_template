@@ -81,6 +81,7 @@ namespace MergeWar
             var gestureService = container.Resolve<GestureService>();
             gestureService.AddDragHandler(dragSystem);
             gestureService.AddPinchHandler(pinchSystem);
+            gestureService.AddTouchHandler(dragSystem);
         }
     }
 }
