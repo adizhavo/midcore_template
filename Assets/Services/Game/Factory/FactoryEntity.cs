@@ -41,7 +41,7 @@ namespace Services.Game.Factory
             #if UNITY_EDITOR
             entity.viewObject.name = string.Format("cell_{0}_{1}_{2}_{3}_{4}", entity.objectId, entity.typeId, entity.row, entity.column, entity.uniqueId);
             #endif
-            EventDispatcherService<GameEntity>.Dispatch(Constants.CELL_ENTITY_CREATION_EVENT_ID, entity);
+            EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_CELL_ENTITY_CREATION, entity);
             return entity;
         }
 
@@ -58,7 +58,7 @@ namespace Services.Game.Factory
             #if UNITY_EDITOR
             entity.viewObject.name = string.Format("ent_{0}_{1}_{2}", entity.objectId, entity.typeId, entity.uniqueId);
             #endif
-            EventDispatcherService<GameEntity>.Dispatch(Constants.GRID_ENTITY_CREATION_EVENT_ID, entity);
+            EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_GRID_ENTITY_CREATION, entity);
             return entity;
         }
 
@@ -68,7 +68,7 @@ namespace Services.Game.Factory
 
             if (gameEntity != null)
             {
-                EventDispatcherService<GameEntity>.Dispatch(Constants.ENTITY_DESTRUCTION_EVENT_ID, gameEntity);
+                EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_DESTRUCTION, gameEntity);
                 // cleanup process for different components
 
                 if (gameEntity.hasView) // return view to the pool
