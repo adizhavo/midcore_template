@@ -26,6 +26,10 @@ namespace MergeWar
 
         private void Awake()
         {
+            #if UNITY_EDITOR
+            SRDebug.Init();
+            #endif
+
             InstallDIContainer();
             InitialiseGesture();
             InitializeGameSystem();
