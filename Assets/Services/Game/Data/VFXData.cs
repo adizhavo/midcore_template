@@ -2,6 +2,7 @@
 
 namespace Services.Game.Data
 {
+    [System.Serializable]
     public class VFXData
     {
         public string id;
