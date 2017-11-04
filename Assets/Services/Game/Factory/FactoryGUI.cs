@@ -1,7 +1,7 @@
 ﻿using Zenject;
 using Entitas;
 using UnityEngine;
-using Services.Game.GUI;
+using Services.Game.Misc;
 using Services.Game.SceneCamera;
 using Services.Core.Data;
 using Services.Core.GUI;
