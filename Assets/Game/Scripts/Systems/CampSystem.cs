@@ -36,6 +36,9 @@ namespace MergeWar.Game.Systems
                 gridEntity.PositionOnCell();
 
                 hudService.AssignHUD("sample_hud", gridEntity);
+
+                var vfx = factoryEntity.CreateVFX("sample_fx");
+                vfx.position = gridEntity.position;
             }
 
             // setup camera
