@@ -13,6 +13,7 @@ using Services.Game.Grid;
 using Services.Game.HUD;
 using Services.Game.Factory;
 using Services.Game.SceneCamera;
+using Services.Game.Misc;
 using MergeWar.Game;
 using MergeWar.Game.Systems;
 
@@ -69,6 +70,7 @@ namespace MergeWar
                 .Add(container.Resolve<HUD_Service>())
                 .Add(container.Resolve<FactoryGUI>())
                 .Add(container.Resolve<DataProviderSystem>())
+                .Add(new AutoDestroySystem())
 
                 // Gameplay
                 .Add(container.Resolve<DragSystem>())
