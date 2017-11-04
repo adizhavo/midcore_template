@@ -5,5 +5,5 @@
 -sheetTab=CONFIGs \
 -keyRange=A2:B \
 -valueRange=A2:B \
--outputFileName=app_config.json \
+-outputFileName=app_config_data.json \
 -isSingleObject \

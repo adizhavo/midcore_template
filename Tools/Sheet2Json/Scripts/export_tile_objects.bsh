@@ -5,4 +5,4 @@
 -sheetTab=TILE_OBJECTS \
 -keyRange=A1:C \
 -valueRange=A2:C \
--outputFileName=tile_objects.json \
+-outputFileName=tile_objects_data.json \

@@ -5,5 +5,5 @@
 -sheetTab=GAME_OBJECTS \
 -keyRange=A1:E \
 -valueRange=A2:E \
--outputFileName=game_objects.json \
+-outputFileName=game_objects_data.json \
 -isLiteral=footprintData \

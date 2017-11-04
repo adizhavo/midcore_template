@@ -22,7 +22,7 @@ namespace MergeWar.Game.Systems
         public void LoadCamp()
         {
             // Load grid
-            var sampleMap = database.Get<string>("player_map");
+            var sampleMap = database.Get<string>("player_map_data");
             var grid = mapReader.TILED_ReadGrid(sampleMap, new GridSettings());
             gridService.Load(grid);
 
