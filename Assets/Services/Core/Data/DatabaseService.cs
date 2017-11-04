@@ -41,7 +41,7 @@ namespace Services.Core.Data
             {
                 var readData = Utils.ReadBinary<Hashtable>(databasePath);
                 foreach(DictionaryEntry data in readData)
-                    if (!HasKey(data.Key))
+                    if (!HasKey(data.Key as string))
                         database.Add(data.Key as string, data.Value as DBData);
             }
         }
