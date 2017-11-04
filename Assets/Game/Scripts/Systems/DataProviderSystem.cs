@@ -25,6 +25,9 @@ namespace MergeWar.Game.Systems
             foreach(var objectData in LoadFile<ObjectDataRoot>(Constants.TILE_DATA_DATA_ID).root)
                 database.AddReadonly(objectData.objectId, objectData, false);
 
+            foreach(var vfx in LoadFile<VFXDataRoot>(Constants.VFX_DATA_ID).root)
+                database.AddReadonly(vfx.id, vfx, false);
+
             var gameConfig = LoadFile<GameConfig>(Constants.GAME_CONFIG_DATA_ID);
             database.AddReadonly(gameConfig.id, gameConfig, false);
         }

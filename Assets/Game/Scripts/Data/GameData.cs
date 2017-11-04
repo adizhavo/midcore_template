@@ -30,6 +30,11 @@ namespace MergeWar.Data
         }
     }
 
+    public class VFXDataRoot
+    {
+        public List<VFXData> root;
+    }
+
     public class ObjectDataRoot
     {
         public List<ObjectData> root;   

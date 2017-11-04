@@ -1,0 +1,8 @@
+#!/bin/bash
+
+/Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
+-configPath=./config.json \
+-sheetTab=VFX \
+-keyRange=A1:D \
+-valueRange=A2:D \
+-outputFileName=vfx_data.json \
