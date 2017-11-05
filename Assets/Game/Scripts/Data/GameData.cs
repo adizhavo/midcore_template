@@ -8,6 +8,7 @@ namespace MergeWar.Data
     /// Will contain all game specifi data structure
     /// </summary>
 
+    [System.Serializable]
     public class FloatRange
     {
         public float min;
@@ -19,6 +20,7 @@ namespace MergeWar.Data
         }
     }
 
+    [System.Serializable]
     public class IntRange
     {
         public int min;
@@ -28,6 +30,11 @@ namespace MergeWar.Data
         {
             return Random.Range(min, max);
         }
+    }
+
+    public class VFXDataRoot
+    {
+        public List<VFXData> root;
     }
 
     public class ObjectDataRoot
@@ -40,11 +47,13 @@ namespace MergeWar.Data
         public List<GameGridObjecData> root;
     }
 
+    [System.Serializable]
     public class GameGridObjecData : GridObjectData
     {
         public bool canDrag;
     }
 
+    [System.Serializable]
     public class GameConfig
     {
         public string id;

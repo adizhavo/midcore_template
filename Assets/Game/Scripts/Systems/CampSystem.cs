@@ -22,7 +22,7 @@ namespace MergeWar.Game.Systems
         public void LoadCamp()
         {
             // Load grid
-            var sampleMap = database.Get<string>("player_map");
+            var sampleMap = database.Get<string>("player_map_data");
             var grid = mapReader.TILED_ReadGrid(sampleMap, new GridSettings());
             gridService.Load(grid);
 
@@ -36,6 +36,9 @@ namespace MergeWar.Game.Systems
                 gridEntity.PositionOnCell();
 
                 hudService.AssignHUD("sample_hud", gridEntity);
+
+                var vfx = factoryEntity.CreateVFX("sample_fx");
+                vfx.position = gridEntity.position;
             }
 
             // setup camera

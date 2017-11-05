@@ -1,9 +1,9 @@
 ﻿public partial class Constants
 {
     // DB keys
-    public const string APP_CONFIG_DB_KEY = "app_config";
+    public const string APP_CONFIG_DB_KEY = "app_config_data";
 
-    public const string GUI_DB_KEY = "gui_config";
+    public const string GUI_DB_KEY = "gui_config_data";
 
     public const string TILED_MAP_DIR_DB_KEY = "TILED_map_dir";
 
@@ -12,7 +12,7 @@
     public const string TILED_OBJECTS_LAYER = "Objects";
 
     // paths
-    public const string APP_CONFIG_PATH = "Data/app_config";
+    public const string APP_CONFIG_PATH = "Data/app_config_data";
 
     public const string VERSION_LOG_PATH = "version_log";
 

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using Services.Core;
 using Services.Core.GUI;
 
-namespace Services.Game.GUI
+namespace Services.Game.Misc
 {
     [RequireComponent(typeof(RectTransform))]
     public class FloatingUI : MonoBehaviour

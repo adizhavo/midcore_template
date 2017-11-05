@@ -13,6 +13,7 @@ using Services.Game.Grid;
 using Services.Game.HUD;
 using Services.Game.Factory;
 using Services.Game.SceneCamera;
+using Services.Game.Misc;
 using MergeWar.Game;
 using MergeWar.Game.Systems;
 
@@ -43,7 +44,7 @@ namespace MergeWar
             if ((int)Time.timeSinceLevelLoad % 2 == 0)
             {
                 var fromEntity = Contexts.sharedInstance.game.GetEntities(GameMatcher.Grid)[0];
-                container.Resolve<FactoryGUI>().AnimateFloatingUIWorldPos("sample_floating_UI", fromEntity, "sample_panel_id", "sample_view_id");
+                container.Resolve<FactoryGUI>().AnimateFloatingUIWorldPos("sample_floating_UI_prefab", fromEntity, "sample_panel_id", "sample_view_id");
             }
         }
 
@@ -69,6 +70,7 @@ namespace MergeWar
                 .Add(container.Resolve<HUD_Service>())
                 .Add(container.Resolve<FactoryGUI>())
                 .Add(container.Resolve<DataProviderSystem>())
+                .Add(new AutoDestroySystem())
 
                 // Gameplay
                 .Add(container.Resolve<DragSystem>())

@@ -19,14 +19,17 @@ namespace MergeWar.Game.Systems
 
         public void Initialize()
         {
-            foreach(var objectData in LoadFile<GameGridObjecDataRoot>(Constants.OBJECT_DATA_DATA_ID).root)
-                database.AddReadonly(objectData.objectId, objectData, false);
+            var gameConfig = LoadFile<GameConfig>(Constants.GAME_CONFIG_DATA_ID);
+            database.AddReadonly(gameConfig.id, gameConfig, false);
+
+            foreach(var vfx in LoadFile<VFXDataRoot>(Constants.VFX_DATA_ID).root)
+                database.AddReadonly(vfx.id, vfx, false);
 
             foreach(var objectData in LoadFile<ObjectDataRoot>(Constants.TILE_DATA_DATA_ID).root)
                 database.AddReadonly(objectData.objectId, objectData, false);
 
-            var gameConfig = LoadFile<GameConfig>(Constants.GAME_CONFIG_DATA_ID);
-            database.AddReadonly(gameConfig.id, gameConfig, false);
+            foreach(var objectData in LoadFile<GameGridObjecDataRoot>(Constants.OBJECT_DATA_DATA_ID).root)
+                database.AddReadonly(objectData.objectId, objectData, false);
         }
 
         #endregion

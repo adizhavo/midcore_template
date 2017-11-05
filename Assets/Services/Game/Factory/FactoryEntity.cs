@@ -63,6 +63,23 @@ namespace Services.Game.Factory
             return entity;
         }
 
+        public GameEntity CreateVFX(string vfxId)
+        {
+            var entity = Contexts.sharedInstance.game.CreateEntity();
+            var vfxData = database.Get<VFXData>(vfxId);
+            var prefabPath = database.Get<string>(vfxData.prefab);
+            entity.AddResource(prefabPath);
+            var view = FactoryPool.GetPooled(prefabPath);
+            entity.AddView(view);
+
+            if (vfxData.disableTime > 0f)
+            {
+                entity.AddAutoDestroy(vfxData.disableTime, vfxData.ignoreTimescale);
+            }
+
+            return entity;
+        }
+
         public void CleanupEntity(IContext context, IEntity entity)
         {
             var gameEntity = (GameEntity)entity;

@@ -2,7 +2,8 @@
 using UnityEngine;
 using System;
 using System.IO;
-using System.Collections.Generic;
+using System.Linq;
+using System.Collections;
 using Services.Core.DataVersion;
 
 namespace Services.Core.Data
@@ -13,7 +14,7 @@ namespace Services.Core.Data
 
     public class DatabaseService : IInitializeSystem
     {
-        private List<MetaData> metaData = new List<MetaData>();
+        private Hashtable database = new Hashtable();
         private string databasePath;
 
         #region IInitializeSystem implementation
@@ -38,91 +39,101 @@ namespace Services.Core.Data
             databasePath = Path.Combine(Application.persistentDataPath, Get<ApplicationConfig>(Constants.APP_CONFIG_DB_KEY).databaseId);
             if (File.Exists(databasePath))
             {
-                var readData = Utils.ReadBinary<List<MetaData>>(databasePath);
-                metaData.AddRange(readData);
+                var readData = Utils.ReadBinary<Hashtable>(databasePath);
+                foreach(DictionaryEntry data in readData)
+                    if (!HasKey(data.Key as string))
+                        database.Add(data.Key as string, data.Value as DBData);
             }
         }
 
         public void AddReadonly(string key, object value, bool persist, bool flush = false)
         {
-            var mdata = new MetaData();
-            mdata.key = key;
-            mdata.value = value;
-            mdata.persist = persist;
-            mdata.isReadonly = true;
-            metaData.Add(mdata);
-            if (flush)
-                Flush();
+            if (!HasKey(key))
+            {
+                var data = new DBData();
+                data.value = value;
+                data.persist = persist;
+                data.isReadonly = true;
+                database.Add(key, data);
+                if (flush) Flush();
+            }
+            else
+            {
+                LogWrapper.DebugWarning("[{0}] Key already in the database {1}", GetType(), key);
+            }
         }
 
         public void Set(string key, object value, bool persist, bool flush = false)
         {
-            var mdata = metaData.Find(md => string.Equals(md.key, key));
-
-            if (mdata == null)
+            if (!HasKey(key))
             {
-                mdata = new MetaData();
-                mdata.key = key;
-                mdata.value = value;
-                mdata.persist = persist;
-                metaData.Add(mdata);
-            }
-            else if (mdata.isReadonly)
-            {
-                LogWrapper.Warning("Cannot override read-only data: {0}", key);
+                var data = new DBData();
+                data.value = value;
+                data.persist = persist;
+                database.Add(key, data);
             }
             else
             {
-                mdata.value = value;
-                mdata.persist = persist;
+                var data = database[key] as DBData;
+
+                if (data.isReadonly)
+                {
+                    LogWrapper.Warning("[{0}] Cannot override read-only data: {1}", GetType(), key);
+                }
+                else
+                {
+                    data.value = value;
+                    data.persist = persist;
+                }
             }
 
-            if (flush)
-                Flush();
+            if (flush) Flush();
         }
 
         public void Clear(string key, bool flush = false)
         {
-            metaData.RemoveAll(md => string.Equals(key, md.key));
-
-            if (flush)
-                Flush();
+            database.Remove(key);
+            if (flush) Flush();
         }
 
         public void ClearAll(bool flush = false)
         {
-            metaData.Clear();
-
-            if (flush)
-                Flush();
+            database.Clear();
+            if (flush) Flush();
         }
 
         public T Get<T>(string key, T defaultValue = default(T))
         {
-            var mdata = metaData.Find(md => string.Equals(md.key, key));
-            return mdata != null ? (T)mdata.value : defaultValue; 
+            return HasKey(key) ? (T)(database[key] as DBData).value : defaultValue;
         }
 
-        public bool HasData(string key)
+        public bool HasKey(string key)
         {
-            return metaData.Exists(md => string.Equals(md.key, key));
+            return database.Contains(key);
         }
 
         public bool IsReadonly(string key)
         {
-            bool hasData = HasData(key);
-            return hasData ? metaData.Find(md => string.Equals(md.key, key)).isReadonly : false;
+            return HasKey(key) ? (database[key] as DBData).isReadonly : false;
         }
 
         public void Flush()
         { 
-            Utils.WriteBinary(metaData.FindAll(md => md.persist), databasePath);
+            var save = new Hashtable();
+            foreach(DictionaryEntry databaseEntry in database)
+            {
+                var data = (databaseEntry.Value as DBData);
+                if (data.persist)
+                    save.Add(databaseEntry.Key as string, data);
+            }
+            
+            Utils.WriteBinary(save, databasePath);
         }
 
         public void Backup()
         {
             var backupDatabasePath = databasePath += "_" + DataVersionService.APP_VERSION;
-            Utils.WriteBinary(metaData, backupDatabasePath);
+            Utils.WriteBinary(database, backupDatabasePath);
         }
 
         public void RestoreBackup(string version)
@@ -130,7 +141,7 @@ namespace Services.Core.Data
             var backupDatabasePath = databasePath += "_" + version;
             if (File.Exists(backupDatabasePath))
             {
-                metaData = Utils.ReadBinary<List<MetaData>>(backupDatabasePath);
+                database = Utils.ReadBinary<Hashtable>(backupDatabasePath);
             }
             else
             {
@@ -140,9 +151,8 @@ namespace Services.Core.Data
     }
 
     [System.Serializable]
-    public class MetaData
+    public class DBData
     {
-        public string key;
         public object value;
         public bool isReadonly;
         public bool persist;

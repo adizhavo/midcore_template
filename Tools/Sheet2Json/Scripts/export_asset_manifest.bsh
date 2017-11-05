@@ -5,4 +5,4 @@
 -sheetTab=ASSET_MANIFEST \
 -keyRange=B1:C \
 -valueRange=B2:C \
--outputFileName=asset_manifest.json \
+-outputFileName=asset_manifest_data.json \

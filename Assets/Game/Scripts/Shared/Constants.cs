@@ -1,13 +1,15 @@
 ﻿public partial class Constants
 {
     // data keys
-    public const string OBJECT_DATA_DATA_ID = "game_objects";
+    public const string OBJECT_DATA_DATA_ID = "game_objects_data";
 
-    public const string TILE_DATA_DATA_ID = "tile_objects";
+    public const string TILE_DATA_DATA_ID = "tile_objects_data";
 
-    public const string GAME_CONFIG_DATA_ID = "game_config";
+    public const string GAME_CONFIG_DATA_ID = "game_config_data";
 
     public const string DEFAULT_GAME_CONFIG_ID = "default_game_config";
+
+    public const string VFX_DATA_ID = "vfx_data";
 
     // events
     public const string EVENT_ENTITY_START_DRAG = "start_drag";

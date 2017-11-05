@@ -5,6 +5,6 @@
 -sheetTab=CONFIGs \
 -keyRange=D2:E \
 -valueRange=D2:E \
--outputFileName=game_config.json \
+-outputFileName=game_config_data.json \
 -isSingleObject \
 -isLiteral=cameraBoundaries
