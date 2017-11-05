@@ -7,7 +7,7 @@ namespace Services.Game.Data
     {
         public string id;
         public string prefab;
-        public float disableTime;
+        public float activeTime;
         public bool ignoreTimescale;
     }
 }
