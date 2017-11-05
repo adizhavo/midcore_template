@@ -19,7 +19,7 @@ namespace MergeWar.Game
         [Inject] DatabaseService database;
         [Inject] GridService gridService;
 
-        public Hashtable commands = new Hashtable();
+        private Hashtable commands = new Hashtable();
 
         public CommandSystem AddCommand(string key, BaseCommand command)
         {
