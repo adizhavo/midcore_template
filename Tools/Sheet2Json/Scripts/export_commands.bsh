@@ -2,8 +2,7 @@
 
 /Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
 -configPath=./config.json \
--sheetTab=GAME_OBJECTS \
--keyRange=A1:P \
--valueRange=A2:P \
--outputFileName=game_objects_data.json \
--isLiteral=footprintData \
+-sheetTab=COMMANDS \
+-keyRange=A1:G \
+-valueRange=A2:G \
+-outputFileName=command_data.json \
