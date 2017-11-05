@@ -62,8 +62,8 @@ namespace MergeWar.Data
     [System.Serializable]
     public class GameGridObjecData : GridObjectData
     {
+        public int level;
         public bool canDrag;
-
         public string onDragEndCommand;
         public string onTapCommand;
         public string onDiscoverCommand;
