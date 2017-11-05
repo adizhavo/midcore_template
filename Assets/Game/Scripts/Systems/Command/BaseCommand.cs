@@ -9,6 +9,10 @@ using Services.Game.Factory;
 
 namespace MergeWar.Game.Command
 {
+    /// <summary>
+    /// Extend this class for different commands
+    /// </summary>
+
     public abstract class BaseCommand 
     {
         [Inject] protected DatabaseService database;

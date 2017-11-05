@@ -4,6 +4,10 @@ using Services.Core;
 
 namespace MergeWar.Game.Command
 {
+    /// <summary>
+    /// Command for spawning object
+    /// </summary>
+
     public class SpawnCommand : BaseCommand
     {
         #region implemented abstract members of BaseCommand

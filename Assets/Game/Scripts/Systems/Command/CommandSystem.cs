@@ -9,6 +9,11 @@ using System.Collections;
 
 namespace MergeWar.Game
 {
+    /// <summary>
+    /// Will execute commands from the game
+    /// Commands must extend the BaseCommand class and be added in the GameInstaller
+    /// </summary>
+
     public class CommandSystem
     {
         [Inject] DatabaseService database;
