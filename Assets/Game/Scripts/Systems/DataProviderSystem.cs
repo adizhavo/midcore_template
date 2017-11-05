@@ -30,6 +30,9 @@ namespace MergeWar.Game.Systems
 
             foreach(var objectData in LoadFile<GameGridObjecDataRoot>(Constants.OBJECT_DATA_DATA_ID).root)
                 database.AddReadonly(objectData.objectId, objectData, false);
+
+            foreach(var commandData in LoadFile<CommandDataRoot>(Constants.COMMAND_DATA_ID).root)
+                database.AddReadonly(commandData.id, commandData, false);
         }
 
         #endregion
