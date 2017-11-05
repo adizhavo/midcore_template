@@ -11,6 +11,8 @@
 
     public const string VFX_DATA_ID = "vfx_data";
 
+    public const string COMMAND_DATA_ID = "command_data";
+
     // events
     public const string EVENT_ENTITY_START_DRAG = "start_drag";
 
@@ -33,6 +35,4 @@
 
     // commands
     public const string COMMAND_SPAWN_OBJ = "SPAWN_OBJ";
-
-    public const string COMMAND_SPAWN_VFX = "SPAWN_VFX";
 }

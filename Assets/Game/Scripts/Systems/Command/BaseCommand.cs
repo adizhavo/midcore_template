@@ -28,7 +28,8 @@ namespace MergeWar.Game.Command
         {
             if (commandData.destroyTrigger && trigger != null)
             {
-                // trigger on destroy command
+                var onDestroyCommand = database.Get<GameGridObjecData>(trigger.objectId).onDestroyCommand;
+                commandSystem.Execute(onDestroyCommand, cell.position, cell, trigger);
                 trigger.Destroy();
             }
         }
