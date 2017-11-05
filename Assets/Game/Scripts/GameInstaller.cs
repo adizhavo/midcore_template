@@ -16,6 +16,12 @@ namespace MergeWar.Game
             Container.Bind<PinchSystem>().AsSingle().NonLazy();
             Container.Bind<CampSystem>().AsSingle().NonLazy();
 
+            var commandSystem = new CommandSystem();
+            Container.BindInstance(commandSystem);
+            Container.QueueForInject(commandSystem);
+
+            // add commands here
+
             LogWrapper.DebugLog("[{0}] installation of sample bindings successfull", GetType());
         }
 

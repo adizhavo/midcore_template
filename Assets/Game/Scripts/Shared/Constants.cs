@@ -30,4 +30,9 @@
     public const string SORTING_LAYER_ABOVE_DRAG = "AboveDrag";
 
     public const string SORTING_LAYER_IN_GAME_UI = "InGameUI";
+
+    // commands
+    public const string COMMAND_SPAWN_OBJ = "SPAWN_OBJ";
+
+    public const string COMMAND_SPAWN_VFX = "SPAWN_VFX";
 }

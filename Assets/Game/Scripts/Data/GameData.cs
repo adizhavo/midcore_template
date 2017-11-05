@@ -63,4 +63,17 @@ namespace MergeWar.Data
         public FloatRange cameraZoomRange;
         public FloatRange cameraStretchedZoomRange;
     }
+
+    [System.Serializable]
+    public class CommandData
+    {
+        public string id;
+        public string type;
+        public bool destroyTrigger;
+        public string output;
+        public int count;
+        public string chainedCommand;
+        public string vfx;
+        public float delay;
+    }
 }
