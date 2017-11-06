@@ -72,9 +72,9 @@ namespace Services.Game.Factory
             var view = FactoryPool.GetPooled(prefabPath);
             entity.AddView(view);
 
-            if (vfxData.disableTime > 0f)
+            if (vfxData.activeTime > 0f)
             {
-                entity.AddAutoDestroy(vfxData.disableTime, vfxData.ignoreTimescale);
+                entity.AddAutoDestroy(vfxData.activeTime, vfxData.ignoreTimescale);
             }
 
             return entity;

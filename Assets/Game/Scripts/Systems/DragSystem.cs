@@ -21,6 +21,8 @@ namespace MergeWar.Game.Systems
         [Inject] CameraService cameraService;
         [Inject] DataProviderSystem dataProvider;
         [Inject] GridService gridService;
+        [Inject] CommandSystem commandSystem;
+        [Inject] DatabaseService database;
 
         #region IInitializeSystem implementation
 
@@ -107,7 +109,7 @@ namespace MergeWar.Game.Systems
                 inertia = true;
                 timer = 0f;
                 isDragging = false;
-                PositionDraggedObject(screenPos);
+                HandleDraggedObject(screenPos);
             }
             return false;
         }
@@ -151,7 +153,7 @@ namespace MergeWar.Game.Systems
             }
         }
 
-        private void PositionDraggedObject(Vector3 screenPos)
+        private void HandleDraggedObject(Vector3 screenPos)
         {
             if (dragged != null)
             {
@@ -160,6 +162,10 @@ namespace MergeWar.Game.Systems
                 var pos = Utils.GetPlaneTouchPos(screenPos, cameraService.camera);
                 var closestCell = gridService.GetClosestCell(pos, false);
                 gridService.SetEntityOn(dragged, closestCell);
+
+                var objectData = database.Get<GameGridObjecData>(dragged.objectId);
+                commandSystem.Execute(objectData.onDragEndCommand, closestCell, dragged);
+
                 dragged = null;
             }
         }

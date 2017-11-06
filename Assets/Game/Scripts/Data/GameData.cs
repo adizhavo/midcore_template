@@ -32,6 +32,13 @@ namespace MergeWar.Data
         }
     }
 
+    [System.Serializable]
+    public class KeyValuePair<T, U>
+    {
+        public T key;
+        public U value;
+    }
+
     public class VFXDataRoot
     {
         public List<VFXData> root;
@@ -47,10 +54,25 @@ namespace MergeWar.Data
         public List<GameGridObjecData> root;
     }
 
+    public class CommandDataRoot
+    {
+        public List<CommandData> root;
+    }
+
     [System.Serializable]
     public class GameGridObjecData : GridObjectData
     {
+        public int level;
         public bool canDrag;
+        public string onDragEndCommand;
+        public string onTapCommand;
+        public string onDiscoverCommand;
+        public string onSpawnCommand;
+        public string onDestroyCommand;
+        public string onTimeoutCommand;
+        public FloatRange timeout;
+        public string onOrderCompleteCommand;
+        public List<KeyValuePair<string, int>> orderList;
     }
 
     [System.Serializable]
@@ -62,5 +84,18 @@ namespace MergeWar.Data
         public float cameraInitZoom;
         public FloatRange cameraZoomRange;
         public FloatRange cameraStretchedZoomRange;
+    }
+
+    [System.Serializable]
+    public class CommandData
+    {
+        public string id;
+        public string type;
+        public bool destroyTrigger;
+        public string output;
+        public int count;
+        public string chainedCommand;
+        public string vfx;
+        public float delay;
     }
 }

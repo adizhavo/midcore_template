@@ -1,6 +1,7 @@
 ﻿using Zenject;
 using Services.Core;
 using MergeWar.Game.Systems;
+using MergeWar.Game.Command;
 
 namespace MergeWar.Game
 {
@@ -15,6 +16,15 @@ namespace MergeWar.Game
             Container.Bind<DragSystem>().AsSingle().NonLazy();
             Container.Bind<PinchSystem>().AsSingle().NonLazy();
             Container.Bind<CampSystem>().AsSingle().NonLazy();
+
+            var commandSystem = new CommandSystem();
+            Container.BindInstance(commandSystem);
+            Container.QueueForInject(commandSystem);
+
+            // add commands here
+            Container.Bind<SpawnCommand>().AsSingle().NonLazy();
+
+            commandSystem.AddCommand(Constants.COMMAND_SPAWN_OBJ, Container.Resolve<SpawnCommand>());
 
             LogWrapper.DebugLog("[{0}] installation of sample bindings successfull", GetType());
         }

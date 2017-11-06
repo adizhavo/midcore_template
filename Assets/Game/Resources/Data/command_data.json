@@ -1,0 +1,1 @@
+{"root":[{"id":"spawn_object_0_command","type":"SPAWN_OBJ","output":"sample_object_0","count":1,"chainedCommand":"sample_vfx_command"},{"id":"sample_vfx_command","type":"SPAWN_OBJ","vfx":"sample_fx"}]}

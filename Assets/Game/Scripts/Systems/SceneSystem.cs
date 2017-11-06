@@ -1,6 +1,10 @@
-﻿using Entitas;
+﻿using Zenject;
+using Entitas;
 using UnityEngine;
+using Services.Core.Data;
 using System.Linq;
+using System.Collections.Generic;
+using MergeWar.Data;
 
 namespace MergeWar.Game.Systems
 {
@@ -10,9 +14,40 @@ namespace MergeWar.Game.Systems
 
     public class SceneSystem
     {
+        [Inject] DatabaseService database;
+
         public GameEntity GetEntityWithView(GameObject viewObject)
         {
             return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().Find(ge => ge.viewObject == viewObject);
+        }
+
+        public GameEntity GetEntityWithObjectId(string objectId)
+        {
+            return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().Find(
+                ge => !string.IsNullOrEmpty(objectId) 
+                && string.Equals(objectId, ge.objectId));
+        }
+
+        public List<GameEntity> GetAllEntitiesWithType(string typeId)
+        {
+            return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().FindAll(
+                ge => !string.IsNullOrEmpty(typeId) 
+                && string.Equals(typeId, ge.typeId));
+        }
+
+        public GameEntity GetEntityWithTypeAndLevel(string typeId, int level)
+        {
+            return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().Find(
+                ge => !string.IsNullOrEmpty(typeId) 
+                && string.Equals(typeId, ge.typeId) 
+                && database.Get<GameGridObjecData>(ge.objectId).level == level);
+        }
+
+        public GameEntity GetEntityWithUniqueId(string uniqueId)
+        {
+            return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().Find(
+                ge => !string.IsNullOrEmpty(uniqueId) 
+                && string.Equals(uniqueId, ge.uniqueId));
         }
     }
 }

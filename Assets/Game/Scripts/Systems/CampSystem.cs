@@ -6,6 +6,7 @@ using Services.Game.Grid;
 using Services.Game.Factory;
 using Services.Game.HUD;
 using Services.Game.SceneCamera;
+using MergeWar.Data;
 
 namespace MergeWar.Game.Systems
 {
@@ -18,6 +19,7 @@ namespace MergeWar.Game.Systems
         [Inject] HUD_Service hudService;
         [Inject] CameraService cameraService;
         [Inject] DataProviderSystem dataProvider;
+        [Inject] CommandSystem commandSystem;
 
         public void LoadCamp()
         {
@@ -31,14 +33,13 @@ namespace MergeWar.Game.Systems
 
             foreach(var gridObject in gridObjects)
             {
-                var gridEntity = factoryEntity.CreateGameGridObject(gridObject.Value);
-                gridService.SetEntityOn(gridEntity, gridObject.Key.x, gridObject.Key.y);
-                gridEntity.PositionOnCell();
+                var command = new CommandData();
+                command.type = Constants.COMMAND_SPAWN_OBJ;
+                command.output = gridObject.Value;
+                command.count = 1;
 
-                hudService.AssignHUD("sample_hud", gridEntity);
-
-                var vfx = factoryEntity.CreateVFX("sample_fx");
-                vfx.position = gridEntity.position;
+                var cell = gridService.GetCell(gridObject.Key.x, gridObject.Key.y);
+                commandSystem.Execute(command, cell.position, cell);
             }
 
             // setup camera
