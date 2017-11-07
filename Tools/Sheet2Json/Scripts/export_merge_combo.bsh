@@ -1,0 +1,8 @@
+#!/bin/bash
+
+/Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
+-configPath=./config.json \
+-sheetTab=MERGE_COMBO \
+-keyRange=A1:D \
+-valueRange=A2:D \
+-outputFileName=merge_combo_data.json \
