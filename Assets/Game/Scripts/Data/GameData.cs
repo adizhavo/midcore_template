@@ -98,4 +98,19 @@ namespace MergeWar.Data
         public string vfx;
         public float delay;
     }
+
+    [System.Serializable]
+    public class MergeComboDataRoot
+    {
+        public List<MergeComboData> root;
+    }
+
+    [System.Serializable]
+    public class MergeComboData
+    {
+        public string input;
+        public string output;
+        public string vfx;
+        public string mergeCompleteCommand;
+    }
 }
