@@ -5,7 +5,7 @@ using MergeWar.Game.Command;
 
 namespace MergeWar.Game
 {
-    public class GameInstaller : Installer<GameInstaller>
+    public class GameSystemInstaller : Installer<GameSystemInstaller>
     {
         #region implemented abstract members of InstallerBase
 

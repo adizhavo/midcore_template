@@ -49,7 +49,7 @@ namespace MergeWar
             container = new DiContainer();
             CoreServicesInstaller.Install(container);
             GameServiceInstaller.Install(container);
-            GameInstaller.Install(container);
+            GameSystemInstaller.Install(container);
         }
 
         private void InitializeGameSystem()
