@@ -16,6 +16,7 @@ namespace MergeWar.Game
             Container.Bind<DragSystem>().AsSingle().NonLazy();
             Container.Bind<PinchSystem>().AsSingle().NonLazy();
             Container.Bind<CampSystem>().AsSingle().NonLazy();
+            Container.Bind<TimedCommandSystem>().AsSingle().NonLazy();
 
             var commandSystem = new CommandSystem();
             Container.BindInstance(commandSystem);

@@ -73,6 +73,7 @@ namespace MergeWar
                 .Add(new AutoDestroySystem())
 
                 // Gameplay
+                .Add(container.Resolve<TimedCommandSystem>())
                 .Add(container.Resolve<DragSystem>())
                 .Add(container.Resolve<PinchSystem>());
 
