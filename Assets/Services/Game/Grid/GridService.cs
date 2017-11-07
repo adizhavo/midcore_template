@@ -69,12 +69,27 @@ namespace Services.Game.Grid
 
         public bool IsOccupied(GameEntity cell)
         {
-            return cell.hasCell && cell.cell.occupant != null;
+            return cell != null && cell.hasCell && cell.cell.occupant != null;
         }
 
         public GameEntity GetCell(int row, int column)
         {
             return grid.cells.Find(c => c.cell.row == row && c.cell.column == column);
+        }
+
+        public GameEntity GetCell(Vector3 worldPos)
+        {
+            foreach (var cell in grid.cells)
+            {
+                float xDistance = Mathf.Abs(worldPos.x - cell.position.x);
+                float zDistance = Mathf.Abs(worldPos.z - cell.position.z);
+                if (xDistance < grid.settings.cellSpacing.x / 2 && zDistance < grid.settings.cellSpacing.y / 2)
+                {
+                    return cell;
+                }
+            }
+
+            return null;
         }
 
         public List<GameEntity> GetCells(GameEntity occupant)
@@ -343,7 +358,6 @@ namespace Services.Game.Grid
                 DeAttach(entity);
 
                 entity.grid.pivot = cell;
-                entity.grid.cells.Add(cell);
 
                 for (int i = 0; i < entity.grid.footprint.data.Count; i++)
                 {
