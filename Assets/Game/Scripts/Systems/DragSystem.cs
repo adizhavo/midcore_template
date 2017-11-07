@@ -76,6 +76,12 @@ namespace MergeWar.Game.Systems
                 startPos = currentPos;
                 #endif
             }
+            else
+            {
+                inertia = false;
+                isDragging = false; 
+            }
+
             return false;
         }
 
@@ -163,7 +169,7 @@ namespace MergeWar.Game.Systems
                 var closestCell = gridService.GetClosestCell(pos, false);
                 gridService.SetEntityOn(dragged, closestCell);
 
-                var objectData = database.Get<GameGridObjecData>(dragged.objectId);
+                var objectData = database.Get<GameGridObjectData>(dragged.objectId);
                 commandSystem.Execute(objectData.onDragEndCommand, closestCell, dragged);
 
                 dragged = null;

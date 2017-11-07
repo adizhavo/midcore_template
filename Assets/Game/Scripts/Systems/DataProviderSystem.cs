@@ -4,6 +4,7 @@ using UnityEngine;
 using Services.Core;
 using Services.Core.Data;
 using MergeWar.Data;
+using System.Collections.Generic;
 
 namespace MergeWar.Game.Systems
 {
@@ -33,6 +34,9 @@ namespace MergeWar.Game.Systems
 
             foreach(var commandData in LoadFile<CommandDataRoot>(Constants.COMMAND_DATA_ID).root)
                 database.AddReadonly(commandData.id, commandData, false);
+
+            var mergeComboDataRoot = LoadFile<MergeComboDataRoot>(Constants.MERGE_COMBO_DATA_ID);
+            database.AddReadonly(Constants.MERGE_COMBO_DATA_ROOT_KEY, mergeComboDataRoot, false);
         }
 
         #endregion
@@ -45,6 +49,22 @@ namespace MergeWar.Game.Systems
         public GameConfig GetGameConfig()
         {
             return database.Get<GameConfig>(Constants.DEFAULT_GAME_CONFIG_ID);
+        }
+
+        public MergeComboData GetMergeComboDataForInput(string input)
+        {
+            return database.Get<MergeComboDataRoot>(Constants.MERGE_COMBO_DATA_ROOT_KEY).root.Find(c => !string.IsNullOrEmpty(input) && c.input.Equals(input));
+        }
+
+        public List<MergeComboData> GetMergeComboDataForOutput(string output)
+        {
+            return database.Get<MergeComboDataRoot>(Constants.MERGE_COMBO_DATA_ROOT_KEY).root.FindAll(c => !string.IsNullOrEmpty(output) && c.output.Equals(output));
+        }
+
+        public bool CanMerge(string input)
+        {
+            var mergeComboData = GetMergeComboDataForInput(input);
+            return mergeComboData != null && !string.IsNullOrEmpty(mergeComboData.output);
         }
     }
 }

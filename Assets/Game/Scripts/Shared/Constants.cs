@@ -13,6 +13,10 @@
 
     public const string COMMAND_DATA_ID = "command_data";
 
+    public const string MERGE_COMBO_DATA_ID = "merge_combo_data";
+
+    public const string MERGE_COMBO_DATA_ROOT_KEY = "merge_combo_root";
+
     // events
     public const string EVENT_ENTITY_START_DRAG = "start_drag";
 

@@ -51,16 +51,11 @@ namespace MergeWar.Data
 
     public class GameGridObjecDataRoot
     {
-        public List<GameGridObjecData> root;
-    }
-
-    public class CommandDataRoot
-    {
-        public List<CommandData> root;
+        public List<GameGridObjectData> root;
     }
 
     [System.Serializable]
-    public class GameGridObjecData : GridObjectData
+    public class GameGridObjectData : GridObjectData
     {
         public int level;
         public bool canDrag;
@@ -86,6 +81,11 @@ namespace MergeWar.Data
         public FloatRange cameraStretchedZoomRange;
     }
 
+    public class CommandDataRoot
+    {
+        public List<CommandData> root;
+    }
+
     [System.Serializable]
     public class CommandData
     {
@@ -97,5 +97,20 @@ namespace MergeWar.Data
         public string chainedCommand;
         public string vfx;
         public float delay;
+    }
+
+    [System.Serializable]
+    public class MergeComboDataRoot
+    {
+        public List<MergeComboData> root;
+    }
+
+    [System.Serializable]
+    public class MergeComboData
+    {
+        public string input;
+        public string output;
+        public string vfx;
+        public string mergeCompleteCommand;
     }
 }

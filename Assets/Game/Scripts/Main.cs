@@ -41,11 +41,6 @@ namespace MergeWar
         private void Update()
         {
             gameSystems.Execute();
-            if ((int)Time.timeSinceLevelLoad % 2 == 0)
-            {
-                var fromEntity = Contexts.sharedInstance.game.GetEntities(GameMatcher.Grid)[0];
-                container.Resolve<FactoryGUI>().AnimateFloatingUIWorldPos("sample_floating_UI_prefab", fromEntity, "sample_panel_id", "sample_view_id");
-            }
         }
 
         private void InstallDIContainer()
@@ -54,7 +49,7 @@ namespace MergeWar
             container = new DiContainer();
             CoreServicesInstaller.Install(container);
             GameServiceInstaller.Install(container);
-            GameInstaller.Install(container);
+            GameSystemInstaller.Install(container);
         }
 
         private void InitializeGameSystem()
@@ -73,6 +68,7 @@ namespace MergeWar
                 .Add(new AutoDestroySystem())
 
                 // Gameplay
+                .Add(container.Resolve<TimedCommandSystem>())
                 .Add(container.Resolve<DragSystem>())
                 .Add(container.Resolve<PinchSystem>());
 
@@ -81,13 +77,20 @@ namespace MergeWar
 
         private void InitialiseGesture()
         {
+            var mergeSystem = container.Resolve<MergeSystem>();
+            var tapCommandSystem = container.Resolve<TapCommandSystem>();
             var dragSystem = container.Resolve<DragSystem>();
             var pinchSystem = container.Resolve<PinchSystem>();
 
             var gestureService = container.Resolve<GestureService>();
-            gestureService.AddDragHandler(dragSystem);
             gestureService.AddPinchHandler(pinchSystem);
+            // merge system will consume the drag event if there is a succ merge
+            // thats why is registered as an handler before the drag system
+            gestureService.AddDragHandler(mergeSystem);
+            gestureService.AddDragHandler(dragSystem);
+
             gestureService.AddTouchHandler(dragSystem);
+            gestureService.AddTouchHandler(tapCommandSystem);
         }
     }
 }
