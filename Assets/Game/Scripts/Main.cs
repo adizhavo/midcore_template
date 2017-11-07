@@ -82,13 +82,15 @@ namespace MergeWar
 
         private void InitialiseGesture()
         {
+            var tapCommandSystem = container.Resolve<TapCommandSystem>();
             var dragSystem = container.Resolve<DragSystem>();
             var pinchSystem = container.Resolve<PinchSystem>();
 
             var gestureService = container.Resolve<GestureService>();
-            gestureService.AddDragHandler(dragSystem);
             gestureService.AddPinchHandler(pinchSystem);
+            gestureService.AddDragHandler(dragSystem);
             gestureService.AddTouchHandler(dragSystem);
+            gestureService.AddTouchHandler(tapCommandSystem);
         }
     }
 }
