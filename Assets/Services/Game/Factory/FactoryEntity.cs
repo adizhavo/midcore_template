@@ -98,6 +98,7 @@ namespace Services.Game.Factory
 
                 if (gameEntity.hasView) // return view to the pool
                 {
+                    gameEntity.localScale = Vector3.one;
                     gameEntity.viewObject.SetActive(false);
                 }
             }

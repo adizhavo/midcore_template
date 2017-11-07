@@ -164,6 +164,12 @@ public sealed partial class GameEntity
         LeanTween.move(viewObject, position, duration).setEase(tweenType);
     }
 
+    public void TweenScale(Vector3 from, Vector3 to, float duration, LeanTweenType tweenType = LeanTweenType.linear)
+    {
+        localScale = from;
+        LeanTween.scale(viewObject, to, duration).setEase(tweenType);
+    }
+
     public void CancelTween()
     {
         LeanTween.cancel(viewObject);
