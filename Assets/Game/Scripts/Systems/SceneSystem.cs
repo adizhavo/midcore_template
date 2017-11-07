@@ -35,6 +35,13 @@ namespace MergeWar.Game.Systems
                 && string.Equals(typeId, ge.typeId));
         }
 
+        public List<GameEntity> GetAllEntitiesWithObjectId(string objectId)
+        {
+            return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().FindAll(
+                ge => !string.IsNullOrEmpty(objectId) 
+                && string.Equals(objectId, ge.objectId));
+        }
+
         public GameEntity GetEntityWithTypeAndLevel(string typeId, int level)
         {
             return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().Find(
