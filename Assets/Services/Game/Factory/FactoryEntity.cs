@@ -7,6 +7,7 @@ using Services.Game.Data;
 using Services.Game.Grid;
 using Services.Game.Components;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Services.Game.Factory
 {
@@ -63,21 +64,27 @@ namespace Services.Game.Factory
             return entity;
         }
 
-        public GameEntity CreateVFX(string vfxId)
+        public GameEntity CreateVFX(string vfxId, Vector3 pos)
         {
-            var entity = Contexts.sharedInstance.game.CreateEntity();
-            var vfxData = database.Get<VFXData>(vfxId);
-            var prefabPath = database.Get<string>(vfxData.prefab);
-            entity.AddResource(prefabPath);
-            var view = FactoryPool.GetPooled(prefabPath);
-            entity.AddView(view);
-
-            if (vfxData.activeTime > 0f)
+            if (!string.IsNullOrEmpty(vfxId))
             {
-                entity.AddAutoDestroy(vfxData.activeTime, vfxData.ignoreTimescale);
-            }
+                var entity = Contexts.sharedInstance.game.CreateEntity();
+                var vfxData = database.Get<VFXData>(vfxId);
+                var prefabPath = database.Get<string>(vfxData.prefab);
+                entity.AddResource(prefabPath);
+                var view = FactoryPool.GetPooled(prefabPath);
+                entity.AddView(view);
 
-            return entity;
+                if (vfxData.activeTime > 0f)
+                {
+                    entity.AddAutoDestroy(vfxData.activeTime, vfxData.ignoreTimescale);
+                }
+
+                entity.position = pos;
+
+                return entity;
+            }
+            else return null;
         }
 
         public void CleanupEntity(IContext context, IEntity entity)
