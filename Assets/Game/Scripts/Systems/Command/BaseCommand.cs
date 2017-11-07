@@ -32,7 +32,7 @@ namespace MergeWar.Game.Command
         {
             if (commandData.destroyTrigger && trigger != null)
             {
-                var onDestroyCommand = database.Get<GameGridObjecData>(trigger.objectId).onDestroyCommand;
+                var onDestroyCommand = database.Get<GameGridObjectData>(trigger.objectId).onDestroyCommand;
                 commandSystem.Execute(onDestroyCommand, cell.position, cell, trigger);
                 trigger.Destroy();
             }
@@ -40,11 +40,7 @@ namespace MergeWar.Game.Command
 
         protected virtual void ExecuteTailCommand(CommandData commandData, Vector3 executePos, GameEntity cell, GameEntity trigger = null)
         {
-            if (!string.IsNullOrEmpty(commandData.vfx))
-            {
-                var vfx = factoryEntity.CreateVFX(commandData.vfx);
-                vfx.position = executePos;
-            }
+            factoryEntity.CreateVFX(commandData.vfx, executePos);
 
             if (!string.IsNullOrEmpty(commandData.chainedCommand))
             {

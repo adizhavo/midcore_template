@@ -47,7 +47,7 @@ namespace MergeWar.Game.Systems
             return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().Find(
                 ge => !string.IsNullOrEmpty(typeId) 
                 && string.Equals(typeId, ge.typeId) 
-                && database.Get<GameGridObjecData>(ge.objectId).level == level);
+                && database.Get<GameGridObjectData>(ge.objectId).level == level);
         }
 
         public GameEntity GetEntityWithUniqueId(string uniqueId)

@@ -24,7 +24,7 @@ namespace MergeWar.Game.Systems
             var touched = Utils.GetInputTarget(screenPos, sceneSystem, cameraService.camera);
             if (touched != null)
             {
-                var objectData = databaseService.Get<GameGridObjecData>(touched.objectId);
+                var objectData = databaseService.Get<GameGridObjectData>(touched.objectId);
                 var cell = touched.hasGrid ? touched.grid.pivot : null;
                 commandSystem.Execute(objectData.onTapCommand, touched.position, cell, touched);
             }

@@ -21,7 +21,7 @@ namespace MergeWar.Game.Systems
                 entity.timedCommand.remainingTime -= Time.deltaTime;
                 if (entity.timedCommand.remainingTime < 0f)
                 {
-                    var objectData = database.Get<GameGridObjecData>(entity.objectId);
+                    var objectData = database.Get<GameGridObjectData>(entity.objectId);
                     var time = objectData.timeout.GetRange();
                     entity.ReplaceTimedCommand(time, time);
                     var cell = entity.hasGrid ? entity.grid.pivot : null;

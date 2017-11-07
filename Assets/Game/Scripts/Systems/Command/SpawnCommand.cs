@@ -34,7 +34,7 @@ namespace MergeWar.Game.Command
 
                     entity.position = executePos;
                     gridService.SetEntityOn(entity, cell);
-                    var onSpawnCommand = database.Get<GameGridObjecData>(entity.objectId).onSpawnCommand;
+                    var onSpawnCommand = database.Get<GameGridObjectData>(entity.objectId).onSpawnCommand;
                     commandSystem.Execute(onSpawnCommand, cell.position, cell, entity);
                 }
             }

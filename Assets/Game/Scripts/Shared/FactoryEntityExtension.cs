@@ -10,7 +10,7 @@ namespace Services.Game.Factory
         {
             var entity = CreateGridObject(objectId);
 
-            var objectData = database.Get<GameGridObjecData>(objectId);
+            var objectData = database.Get<GameGridObjectData>(objectId);
 
             if (objectData.canDrag)
             {
