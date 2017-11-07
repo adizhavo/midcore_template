@@ -47,7 +47,7 @@ namespace Services.Core.Event
             return subscribers.Find(l => l.listener.Equals(listener)) != null;
         }
 
-        public class Subscriber
+        private class Subscriber
         {
             public string eventId;
             public IEventListener<T> listener;
