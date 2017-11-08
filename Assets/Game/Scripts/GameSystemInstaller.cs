@@ -19,6 +19,7 @@ namespace MergeWar.Game
             Container.Bind<CampSystem>().AsSingle().NonLazy();
             Container.Bind<TimedCommandSystem>().AsSingle().NonLazy();
             Container.Bind<MergeSystem>().AsSingle().NonLazy();
+            Container.Bind<OrderListSystem>().AsSingle().NonLazy();
 
             var commandSystem = new CommandSystem();
             Container.BindInstance(commandSystem);
