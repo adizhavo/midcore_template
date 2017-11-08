@@ -14,11 +14,16 @@ namespace MergeWar.Game.Command
 
         protected override void ExecuteBodyCommand(CommandData commandData, Vector3 executePos, GameEntity cell, GameEntity trigger = null)
         {
-            for (int i = 0; i < commandData.count; i ++)
+            if (!string.IsNullOrEmpty(commandData.output))
             {
-                if (!string.IsNullOrEmpty(commandData.output))
+                for (int i = 0; i < commandData.count; i ++)
                 {
                     var entity = factoryEntity.CreateGameGridObject(commandData.output);
+
+                    if (cell == null)
+                    {
+                        cell = gridService.GetClosestCell(executePos, true);
+                    }
 
                     if (!gridService.DoesFit(entity, cell))
                     {

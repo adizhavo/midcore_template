@@ -54,7 +54,7 @@ namespace MergeWar.Game.Systems
 
         public bool HandleDragEnd(Vector3 screenPos)
         {
-            if (dragged != null)
+            if (dragged != null && dragged.hasGameObject)
             {
                 var gridPos = Utils.GetPlaneTouchPos(screenPos, cameraService.camera);
                 var cell = gridService.GetCell(gridPos);
