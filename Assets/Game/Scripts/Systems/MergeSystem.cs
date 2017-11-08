@@ -112,10 +112,11 @@ namespace MergeWar.Game.Systems
         private void AnimateMerge(GameEntity occupant, Vector3 spawnPos, float animDuration)
         {
             float xDistance = 0.7f;
+            float yDistance = 0.2f;
             float destroyScale = 0.5f;
 
             dragged.CancelTween();
-            LeanTween.move(dragged.viewObject, occupant.position - new Vector3(xDistance, 0f, 0f), animDuration / 2f)
+            LeanTween.move(dragged.viewObject, occupant.position + new Vector3(-1 * xDistance, yDistance, 0f), animDuration / 2f)
                 .setEaseOutExpo()
                 .setIgnoreTimeScale(true)
                 .setOnComplete(() => 
@@ -127,7 +128,7 @@ namespace MergeWar.Game.Systems
             });
             
             occupant.CancelTween();
-            LeanTween.move(occupant.viewObject, occupant.position + new Vector3(xDistance, 0f, 0f), animDuration / 2f)
+            LeanTween.move(occupant.viewObject, occupant.position + new Vector3(xDistance, yDistance, 0f), animDuration / 2f)
                 .setEaseOutExpo()
                 .setIgnoreTimeScale(true)
                 .setOnComplete(() => 
