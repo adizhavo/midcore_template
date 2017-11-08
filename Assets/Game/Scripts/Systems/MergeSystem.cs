@@ -54,7 +54,7 @@ namespace MergeWar.Game.Systems
 
         public bool HandleDragEnd(Vector3 screenPos)
         {
-            if (dragged != null)
+            if (dragged != null && dragged.hasGameObject)
             {
                 var gridPos = Utils.GetPlaneTouchPos(screenPos, cameraService.camera);
                 var cell = gridService.GetCell(gridPos);
@@ -67,24 +67,36 @@ namespace MergeWar.Game.Systems
 
                     if (canMerge)
                     {
+                        Utils.SetSortingLayer(dragged, Constants.SORTING_LAYER_DEFAULT);
+
                         var spawnPos = occupant.position;
 
-                        // destroy both the entities
-                        gridService.DeAttach(dragged);
-                        gridService.DeAttach(occupant);
-                        dragged.Destroy();
-                        occupant.Destroy();
+                        dragged.isDraggable = false;
+                        occupant.isDraggable = false;
 
-                        // spawn the output entity
-                        var command = new CommandData();
-                        command.type = Constants.COMMAND_SPAWN_OBJ;
-                        command.output = mergeComboData.output;
-                        command.count = 1;
-                        commandSystem.Execute(command, spawnPos, cell);
-                        factoryEntity.CreateVFX(mergeComboData.vfx, spawnPos);
+                        // play merge animation and trigger the command at the end of it
+                        var animDuration = 0.4f;
+                        AnimateMerge(occupant, spawnPos, animDuration);
+                        LeanTween.delayedCall(animDuration, () => 
+                        {
+                            // destroy the entities
+                            gridService.DeAttach(dragged);
+                            gridService.DeAttach(occupant);
+                            dragged.Destroy();
+                            occupant.Destroy();
 
-                        // execute the merge complete command
-                        commandSystem.Execute(mergeComboData.mergeCompleteCommand, spawnPos, cell);
+                            // spawn the output entity
+                            var command = new CommandData();
+                            command.type = Constants.COMMAND_SPAWN_OBJ;
+                            command.output = mergeComboData.output;
+                            command.count = 1;
+                            commandSystem.Execute(command, spawnPos, cell);
+                            factoryEntity.CreateVFX(mergeComboData.vfx, spawnPos);
+
+                            // execute the merge complete command
+                            commandSystem.Execute(mergeComboData.mergeCompleteCommand, spawnPos, cell);
+
+                        }).setIgnoreTimeScale(true);
 
                         // consume the gesture event
                         return true;
@@ -96,6 +108,37 @@ namespace MergeWar.Game.Systems
         }
 
         #endregion
+
+        private void AnimateMerge(GameEntity occupant, Vector3 spawnPos, float animDuration)
+        {
+            float xDistance = 0.7f;
+            float yDistance = 0.2f;
+            float destroyScale = 0.5f;
+
+            dragged.CancelTween();
+            LeanTween.move(dragged.viewObject, occupant.position + new Vector3(-1 * xDistance, yDistance, 0f), animDuration / 2f)
+                .setEaseOutExpo()
+                .setIgnoreTimeScale(true)
+                .setOnComplete(() => 
+            {
+                LeanTween.move(dragged.viewObject, spawnPos, animDuration / 2f)
+                        .setIgnoreTimeScale(true)
+                        .setEaseInExpo();
+                dragged.TweenScale(Vector3.one, Vector3.one * destroyScale, animDuration / 2f);
+            });
+            
+            occupant.CancelTween();
+            LeanTween.move(occupant.viewObject, occupant.position + new Vector3(xDistance, yDistance, 0f), animDuration / 2f)
+                .setEaseOutExpo()
+                .setIgnoreTimeScale(true)
+                .setOnComplete(() => 
+            {
+                LeanTween.move(occupant.viewObject, spawnPos, animDuration / 2f)
+                        .setIgnoreTimeScale(true)
+                        .setEaseInExpo();
+                occupant.TweenScale(Vector3.one, Vector3.one * destroyScale, animDuration / 2f);
+            });
+        }
         
     }
 }

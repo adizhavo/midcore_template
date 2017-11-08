@@ -89,7 +89,7 @@ namespace MergeWar.Game.Systems
         {
             if (isDragging)
             {
-                if (dragged == null)
+                if (dragged == null || !dragged.hasGameObject)
                 {
                     deltaPos = cameraService.camera.ScreenToWorldPoint(currentPos) - cameraService.camera.ScreenToWorldPoint(screenPos);
                     cameraService.SetPosition(cameraService.position + deltaPos);
@@ -147,7 +147,7 @@ namespace MergeWar.Game.Systems
         private void StartDragEntity()
         {
             // start and drag the touched entity
-            if (touched != null && touched.isDraggable)
+            if (touched != null && touched.isDraggable && touched.hasGameObject)
             {
                 dragged = touched;
                 touched = null;
@@ -161,7 +161,7 @@ namespace MergeWar.Game.Systems
 
         private void HandleDraggedObject(Vector3 screenPos)
         {
-            if (dragged != null)
+            if (dragged != null && dragged.hasGameObject)
             {
                 EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_END_DRAG, dragged);
                 Utils.SetSortingLayer(dragged, Constants.SORTING_LAYER_DEFAULT);
@@ -178,7 +178,7 @@ namespace MergeWar.Game.Systems
 
         private void CancelDraggedObject()
         {
-            if (dragged != null)
+            if (dragged != null && dragged.hasGameObject)
             {
                 EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_CANCEL_DRAG, dragged);
                 Utils.SetSortingLayer(dragged, Constants.SORTING_LAYER_DEFAULT);

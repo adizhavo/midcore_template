@@ -189,7 +189,7 @@ namespace Services.Game.Grid
 
         public bool DoesFit(GameEntity entity, GameEntity pivot)
         {
-            if (!entity.hasGrid)
+            if (!entity.hasGrid || pivot == null)
                 return false;
                 
             return GetOccupants(pivot, entity.grid.footprint).Count == 0 && !IsThereAnyNullCell(pivot, entity.grid.footprint);
@@ -205,7 +205,7 @@ namespace Services.Game.Grid
 
                 for (int j = 0; j < foot_column.Count; j++)
                 {
-                    if (foot_column[j] == 1)
+                    if (foot_column[j] == 1 && pivot.hasCell)
                     {
                         var f_row = j + pivot.row;
                         var f_column = i + pivot.column;
@@ -258,18 +258,22 @@ namespace Services.Game.Grid
             GameEntity selected = null;
             float minSqrDistance = float.MaxValue;
 
-            foreach (var cell in grid.cells)
+            if (from != null)
             {
-                if (cell != from && DoesFit(entity, cell))
+                foreach (var cell in grid.cells)
                 {
-                    float sqrDistance = Mathf.Pow(from.row - cell.row, 2) + Mathf.Pow(from.column - cell.column, 2);
-                    if (sqrDistance < minSqrDistance)
+                    if (cell != from && DoesFit(entity, cell))
                     {
-                        selected = cell;
-                        minSqrDistance = sqrDistance;
+                        float sqrDistance = Mathf.Pow(from.row - cell.row, 2) + Mathf.Pow(from.column - cell.column, 2);
+                        if (sqrDistance < minSqrDistance)
+                        {
+                            selected = cell;
+                            minSqrDistance = sqrDistance;
+                        }
                     }
                 }
             }
+
             return selected;
         }
 
@@ -285,7 +289,7 @@ namespace Services.Game.Grid
                 Attach(entity, pivot);
                 entity.TweenToCell();
             }
-            else
+            else if (entity.hasGrid)
             {
                 var occupants = GetOccupants(pivot, entity.grid.footprint);
                 if (occupants.Count > 1)
