@@ -1,5 +1,7 @@
 ﻿using MergeWar.Data;
+using MergeWar.Game.Components;
 using Services.Core.Event;
+using System.Collections.Generic;
 
 namespace Services.Game.Factory
 {
@@ -15,6 +17,17 @@ namespace Services.Game.Factory
             if (objectData.canDrag)
             {
                 entity.isDraggable = true;
+            }
+
+            if (!string.IsNullOrEmpty(objectData.onOrderCompleteCommand))
+            {
+                var orderList = new List<OrderListComponent.Order>();
+                foreach(var keyValue in objectData.orderList)
+                {
+                    orderList.Add(new OrderListComponent.Order(keyValue.key, 0, keyValue.value));
+                }
+                        
+                entity.AddOrderList(orderList);
             }
 
             if (!string.IsNullOrEmpty(objectData.onTimeoutCommand))

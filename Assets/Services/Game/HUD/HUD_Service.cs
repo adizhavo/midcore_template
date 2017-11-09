@@ -88,6 +88,7 @@ namespace Services.Game.HUD
                 if (hud != null)
                 {
                     hud.id = hudId;
+                    hud.entity = entity;
                 }
                 else
                 {

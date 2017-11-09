@@ -311,7 +311,17 @@ namespace Services.Game.Grid
                     var fit = GetClosestFitPivotCell(occupant, pivot); 
                     if (fit == null)
                     {
-                        throw new NullReferenceException("There is not enough space to position the entity");
+                        fit = GetClosestFitPivotCell(entity, pivot);
+
+                        if (fit == null)
+                        {
+                            throw new NullReferenceException("There is not enough space to position the entity");
+                        }
+                        else
+                        {
+                            Attach(entity, fit);
+                            entity.TweenToCell();
+                        }
                     }
                     else
                     {

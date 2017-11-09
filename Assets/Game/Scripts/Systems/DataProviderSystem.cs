@@ -66,5 +66,14 @@ namespace MergeWar.Game.Systems
             var mergeComboData = GetMergeComboDataForInput(input);
             return mergeComboData != null && !string.IsNullOrEmpty(mergeComboData.output);
         }
+
+        public string GetNextObjectId(string typeId, int level)
+        {
+            var objectData = database.Get<GameGridObjectData>((GameGridObjectData ggod) => 
+                !string.IsNullOrEmpty(typeId) 
+                && typeId.Equals(ggod.typeId)
+                && ggod.level == level + 1);
+            return objectData != null ? objectData.objectId : string.Empty;
+        }
     }
 }

@@ -107,6 +107,24 @@ namespace Services.Core.Data
             return HasKey(key) ? (T)(database[key] as DBData).value : defaultValue;
         }
 
+        public T Get<T>(Predicate<T> predicate, T defaultValue = default(T))
+        {
+            foreach(DictionaryEntry data in database)
+            {
+                var value = (data.Value as DBData).value;
+                if (value is T)
+                {
+                    var casted = (T)value;
+                    if (predicate(casted))
+                    {
+                        return casted;
+                    }
+                }
+            }
+
+            return defaultValue;
+        }
+
         public bool HasKey(string key)
         {
             return database.Contains(key);

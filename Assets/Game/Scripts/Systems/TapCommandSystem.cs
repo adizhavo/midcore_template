@@ -2,6 +2,7 @@
 using UnityEngine;
 using Services.Core.Gesture;
 using Services.Core.Data;
+using Services.Core.Event;
 using Services.Game.SceneCamera;
 using MergeWar.Data;
 using MergeWar.Game.Utilities;
@@ -24,6 +25,7 @@ namespace MergeWar.Game.Systems
             var touched = Utils.GetInputTarget(screenPos, sceneSystem, cameraService.camera);
             if (touched != null)
             {
+                EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_TAP_UP, touched);
                 var objectData = databaseService.Get<GameGridObjectData>(touched.objectId);
                 var cell = touched.hasGrid ? touched.grid.pivot : null;
                 commandSystem.Execute(objectData.onTapCommand, touched.position, cell, touched);

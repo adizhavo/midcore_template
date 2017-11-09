@@ -24,6 +24,8 @@
 
     public const string EVENT_ENTITY_CANCEL_DRAG = "cancel_drag";
 
+    public const string EVENT_ENTITY_TAP_UP = "tap_up";
+
     public const string EVENT_GAME_GRID_ENTITY_CREATION = "create_game_grid_entity";
 
     // sorting layers

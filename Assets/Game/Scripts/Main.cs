@@ -77,6 +77,7 @@ namespace MergeWar
 
         private void InitialiseGesture()
         {
+            var orderSystem = container.Resolve<OrderListSystem>();
             var mergeSystem = container.Resolve<MergeSystem>();
             var tapCommandSystem = container.Resolve<TapCommandSystem>();
             var dragSystem = container.Resolve<DragSystem>();
@@ -84,8 +85,8 @@ namespace MergeWar
 
             var gestureService = container.Resolve<GestureService>();
             gestureService.AddPinchHandler(pinchSystem);
-            // merge system will consume the drag event if there is a succ merge
-            // thats why is registered as an handler before the drag system
+
+            gestureService.AddDragHandler(orderSystem);
             gestureService.AddDragHandler(mergeSystem);
             gestureService.AddDragHandler(dragSystem);
 
