@@ -13,8 +13,10 @@ namespace MergeWar.Game.Systems
         [Inject] DataProviderSystem dataProvider;
 
         private Vector3 startPos;
+        #if !UNITY_EDITOR
         private Vector3 firstScreenPos;
         private Vector3 secondScreenPos;
+        #endif
         private GameConfig gameConfig;
 
         #region IInitializeSystem implementation
@@ -30,8 +32,10 @@ namespace MergeWar.Game.Systems
 
         public bool HandlePinchStart(Vector3 firstScreenPos, Vector3 secondScreenPos)
         {
+            #if !UNITY_EDITOR
             this.firstScreenPos = firstScreenPos;
             this.secondScreenPos = secondScreenPos;
+            #endif
             startPos = cameraService.camera.ScreenToWorldPoint((firstScreenPos + secondScreenPos) / 2);
             return false;
         }

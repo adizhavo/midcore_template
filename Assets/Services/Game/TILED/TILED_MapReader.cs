@@ -26,7 +26,6 @@ namespace Services.Game.Tiled
                 var gid = tileLayer.data[i];
                 if (gid != 0) // 0 is mapped to a void cell
                 {
-                    var typeId = tiledDataProvider.GetMapTilesetTileTypeId(mapPath, gid);
                     var objectId = tiledDataProvider.GetMapTilesetObjectId(mapPath, gid);
                     var cell = factoryEntity.CreateCell(i % mapSize.x, (i / mapSize.x) % mapSize.y, objectId);
                     grid.cells.Add(cell);

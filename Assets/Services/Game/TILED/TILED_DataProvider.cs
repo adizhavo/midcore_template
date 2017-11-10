@@ -132,11 +132,6 @@ namespace Services.Game.Tiled
             return GetMapTilesetProperties(mapPath, gid).objectId;
         }
 
-        public string GetMapTilesetTileTypeId(string mapPath, int gid)
-        {
-            return GetMapTilesetProperties(mapPath, gid).tileId;
-        }
-
         // -------------------------------------------
         // END   Getter for all map tileser properties
     }

@@ -13,7 +13,6 @@ namespace Services.Game.Tiled
 
     public class TILED_TilesetItemProperty
     {
-        public string tileId;
         public string objectId;
     }
     // -----
