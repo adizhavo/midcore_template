@@ -1,0 +1,15 @@
+#!/bin/bash
+
+/Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
+-configPath=./config.json \
+-sheetTab=TUTORIAL \
+-keyRange=D1:F \
+-valueRange=D2:F \
+-outputFileName=tutorials_data.json \
+
+/Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
+-configPath=./config.json \
+-sheetTab=TUTORIAL \
+-keyRange=H1:S \
+-valueRange=H2:S \
+-outputFileName=tutorial_steps_data.json \
