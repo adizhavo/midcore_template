@@ -23,7 +23,7 @@ namespace Services.Core.Data
 
         private void ReadAssetManifest()
         {
-            var appConfig = dataBase.Get<ApplicationConfig>(Constants.APP_CONFIG_DB_KEY);
+            var appConfig = dataBase.Get<ApplicationConfig>(Constants.DB_KEY_APP_CONFIG);
             var assetManifest = Utils.ReadJsonFromResources<AssetManifest>(appConfig.assetManifestPath);
             foreach (var asset in assetManifest.root)
             {

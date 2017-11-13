@@ -16,10 +16,10 @@ namespace Services.Game.Tiled
         {
             var mapSize = tiledDataProvider.GetMapSize(mapPath);
             var grid = new GridData(mapPath, mapSize, settings);
-            var tileLayer = tiledDataProvider.GetMapLayer(mapPath, Constants.TILED_TILE_LAYER);
+            var tileLayer = tiledDataProvider.GetMapLayer(mapPath, Constants.DB_KEY_LAYER_TILED_TILE);
 
             if (tileLayer == null)
-                throw new NullReferenceException("Could not find layer in the map " + mapPath + " with name " + Constants.TILED_TILE_LAYER + ", please add a layer with that name.");
+                throw new NullReferenceException("Could not find layer in the map " + mapPath + " with name " + Constants.DB_KEY_LAYER_TILED_TILE + ", please add a layer with that name.");
 
             for (int i = 0; i < tileLayer.data.Length; i++)
             {
@@ -39,10 +39,10 @@ namespace Services.Game.Tiled
             var gridObjects = new Dictionary<IntVector2, string>();
 
             var mapSize = tiledDataProvider.GetMapSize(mapPath);
-            var objectLayer = tiledDataProvider.GetMapLayer(mapPath, Constants.TILED_OBJECTS_LAYER);
+            var objectLayer = tiledDataProvider.GetMapLayer(mapPath, Constants.DB_KET_LAYER_TILED_OBJECTS);
 
             if (objectLayer == null)
-                throw new NullReferenceException("Could not find layer in the map " + mapPath + " with name " + Constants.TILED_OBJECTS_LAYER + ", please add a layer with that name.");
+                throw new NullReferenceException("Could not find layer in the map " + mapPath + " with name " + Constants.DB_KET_LAYER_TILED_OBJECTS + ", please add a layer with that name.");
 
             for (int i = 0; i < objectLayer.data.Length; i++)
             {

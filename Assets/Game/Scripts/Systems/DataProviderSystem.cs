@@ -20,23 +20,23 @@ namespace MergeWar.Game.Systems
 
         public void Initialize()
         {
-            var gameConfig = LoadFile<GameConfig>(Constants.GAME_CONFIG_DATA_ID);
+            var gameConfig = LoadFile<GameConfig>(Constants.DB_KEY_GAME_CONFIG);
             database.AddReadonly(gameConfig.id, gameConfig, false);
 
-            foreach(var vfx in LoadFile<VFXDataRoot>(Constants.VFX_DATA_ID).root)
+            foreach(var vfx in LoadFile<VFXDataRoot>(Constants.DB_KEY_VFX_DATA).root)
                 database.AddReadonly(vfx.id, vfx, false);
 
-            foreach(var objectData in LoadFile<ObjectDataRoot>(Constants.TILE_DATA_DATA_ID).root)
+            foreach(var objectData in LoadFile<ObjectDataRoot>(Constants.DB_KEY_TILE_DATA).root)
                 database.AddReadonly(objectData.objectId, objectData, false);
 
-            foreach(var objectData in LoadFile<GameGridObjecDataRoot>(Constants.OBJECT_DATA_DATA_ID).root)
+            foreach(var objectData in LoadFile<GameGridObjecDataRoot>(Constants.DB_KEY_OBJECT_DATA).root)
                 database.AddReadonly(objectData.objectId, objectData, false);
 
-            foreach(var commandData in LoadFile<CommandDataRoot>(Constants.COMMAND_DATA_ID).root)
+            foreach(var commandData in LoadFile<CommandDataRoot>(Constants.DB_KEY_COMMAND_DATA).root)
                 database.AddReadonly(commandData.id, commandData, false);
 
-            var mergeComboDataRoot = LoadFile<MergeComboDataRoot>(Constants.MERGE_COMBO_DATA_ID);
-            database.AddReadonly(Constants.MERGE_COMBO_DATA_ROOT_KEY, mergeComboDataRoot, false);
+            var mergeComboDataRoot = LoadFile<MergeComboDataRoot>(Constants.DB_KEY_MERGE_COMBO_DATA);
+            database.AddReadonly(Constants.DB_KEY_MERGE_COMBO_DATA_ROOT, mergeComboDataRoot, false);
         }
 
         #endregion
@@ -48,17 +48,17 @@ namespace MergeWar.Game.Systems
 
         public GameConfig GetGameConfig()
         {
-            return database.Get<GameConfig>(Constants.DEFAULT_GAME_CONFIG_ID);
+            return database.Get<GameConfig>(Constants.DB_KEY_DEFAULT_GAME_CONFIG);
         }
 
         public MergeComboData GetMergeComboDataForInput(string input)
         {
-            return database.Get<MergeComboDataRoot>(Constants.MERGE_COMBO_DATA_ROOT_KEY).root.Find(c => !string.IsNullOrEmpty(input) && c.input.Equals(input));
+            return database.Get<MergeComboDataRoot>(Constants.DB_KEY_MERGE_COMBO_DATA_ROOT).root.Find(c => !string.IsNullOrEmpty(input) && c.input.Equals(input));
         }
 
         public List<MergeComboData> GetMergeComboDataForOutput(string output)
         {
-            return database.Get<MergeComboDataRoot>(Constants.MERGE_COMBO_DATA_ROOT_KEY).root.FindAll(c => !string.IsNullOrEmpty(output) && c.output.Equals(output));
+            return database.Get<MergeComboDataRoot>(Constants.DB_KEY_MERGE_COMBO_DATA_ROOT).root.FindAll(c => !string.IsNullOrEmpty(output) && c.output.Equals(output));
         }
 
         public bool CanMerge(string input)

@@ -77,7 +77,7 @@ namespace Services.Core.GUI
         public void Initialize()
         {
             // Load config and canvas object
-            var configPath = database.Get<string>(Constants.GUI_DB_KEY);
+            var configPath = database.Get<string>(Constants.DB_KEY_GUI);
             guiConfig = Utils.ReadJsonFromResources<GUIConfig>(configPath);
             var canvasObject = Utils.ReadFromResources<GameObject>(guiConfig.canvasObjectPath);
             Canvas = GameObject.Instantiate<GameObject>(canvasObject);

@@ -3,7 +3,8 @@
 	"startState" : "sample_state_id",
 
 	"availablePanels" : [
-		{ "panelId" : "sample_panel_id", "prefabPath" : "Prefabs/GUI/Panels/SamplePanel", "siblingIndex" : 0 }
+		{ "panelId" : "sample_panel_id", "prefabPath" : "Prefabs/GUI/Panels/SamplePanel", "siblingIndex" : 0 },
+		{ "panelId" : "tutorial_panel", "prefabPath" : "Prefabs/GUI/Panels/TutorialPanel", "siblingIndex" : 1 }
 	],
 
 	"states" : [
