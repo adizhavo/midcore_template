@@ -1,24 +1,24 @@
 ﻿public partial class Constants
 {
     // DB keys
-    public const string APP_CONFIG_DB_KEY = "app_config_data";
+    public const string DB_KEY_APP_CONFIG = "app_config_data";
 
-    public const string GUI_DB_KEY = "gui_config_data";
+    public const string DB_KEY_GUI = "gui_config_data";
 
-    public const string TUTORIALS_DB_KEY = "tutorials";
+    public const string DB_KEY_TUTORIALS = "tutorials";
 
-    public const string TUTORIAL_STEPS_DB_KEY = "tutorial_steps";
+    public const string DB_KEY_TUTORIAL_STEPS = "tutorial_steps";
 
-    public const string TILED_MAP_DIR_DB_KEY = "TILED_map_dir";
+    public const string DB_KEY_TILED_MAP_DIR = "TILED_map_dir";
 
-    public const string TILED_TILE_LAYER = "Tiles";
+    public const string DB_KEY_LAYER_TILED_TILE = "Tiles";
 
-    public const string TILED_OBJECTS_LAYER = "Objects";
+    public const string DB_KET_LAYER_TILED_OBJECTS = "Objects";
 
     // paths
-    public const string APP_CONFIG_PATH = "Data/app_config_data";
+    public const string PATH_APP_CONFIG = "Data/app_config_data";
 
-    public const string VERSION_LOG_PATH = "version_log";
+    public const string PATH_VERSION_LOG = "version_log";
 
     // Misc
     public const string JSON_FILE_EXTENSION = ".json";

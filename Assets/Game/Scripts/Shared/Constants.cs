@@ -1,21 +1,21 @@
 ﻿public partial class Constants
 {
     // data keys
-    public const string OBJECT_DATA_DATA_ID = "game_objects_data";
+    public const string DB_KEY_OBJECT_DATA = "game_objects_data";
 
-    public const string TILE_DATA_DATA_ID = "tile_objects_data";
+    public const string DB_KEY_TILE_DATA = "tile_objects_data";
 
-    public const string GAME_CONFIG_DATA_ID = "game_config_data";
+    public const string DB_KEY_GAME_CONFIG = "game_config_data";
 
-    public const string DEFAULT_GAME_CONFIG_ID = "default_game_config";
+    public const string DB_KEY_DEFAULT_GAME_CONFIG = "default_game_config";
 
-    public const string VFX_DATA_ID = "vfx_data";
+    public const string DB_KEY_VFX_DATA = "vfx_data";
 
-    public const string COMMAND_DATA_ID = "command_data";
+    public const string DB_KEY_COMMAND_DATA = "command_data";
 
-    public const string MERGE_COMBO_DATA_ID = "merge_combo_data";
+    public const string DB_KEY_MERGE_COMBO_DATA = "merge_combo_data";
 
-    public const string MERGE_COMBO_DATA_ROOT_KEY = "merge_combo_root";
+    public const string DB_KEY_MERGE_COMBO_DATA_ROOT = "merge_combo_root";
 
     // events
     public const string EVENT_ENTITY_START_DRAG = "start_drag";

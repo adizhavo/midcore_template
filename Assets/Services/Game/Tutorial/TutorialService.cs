@@ -54,8 +54,8 @@ namespace Services.Game.Tutorial
 
         public void Initialize()
         {
-            availableTutorials = database.Get<List<ActiveTutorial<T>>>(Constants.TUTORIALS_DB_KEY);
-            allTutSteps = database.Get<List<T>>(Constants.TUTORIAL_STEPS_DB_KEY);
+            availableTutorials = database.Get<List<ActiveTutorial<T>>>(Constants.DB_KEY_TUTORIALS);
+            allTutSteps = database.Get<List<T>>(Constants.DB_KEY_TUTORIAL_STEPS);
         }
 
         #endregion

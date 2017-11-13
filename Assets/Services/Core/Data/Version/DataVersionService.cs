@@ -79,13 +79,13 @@ namespace Services.Core.DataVersion
 
         private void ReadAppVersion()
         {
-            var appConfig = database.Get<ApplicationConfig>(Constants.APP_CONFIG_DB_KEY);
+            var appConfig = database.Get<ApplicationConfig>(Constants.DB_KEY_APP_CONFIG);
             APP_VERSION = appConfig.version;
         }
 
         private void ReadVersionLog()
         {
-            versionsPath = Path.Combine(Application.persistentDataPath, Constants.VERSION_LOG_PATH);
+            versionsPath = Path.Combine(Application.persistentDataPath, Constants.PATH_VERSION_LOG);
 
             if (File.Exists(versionsPath))
             {
