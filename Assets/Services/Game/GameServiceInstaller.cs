@@ -5,6 +5,7 @@ using Services.Game.Grid;
 using Services.Game.Factory;
 using Services.Game.HUD;
 using Services.Game.SceneCamera;
+using Services.Game.Tutorial;
 
 namespace Services.Game
 {
@@ -25,6 +26,7 @@ namespace Services.Game
             Container.Bind<GridService>().AsSingle().NonLazy();
             Container.Bind<HUD_Service>().AsSingle().NonLazy();
             Container.Bind<CameraService>().AsSingle().NonLazy();
+            Container.Bind<TutorialService<TutorialStep>>().AsSingle().NonLazy();
 
             LogWrapper.DebugLog("[{0}] installation of game bindings successfull", GetType());
         }

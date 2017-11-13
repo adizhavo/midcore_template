@@ -16,6 +16,7 @@ using Services.Game.SceneCamera;
 using Services.Game.Misc;
 using MergeWar.Game;
 using MergeWar.Game.Systems;
+using Services.Game.Tutorial;
 
 namespace MergeWar
 {
@@ -65,6 +66,7 @@ namespace MergeWar
                 .Add(container.Resolve<HUD_Service>())
                 .Add(container.Resolve<FactoryGUI>())
                 .Add(container.Resolve<DataProviderSystem>())
+                .Add(container.Resolve<TutorialService<TutorialStep>>())
                 .Add(new AutoDestroySystem())
 
                 // Gameplay
