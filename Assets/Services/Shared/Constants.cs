@@ -5,9 +5,9 @@
 
     public const string DB_KEY_GUI = "gui_config_data";
 
-    public const string DB_KEY_TUTORIALS = "tutorials";
+    public const string DB_KEY_TUTORIALS = "tutorials_data";
 
-    public const string DB_KEY_TUTORIAL_STEPS = "tutorial_steps";
+    public const string DB_KEY_TUTORIAL_STEPS = "tutorial_steps_data";
 
     public const string DB_KEY_TILED_MAP_DIR = "TILED_map_dir";
 

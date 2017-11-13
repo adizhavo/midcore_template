@@ -18,6 +18,16 @@ namespace Services.Game.Tutorial
     {
         [Inject] DatabaseService database;
 
+        public class AvailableTutorialsRoot<T> where T : TutorialStep
+        {
+            public List<ActiveTutorial<T>> root;
+        }
+
+        public class AvailableTutorialStepsRoot<T> where T : TutorialStep
+        {
+            public List<T> root;
+        }
+
         public static List<TutorialActionHandler> actionHandlers 
         {
             private set;
@@ -54,8 +64,11 @@ namespace Services.Game.Tutorial
 
         public void Initialize()
         {
-            availableTutorials = database.Get<List<ActiveTutorial<T>>>(Constants.DB_KEY_TUTORIALS);
-            allTutSteps = database.Get<List<T>>(Constants.DB_KEY_TUTORIAL_STEPS);
+            var availableTutorialsPath = database.Get<string>(Constants.DB_KEY_TUTORIALS);
+            var availableStepsPath = database.Get<string>(Constants.DB_KEY_TUTORIAL_STEPS);
+
+            availableTutorials = Utils.ReadJsonFromResources<AvailableTutorialsRoot<T>>(availableTutorialsPath).root;
+            allTutSteps = Utils.ReadJsonFromResources<AvailableTutorialStepsRoot<T>>(availableStepsPath).root;
         }
 
         #endregion
