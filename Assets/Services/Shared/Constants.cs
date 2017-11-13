@@ -5,6 +5,10 @@
 
     public const string GUI_DB_KEY = "gui_config_data";
 
+    public const string TUTORIALS_DB_KEY = "tutorials";
+
+    public const string TUTORIAL_STEPS_DB_KEY = "tutorial_steps";
+
     public const string TILED_MAP_DIR_DB_KEY = "TILED_map_dir";
 
     public const string TILED_TILE_LAYER = "Tiles";
@@ -25,4 +29,6 @@
     public const string EVENT_CELL_ENTITY_CREATION = "create_cell_entity";
 
     public const string EVENT_ENTITY_DESTRUCTION = "destoy_grid_entity";
+
+    public const string EVENT_TUT_STEP_COMPLETE = "tutorial_step_complete";
 }

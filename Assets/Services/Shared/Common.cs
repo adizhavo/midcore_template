@@ -80,4 +80,13 @@ namespace Services.Core
             this.z = z;
         }
     }
+
+    [System.Serializable]
+    public class Rect
+    {
+        public float x;
+        public float y;
+        public float width;
+        public float height;
+    }
 }
