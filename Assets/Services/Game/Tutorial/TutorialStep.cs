@@ -20,7 +20,8 @@ namespace Services.Game.Tutorial
         public string[] awakeActions;
         public string[] startActions;
         public string[] exitActions;
-        public Rect[] masks;
+        public float maskAlpha;
+        public Rect mask;
         public TutorialDialogType dialogType;
         public string dialogText;
     }

@@ -20,7 +20,7 @@
 
     public const string PATH_VERSION_LOG = "version_log";
 
-    // Misc
+    // misc
     public const string JSON_FILE_EXTENSION = ".json";
 
     // events
@@ -30,5 +30,18 @@
 
     public const string EVENT_ENTITY_DESTRUCTION = "destoy_grid_entity";
 
+    public const string EVENT_TUT_INIT = "tutorial_init";
+
     public const string EVENT_TUT_STEP_COMPLETE = "tutorial_step_complete";
+
+    // tutorial
+    public const string PANEL_VIEW_ID_TUTORIAL = "tutorial_panel";
+
+    public const string DATABINDING_TUTORIAL_ENABLE_PATH = "game.ui.tutorial";
+
+    public const string DATABINDING_TUTORIAL_MASK_PATH = "game.ui.tutorial.mask";
+
+    public const string DATABINDING_TUTORIAL_DIALOG_PATH = "game.ui.tutorial.dialog";
+
+    public const string DATABINDING_TUTORIAL_DIALOG_TEXT_PATH = "game.ui.tutorial.dialog.text";
 }

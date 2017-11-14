@@ -97,11 +97,26 @@ namespace Services.Core
             return trans.rect.height;
         }
 
-        public static void SetAlpha(this RectTransform trans, float value) {
+        public static void SetAlpha(this RectTransform trans, float value, bool recursive = false) 
+        {
             var image = trans.GetComponent<Image>();
-            Color c = image.color;
-            c.a = value;
-            image.color = c;
+            if (image != null)
+            {
+                Color c = image.color;
+                c.a = value;
+                image.color = c;
+            }
+
+            if (recursive)
+            {
+                var images = trans.GetComponentsInChildren<Image>(true);
+                foreach(var i in images)
+                {
+                    Color c = i.color;
+                    c.a = value;
+                    i.color = c;
+                }
+            }
         }
 
         public static void SetPositionOfPivot(this RectTransform trans, Vector2 newPos)

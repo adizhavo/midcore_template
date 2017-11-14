@@ -1,7 +1,9 @@
 ﻿using Zenject;
 using Entitas;
 using Services.Core;
+using Services.Core.GUI;
 using Services.Core.Data;
+using Services.Core.Databinding;
 using System.Collections.Generic;
 
 namespace Services.Game.Tutorial
@@ -13,10 +15,12 @@ namespace Services.Game.Tutorial
         void HandleExitActions(string[] actions);
     }
 
-    public class TutorialService<T> : IInitializable, IExecuteSystem 
+    public class TutorialService<T> : IInitializeSystem, IExecuteSystem 
     where T : TutorialStep
     {
         [Inject] DatabaseService database;
+        [Inject] GUIService guiService;
+        [Inject] DataBindingService databinding;
 
         public class AvailableTutorialsRoot<T> where T : TutorialStep
         {
@@ -60,7 +64,7 @@ namespace Services.Game.Tutorial
             instance = this;
         }
 
-        #region IInitializable implementation
+        #region IInitializeSystem implementation
 
         public void Initialize()
         {
@@ -133,12 +137,12 @@ namespace Services.Game.Tutorial
                 bool hasCompletePrerequisite = string.IsNullOrEmpty(tutorial.prerequisite) || instance.database.Get<bool>("complete_" + tutorial.prerequisite);
                 bool matchTrigger = string.Equals(tutorial.trigger, trigger);
 
-                if (hasComplete && hasCompletePrerequisite && matchTrigger)
+                if (!hasComplete && hasCompletePrerequisite && matchTrigger)
                 {
                     activeTut = tutorial;
                     var steps = allTutSteps.FindAll(s => s.id.Equals(tutorial.id));
                     steps.Sort((s1, s2) => s1.index.CompareTo(s2.index));
-                    activeTut.Init(steps.ToArray());
+                    activeTut.Init(steps.ToArray(), instance.guiService, instance.databinding);
                     break;
                 }
             }
