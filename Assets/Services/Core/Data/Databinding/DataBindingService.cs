@@ -132,7 +132,7 @@ namespace Services.Core.Databinding
                 string[] branchPath = branch.Split(DATA_BRANCH_SEPARATOR);
                 return ExtractNode(branchPath[branchPath.Length - 1], branchPath.Length - 1);
             }
-            LogWrapper.DebugError("[{0}] Error, the request is null or empty, please provide a valid branch, will return null", GetType());
+            LogWrapper.DebugWarning("[{0}] Error, the request is null or empty, please provide a valid branch, will return null", GetType());
             return null;
         }
 
@@ -149,7 +149,7 @@ namespace Services.Core.Databinding
             }
             else
             {
-                LogWrapper.DebugError("[{0}] Error, the request Id is null or empty, please provide a valid Id, will return null", GetType());
+                LogWrapper.DebugWarning("[{0}] Error, the request Id is null or empty, please provide a valid Id, will return null", GetType());
             }
 
             return null;
