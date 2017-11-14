@@ -20,11 +20,14 @@ namespace Services.Core.Databinding.Components
 
         protected virtual void Start()
         {
-            var isDataValid = databinding.GetData<U>(path) != null;
-            if (isDataValid)
+            if (!binded)
             {
-                databinding.Bind(path, this);
-                binded = true;
+                var isDataValid = databinding.GetData<U>(path) != null;
+                if (isDataValid)
+                {
+                    databinding.Bind(path, this);
+                    binded = true;
+                }
             }
         }
 
