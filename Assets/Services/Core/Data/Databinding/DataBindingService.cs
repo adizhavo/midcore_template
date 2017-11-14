@@ -22,15 +22,24 @@ namespace Services.Core.Databinding
             if (string.IsNullOrEmpty(branch))
                 throw new ArgumentNullException(branch, "Branch is null or empty, please provide a branch");
 
-            var data = new Data<T>();
-            data.branch = branch;
-            data.value = defaultValue;
+            var data = GetData<T>(branch);
+            if (data == null)
+            {
+                data = new Data<T>();
+                data.branch = branch;
+                data.value = defaultValue;
 
-            var splittedBranch = branch.Split(DATA_BRANCH_SEPARATOR);
-            data.Id = splittedBranch[splittedBranch.Length - 1];
-            data.treeDepth = splittedBranch.Length - 1;
+                var splittedBranch = branch.Split(DATA_BRANCH_SEPARATOR);
+                data.Id = splittedBranch[splittedBranch.Length - 1];
+                data.treeDepth = splittedBranch.Length - 1;
 
-            AddOrOverrideNodeToDataTree(data, branch, splittedBranch, overrideData);
+                AddOrOverrideNodeToDataTree(data, branch, splittedBranch, overrideData);
+            }
+            else
+            {
+                data.value = defaultValue;
+            }
+
             return this;
         }
 
