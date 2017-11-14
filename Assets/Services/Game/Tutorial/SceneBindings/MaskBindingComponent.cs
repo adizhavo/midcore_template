@@ -8,7 +8,6 @@ using System.Collections.Generic;
 
 namespace Services.Game.Tutorial.Bindings
 {
-    [ExecuteInEditMode]
     public class MaskBindingComponent : MonoBindingComponent<Image, Services.Core.Rect>, BindingComponent<KeyValuePair<string, string>>  
     {
         public Services.Core.Rect mask;
