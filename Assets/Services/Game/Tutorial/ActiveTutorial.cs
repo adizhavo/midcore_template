@@ -8,6 +8,11 @@ using Rect = Services.Core.Rect;
 
 namespace Services.Game.Tutorial
 {
+    /// <summary>
+    /// Active tutorial that contains all teh step data
+    /// Handle activation/deactivation of the panels and databinding
+    /// </summary>
+
     public class ActiveTutorial<T> where T : TutorialStep
     {
         public enum TutorialState
@@ -61,6 +66,10 @@ namespace Services.Game.Tutorial
             elapseTime = 0f;
 
             panelView = guiService.GetPanelView(Constants.PANEL_VIEW_ID_TUTORIAL);
+            if (panelView == null)
+            {
+                throw new System.NullReferenceException("Could not find tutorial panel, please condif a panle in the gui config file with id: " + Constants.PANEL_VIEW_ID_TUTORIAL);
+            }
 
             EventDispatcherService<ActiveTutorial<T>>.Dispatch(Constants.EVENT_TUT_INIT, this);
         }

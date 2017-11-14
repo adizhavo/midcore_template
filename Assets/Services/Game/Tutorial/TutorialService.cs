@@ -8,12 +8,21 @@ using System.Collections.Generic;
 
 namespace Services.Game.Tutorial
 {
+    /// <summary>
+    /// Implement if want to have tutorial action handlers
+    /// Tutorial actions are action thrown by the tutorial to change the game state
+    /// </summary>
+
     public interface TutorialActionHandler
     {
         void HandleAwakeActions(string[] actions);
         void HandleStartActions(string[] actions);
         void HandleExitActions(string[] actions);
     }
+
+    /// <summary>
+    /// Handle activateion/deactivation/update of tutorials
+    /// </summary>
 
     public class TutorialService<T> : IInitializeSystem, IExecuteSystem 
     where T : TutorialStep
@@ -22,14 +31,14 @@ namespace Services.Game.Tutorial
         [Inject] GUIService guiService;
         [Inject] DataBindingService databinding;
 
-        public class AvailableTutorialsRoot<T> where T : TutorialStep
+        public class AvailableTutorialsRoot<U> where U : TutorialStep
         {
-            public List<ActiveTutorial<T>> root;
+            public List<ActiveTutorial<U>> root;
         }
 
-        public class AvailableTutorialStepsRoot<T> where T : TutorialStep
+        public class AvailableTutorialStepsRoot<U> where U : TutorialStep
         {
-            public List<T> root;
+            public List<U> root;
         }
 
         public static List<TutorialActionHandler> actionHandlers 
