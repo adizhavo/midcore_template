@@ -8,9 +8,37 @@ namespace Services.Core.Databinding.Components
         public string path;
         protected T component;
 
+        protected DataBindingService databinding; 
+
+        protected bool binded = false;
+
         protected virtual void Awake()
         {
             component = GetComponent<T>();
+            databinding = CoreServicesInstaller.Resolve<DataBindingService>();
+        }
+
+        protected virtual void Start()
+        {
+            var isDataValid = databinding.GetData<U>(path) != null;
+            if (isDataValid)
+            {
+                databinding.Bind(path, this);
+                binded = true;
+            }
+        }
+
+        protected virtual void OnEnable()
+        {
+            if (!binded)
+            {
+                var isDataValid = databinding.GetData<object>(path) != null;
+                if (isDataValid)
+                {
+                    databinding.Bind(path, this);
+                    binded = true;
+                }
+            }
         }
 
         #region BindingComponent implementation

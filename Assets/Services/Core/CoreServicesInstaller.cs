@@ -10,6 +10,18 @@ namespace Services.Core
 {
     public class CoreServicesInstaller : Installer<CoreServicesInstaller>
     {
+        private static CoreServicesInstaller instance;
+        
+        public static T Resolve<T>()
+        {
+            return instance.Container.Resolve<T>();
+        }
+
+        public CoreServicesInstaller()
+        {
+            instance = this;
+        }
+
         #region Installer implementation
 
         /// <summary>
