@@ -37,6 +37,8 @@ namespace MergeWar
             InitializeGameSystem();
 
             container.Resolve<CampSystem>().LoadCamp();
+
+            TutorialService<TutorialStep>.Notify("move_next");
         }
 
         private void Update()
