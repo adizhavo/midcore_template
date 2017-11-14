@@ -146,8 +146,6 @@ namespace Services.Core.Databinding
                 foreach (var node in ExtractNodes(dataRoots, treeDepth))
                     if (string.Equals(node.Id, Id))
                         return node;
-
-                LogWrapper.DebugError("[{0}] node with id: {1} was not found", GetType(), Id);
             }
             else
             {
