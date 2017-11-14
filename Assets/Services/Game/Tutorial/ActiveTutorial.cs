@@ -212,9 +212,16 @@ namespace Services.Game.Tutorial
             }
 
             var rectTransform = panelView.GetComponent<RectTransform>();
-            panelAnimation = LeanTween.value(0f, currentStep.maskAlpha, currentStep.entryAnimLength)
+            panelAnimation = LeanTween.value(0f, 1f, currentStep.entryAnimLength)
                 .setIgnoreTimeScale(true)
-                .setOnUpdate((value) => rectTransform.SetAlpha(value, true));
+                .setOnUpdate((value) =>
+                {
+                    if (!hasComplete)
+                    {
+                        rectTransform.SetAlpha(value, true);
+                        panelView.GetView<GUIRectView>("mask").rectTransform.SetAlpha(value * currentStep.maskAlpha, true);
+                    }
+                });
         }
 
         private void AnimateOutTutorialUI()
@@ -225,9 +232,16 @@ namespace Services.Game.Tutorial
             }
 
             var rectTransform = panelView.GetComponent<RectTransform>();
-            panelAnimation = LeanTween.value(currentStep.maskAlpha, 0f, currentStep.exitAnimationLength)
+            panelAnimation = LeanTween.value(1f, 0f, currentStep.exitAnimationLength)
                 .setIgnoreTimeScale(true)
-                .setOnUpdate((value) => rectTransform.SetAlpha(value, true));
+                .setOnUpdate((value) =>
+                {
+                    if (!hasComplete)
+                    {
+                        rectTransform.SetAlpha(value, true);
+                        panelView.GetView<GUIRectView>("mask").rectTransform.SetAlpha(value * currentStep.maskAlpha, true);
+                    }
+                });
         }
     }
 }
