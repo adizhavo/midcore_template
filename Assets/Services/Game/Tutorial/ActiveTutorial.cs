@@ -220,7 +220,9 @@ namespace Services.Game.Tutorial
                 {
                     if (!hasComplete)
                     {
-                        rectTransform.SetAlpha(value, true);
+                        var canvasGroup = rectTransform.GetComponent<CanvasGroup>();
+                        if (canvasGroup != null) canvasGroup.alpha = value;
+                        else rectTransform.SetAlpha(value, true);
                         panelView.GetView<GUIRectView>("mask").rectTransform.SetAlpha(value * currentStep.maskAlpha, true);
                     }
                 });
@@ -240,7 +242,9 @@ namespace Services.Game.Tutorial
                 {
                     if (!hasComplete)
                     {
-                        rectTransform.SetAlpha(value, true);
+                        var canvasGroup = rectTransform.GetComponent<CanvasGroup>();
+                        if (canvasGroup != null) canvasGroup.alpha = value;
+                        else rectTransform.SetAlpha(value, true);
                         panelView.GetView<GUIRectView>("mask").rectTransform.SetAlpha(value * currentStep.maskAlpha, true);
                     }
                 });
