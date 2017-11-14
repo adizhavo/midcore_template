@@ -1,4 +1,5 @@
 ﻿using Services.Core;
+using System.Collections.Generic;
 
 namespace Services.Game.Tutorial
 {
@@ -21,8 +22,9 @@ namespace Services.Game.Tutorial
         public string[] startActions;
         public string[] exitActions;
         public float maskAlpha;
-        public Rect mask;
+        public Rect maskProperty;
         public TutorialDialogType dialogType;
         public string dialogText;
+        public KeyValuePair<string, string> maskGUIView;
     }
 }

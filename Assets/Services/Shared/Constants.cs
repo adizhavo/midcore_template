@@ -41,6 +41,8 @@
 
     public const string DATABINDING_TUTORIAL_MASK_PATH = "game.ui.tutorial.mask";
 
+    public const string DATABINDING_TUTORIAL_MASK_VIEW_PATH = "game.ui.tutorial.mask.view";
+
     public const string DATABINDING_TUTORIAL_DIALOG_PATH = "game.ui.tutorial.dialog";
 
     public const string DATABINDING_TUTORIAL_DIALOG_TEXT_PATH = "game.ui.tutorial.dialog.text";

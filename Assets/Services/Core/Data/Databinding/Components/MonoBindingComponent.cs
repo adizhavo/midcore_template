@@ -20,28 +20,32 @@ namespace Services.Core.Databinding.Components
 
         protected virtual void Start()
         {
-            if (!binded)
+            if (!binded && databinding != null)
             {
                 var isDataValid = databinding.GetData<U>(path) != null;
                 if (isDataValid)
                 {
-                    databinding.Bind(path, this);
-                    binded = true;
+                    Bind();
                 }
             }
         }
 
         protected virtual void OnEnable()
         {
-            if (!binded)
+            if (!binded && databinding != null)
             {
                 var isDataValid = databinding.GetData<object>(path) != null;
                 if (isDataValid)
                 {
                     databinding.Bind(path, this);
-                    binded = true;
                 }
             }
+        }
+
+        protected virtual void Bind()
+        {
+            databinding.Bind(path, this);
+            binded = true;
         }
 
         #region BindingComponent implementation

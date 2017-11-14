@@ -176,5 +176,15 @@ namespace Services.Core
         {
             SetSize(trans, new Vector2(trans.rect.size.x, newSize));
         }
+
+        public static Services.Core.Rect ToServiceRect(this UnityEngine.Rect rect)
+        {
+            var r = new Services.Core.Rect();
+            r.x = rect.x;
+            r.y = rect.y;
+            r.width = rect.width;
+            r.height = rect.height;
+            return r;
+        }
     }
 }

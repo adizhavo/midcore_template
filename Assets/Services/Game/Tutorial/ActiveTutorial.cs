@@ -190,7 +190,8 @@ namespace Services.Game.Tutorial
         {
             databinding
                 .AddData<bool>(Constants.DATABINDING_TUTORIAL_ENABLE_PATH, true, true)
-                .AddData<Rect>(Constants.DATABINDING_TUTORIAL_MASK_PATH, currentStep.mask, true)
+                .AddData<Rect>(Constants.DATABINDING_TUTORIAL_MASK_PATH, currentStep.maskProperty, true)
+                .AddData<KeyValuePair<string, string>>(Constants.DATABINDING_TUTORIAL_MASK_VIEW_PATH, currentStep.maskGUIView, true)
                 .AddData<TutorialDialogType>(Constants.DATABINDING_TUTORIAL_DIALOG_PATH, currentStep.dialogType, true)
                 .AddData<string>(Constants.DATABINDING_TUTORIAL_DIALOG_TEXT_PATH, currentStep.dialogText, true);
         }
@@ -200,6 +201,7 @@ namespace Services.Game.Tutorial
             databinding
                 .AddData<bool>(Constants.DATABINDING_TUTORIAL_ENABLE_PATH, false, true)
                 .AddData<Rect>(Constants.DATABINDING_TUTORIAL_MASK_PATH, null, true)
+                .AddData<KeyValuePair<string, string>>(Constants.DATABINDING_TUTORIAL_MASK_VIEW_PATH, currentStep.maskGUIView, true)
                 .AddData<TutorialDialogType>(Constants.DATABINDING_TUTORIAL_DIALOG_PATH, TutorialDialogType.NONE, true)
                 .AddData<string>(Constants.DATABINDING_TUTORIAL_DIALOG_TEXT_PATH, string.Empty, true);
         }
