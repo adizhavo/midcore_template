@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224057318604852340}
   - component: {fileID: 114563185266870066}
   - component: {fileID: 114757449167327936}
+  - component: {fileID: 225073108280837638}
   m_Layer: 5
   m_Name: TutorialPanel
   m_TagString: Untagged
@@ -845,3 +846,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &225073108280837638
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1045158086086508}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
