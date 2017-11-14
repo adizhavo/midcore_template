@@ -22,15 +22,24 @@ namespace Services.Core.Databinding
             if (string.IsNullOrEmpty(branch))
                 throw new ArgumentNullException(branch, "Branch is null or empty, please provide a branch");
 
-            var data = new Data<T>();
-            data.branch = branch;
-            data.value = defaultValue;
+            var data = GetData<T>(branch);
+            if (data == null)
+            {
+                data = new Data<T>();
+                data.branch = branch;
+                data.value = defaultValue;
 
-            var splittedBranch = branch.Split(DATA_BRANCH_SEPARATOR);
-            data.Id = splittedBranch[splittedBranch.Length - 1];
-            data.treeDepth = splittedBranch.Length - 1;
+                var splittedBranch = branch.Split(DATA_BRANCH_SEPARATOR);
+                data.Id = splittedBranch[splittedBranch.Length - 1];
+                data.treeDepth = splittedBranch.Length - 1;
 
-            AddOrOverrideNodeToDataTree(data, branch, splittedBranch, overrideData);
+                AddOrOverrideNodeToDataTree(data, branch, splittedBranch, overrideData);
+            }
+            else
+            {
+                data.value = defaultValue;
+            }
+
             return this;
         }
 
@@ -132,7 +141,7 @@ namespace Services.Core.Databinding
                 string[] branchPath = branch.Split(DATA_BRANCH_SEPARATOR);
                 return ExtractNode(branchPath[branchPath.Length - 1], branchPath.Length - 1);
             }
-            LogWrapper.DebugError("[{0}] Error, the request is null or empty, please provide a valid branch, will return null", GetType());
+            LogWrapper.DebugWarning("[{0}] Error, the request is null or empty, please provide a valid branch, will return null", GetType());
             return null;
         }
 
@@ -146,12 +155,10 @@ namespace Services.Core.Databinding
                 foreach (var node in ExtractNodes(dataRoots, treeDepth))
                     if (string.Equals(node.Id, Id))
                         return node;
-
-                LogWrapper.DebugError("[{0}] node with id: {1} was not found", GetType(), Id);
             }
             else
             {
-                LogWrapper.DebugError("[{0}] Error, the request Id is null or empty, please provide a valid Id, will return null", GetType());
+                LogWrapper.DebugWarning("[{0}] Error, the request Id is null or empty, please provide a valid Id, will return null", GetType());
             }
 
             return null;
