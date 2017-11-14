@@ -3,21 +3,13 @@ using UnityEngine;
 
 namespace Services.Core.Databinding.Components
 {
-    [RequireComponent(typeof(TextMeshProUGUI))]
-    public class TMPBindingComponent : MonoBehaviour, BindingComponent<string>
+    public class TMPBindingComponent : MonoBindingComponent<TextMeshProUGUI, string>
     {
-        private TextMeshProUGUI text;
-
-        private void Awake()
-        {
-            text = GetComponent<TextMeshProUGUI>();
-        }
-
         #region BindingComponent implementation
 
-        public void OnValueChanged(string branch, string value)
+        public override void OnValueChanged(string branch, string value)
         {
-            text.text = value;
+            component.text = value;
         }
 
         #endregion
