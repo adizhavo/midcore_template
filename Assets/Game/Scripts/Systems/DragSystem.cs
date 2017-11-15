@@ -92,7 +92,10 @@ namespace MergeWar.Game.Systems
                 if (dragged == null || !dragged.hasGameObject)
                 {
                     deltaPos = cameraService.camera.ScreenToWorldPoint(currentPos) - cameraService.camera.ScreenToWorldPoint(screenPos);
-                    cameraService.SetPosition(cameraService.position + deltaPos);
+                    var projected = new Vector3(deltaPos.x, 0f, deltaPos.z).normalized;
+                    var angle = Vector3.Angle(deltaPos, projected);
+                    var trueOffset = projected * (deltaPos.magnitude / Mathf.Cos(angle * Mathf.Deg2Rad));
+                    cameraService.SetPosition(cameraService.position + trueOffset);
                     currentPos = screenPos;
                 }
                 else
@@ -136,7 +139,10 @@ namespace MergeWar.Game.Systems
         {
             if (inertia && timer <= gameConfig.cameraInertiaDuration)
             {
-                cameraService.SetPosition(cameraService.position + deltaPos);
+                var projected = new Vector3(deltaPos.x, 0f, deltaPos.z).normalized;
+                var angle = Vector3.Angle(deltaPos, projected);
+                var trueOffset = projected * (deltaPos.magnitude / Mathf.Cos(angle * Mathf.Deg2Rad));
+                cameraService.SetPosition(cameraService.position + trueOffset);
                 deltaPos = Vector3.Lerp(deltaPos, Vector3.zero, timer);
                 timer += Time.smoothDeltaTime;
             }

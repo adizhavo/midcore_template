@@ -46,4 +46,8 @@
     public const string DATABINDING_TUTORIAL_DIALOG_PATH = "game.ui.tutorial.dialog";
 
     public const string DATABINDING_TUTORIAL_DIALOG_TEXT_PATH = "game.ui.tutorial.dialog.text";
+
+    public const string DATABINDING_TUTORIAL_DIALOG_SIZE_PATH = "game.ui.tutorial.dialog.size";
+
+    public const string DATABINDING_TUTORIAL_DIALOG_CUSTOM_IMAGE_PATH = "game.ui.tutorial.dialog.image";
 }

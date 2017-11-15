@@ -22,9 +22,11 @@ namespace Services.Game.Tutorial
         public string[] startActions;
         public string[] exitActions;
         public float maskAlpha;
-        public Rect maskProperty;
+        public Rect maskSize;
         public TutorialDialogType dialogType;
-        public string dialogText;
         public KeyValuePair<string, string> maskGUIView;
+        public string dialogText;
+        public Rect dialogSize;
+        public string dialogCustomImage;
     }
 }

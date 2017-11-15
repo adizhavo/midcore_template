@@ -11,6 +11,18 @@ namespace Services.Game
 {
     public class GameServiceInstaller : Installer<GameServiceInstaller>
     {
+        private static GameServiceInstaller instance;
+
+        public static T Resolve<T>()
+        {
+            return instance.Container.Resolve<T>();
+        }
+
+        public GameServiceInstaller()
+        {
+            instance = this;
+        }
+
         #region Installer implementation
 
         /// <summary>

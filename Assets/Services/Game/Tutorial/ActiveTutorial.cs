@@ -190,10 +190,12 @@ namespace Services.Game.Tutorial
         {
             databinding
                 .AddData<bool>(Constants.DATABINDING_TUTORIAL_ENABLE_PATH, true, true)
-                .AddData<Rect>(Constants.DATABINDING_TUTORIAL_MASK_PATH, currentStep.maskProperty, true)
+                .AddData<Rect>(Constants.DATABINDING_TUTORIAL_MASK_PATH, currentStep.maskSize, true)
                 .AddData<KeyValuePair<string, string>>(Constants.DATABINDING_TUTORIAL_MASK_VIEW_PATH, currentStep.maskGUIView, true)
                 .AddData<TutorialDialogType>(Constants.DATABINDING_TUTORIAL_DIALOG_PATH, currentStep.dialogType, true)
-                .AddData<string>(Constants.DATABINDING_TUTORIAL_DIALOG_TEXT_PATH, currentStep.dialogText, true);
+                .AddData<string>(Constants.DATABINDING_TUTORIAL_DIALOG_TEXT_PATH, currentStep.dialogText, true)
+                .AddData<Rect>(Constants.DATABINDING_TUTORIAL_DIALOG_SIZE_PATH, currentStep.dialogSize, true)
+                .AddData<string>(Constants.DATABINDING_TUTORIAL_DIALOG_CUSTOM_IMAGE_PATH, currentStep.dialogCustomImage, true);
         }
 
         private void DisableTutorialUI()
@@ -203,7 +205,9 @@ namespace Services.Game.Tutorial
                 .AddData<Rect>(Constants.DATABINDING_TUTORIAL_MASK_PATH, null, true)
                 .AddData<KeyValuePair<string, string>>(Constants.DATABINDING_TUTORIAL_MASK_VIEW_PATH, currentStep.maskGUIView, true)
                 .AddData<TutorialDialogType>(Constants.DATABINDING_TUTORIAL_DIALOG_PATH, TutorialDialogType.NONE, true)
-                .AddData<string>(Constants.DATABINDING_TUTORIAL_DIALOG_TEXT_PATH, string.Empty, true);
+                .AddData<string>(Constants.DATABINDING_TUTORIAL_DIALOG_TEXT_PATH, string.Empty, true)
+                .AddData<Rect>(Constants.DATABINDING_TUTORIAL_DIALOG_SIZE_PATH, null, true)
+                .AddData<string>(Constants.DATABINDING_TUTORIAL_DIALOG_CUSTOM_IMAGE_PATH, string.Empty, true);
         }
 
         private void AnimateInTutorialUI()
