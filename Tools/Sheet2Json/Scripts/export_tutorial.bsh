@@ -10,7 +10,7 @@
 /Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
 -configPath=./config.json \
 -sheetTab=TUTORIAL \
--keyRange=H1:U \
--valueRange=H2:U \
--isLiteral=maskProperty \
+-keyRange=H1:W \
+-valueRange=H2:W \
+-isLiteral=maskSize,dialogSize \
 -outputFileName=tutorial_steps_data.json \

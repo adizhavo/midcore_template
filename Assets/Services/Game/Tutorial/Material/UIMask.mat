@@ -34,6 +34,6 @@ Material:
     - _StencilWriteMask: -1803.6
     m_Colors:
     - _Color: {r: 0, g: 0, b: 0, a: 1}
-    - _Mask: {r: 0.9479167, g: 0.9074074, b: 1, a: 1}
+    - _Mask: {r: 0, g: 0, b: 0.052083332, a: 0.09259259}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
