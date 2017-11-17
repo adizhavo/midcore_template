@@ -46,12 +46,12 @@ namespace Services.Core
 
         public static void AttachCoroutine(IEnumerator routine)
         {
-            instance.StartCoroutine(routine);
+            GetInstance().StartCoroutine(routine);
         }
 
         public static IEnumerator WaitCoroutine(IEnumerator routine)
         {
-            yield return instance.StartCoroutine(routine);
+            yield return GetInstance().StartCoroutine(routine);
         }
 
         public static void StopCoroutines()
