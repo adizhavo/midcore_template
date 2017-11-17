@@ -1,6 +1,6 @@
 ﻿using Entitas;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace MergeWar.Game.Components
 {
