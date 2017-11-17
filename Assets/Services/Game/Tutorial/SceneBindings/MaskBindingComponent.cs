@@ -8,13 +8,17 @@ using System.Collections.Generic;
 
 namespace Services.Game.Tutorial.Bindings
 {
-    public class MaskBindingComponent : MonoBindingComponent<Image, Services.Core.Rect>, BindingComponent<KeyValuePair<string, string>>  
+    public class MaskBindingComponent :
+    MonoBindingComponent<Image, Services.Core.Rect>,
+    BindingComponent<UIAnchor>,
+    BindingComponent<KeyValuePair<string, string>>  
     {
         public Services.Core.Rect mask;
 
         protected override void Bind()
         {
             base.Bind();
+            databinding.Bind<UIAnchor>(Constants.DATABINDING_TUTORIAL_MASK_ANCHOR_PATH, this);
             databinding.Bind<KeyValuePair<string, string>>(Constants.DATABINDING_TUTORIAL_MASK_VIEW_PATH, this);
         }
 
@@ -23,6 +27,20 @@ namespace Services.Game.Tutorial.Bindings
         public override void OnValueChanged(string branch, Services.Core.Rect value)
         {
             mask = value;
+        }
+
+        #endregion
+
+        #region BindingComponent implementation
+
+        public void OnValueChanged(string branch, UIAnchor value)
+        {
+            if (mask != null)
+            {
+                var pos = Utils.GetScreenPos(mask, value);
+                mask.x = pos.x;
+                mask.y = pos.y;
+            }
         }
 
         #endregion

@@ -191,6 +191,7 @@ namespace Services.Game.Tutorial
             databinding
                 .AddData<bool>(Constants.DATABINDING_TUTORIAL_ENABLE_PATH, true, true)
                 .AddData<Rect>(Constants.DATABINDING_TUTORIAL_MASK_PATH, currentStep.maskSize, true)
+                .AddData<UIAnchor>(Constants.DATABINDING_TUTORIAL_MASK_ANCHOR_PATH, currentStep.maskAnchor, true)
                 .AddData<KeyValuePair<string, string>>(Constants.DATABINDING_TUTORIAL_MASK_VIEW_PATH, currentStep.maskGUIView, true)
                 .AddData<TutorialDialogType>(Constants.DATABINDING_TUTORIAL_DIALOG_PATH, currentStep.dialogType, true)
                 .AddData<string>(Constants.DATABINDING_TUTORIAL_DIALOG_TEXT_PATH, currentStep.dialogText, true)

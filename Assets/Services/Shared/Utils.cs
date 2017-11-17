@@ -116,5 +116,22 @@ namespace Services.Core
             var uniqueId = ticks.ToString() +'-'+ guid;
             return uniqueId;
         }
+
+        public static Vector2 GetScreenPos(Services.Core.Rect rect, UIAnchor anchor)
+        {
+            switch (anchor)
+            {
+                case UIAnchor.CENTER : return new Vector2(Screen.width / 2 + (rect.x - rect.width / 2), Screen.height / 2 + (rect.y  - rect.height / 2));
+                case UIAnchor.CENTER_BOTTOM : return new Vector2(Screen.width / 2 + (rect.x - rect.width / 2), rect.y);
+                case UIAnchor.CENTER_LEFT : return new Vector2(rect.x, Screen.height / 2 + (rect.y  - rect.height / 2));
+                case UIAnchor.CENTER_RIGHT : return new Vector2(Screen.width - (rect.x + rect.width), Screen.height / 2 + (rect.y  - rect.height / 2));
+                case UIAnchor.CENTER_TOP : return new Vector2(Screen.width / 2 + (rect.x - rect.width / 2), Screen.height - (rect.y + rect.height));
+                case UIAnchor.LEFT_BOTTOM : return new Vector2(rect.x, rect.y);
+                case UIAnchor.LEFT_TOP : return new Vector2(rect.x, Screen.height - (rect.y + rect.height));
+                case UIAnchor.RIGHT_BOTTOM : return new Vector2(Screen.width - (rect.x + rect.width), rect.y);
+                case UIAnchor.RIGHT_TOP : return new Vector2(Screen.width - (rect.x + rect.width), Screen.height - (rect.y + rect.height));
+            }
+            return Vector2.zero;
+        }
     }
 }

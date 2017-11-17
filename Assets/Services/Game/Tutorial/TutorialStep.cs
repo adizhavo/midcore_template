@@ -27,6 +27,7 @@ namespace Services.Game.Tutorial
         public KeyValuePair<string, string> maskGUIView;
         public string dialogText;
         public Rect dialogSize;
+        public UIAnchor maskAnchor;
         public string dialogCustomImage;
     }
 }
