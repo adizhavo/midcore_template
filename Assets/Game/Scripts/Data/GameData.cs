@@ -32,13 +32,6 @@ namespace MergeWar.Data
         }
     }
 
-    [System.Serializable]
-    public class KeyValuePair<T, U>
-    {
-        public T key;
-        public U value;
-    }
-
     public class VFXDataRoot
     {
         public List<VFXData> root;

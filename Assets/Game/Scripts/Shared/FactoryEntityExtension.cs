@@ -24,7 +24,7 @@ namespace Services.Game.Factory
                 var orderList = new List<OrderListComponent.Order>();
                 foreach(var keyValue in objectData.orderList)
                 {
-                    orderList.Add(new OrderListComponent.Order(keyValue.key, 0, keyValue.value));
+                    orderList.Add(new OrderListComponent.Order(keyValue.Key, 0, keyValue.Value));
                 }
                         
                 entity.AddOrderList(orderList);
