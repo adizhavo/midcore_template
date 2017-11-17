@@ -89,4 +89,17 @@ namespace Services.Core
         public float width;
         public float height;
     }
+
+    public enum UIAnchor
+    {
+        CENTER_TOP,
+        CENTER_BOTTOM,
+        CENTER,
+        CENTER_RIGHT,
+        CENTER_LEFT,
+        RIGHT_TOP,
+        LEFT_TOP,
+        RIGHT_BOTTOM,
+        LEFT_BOTTOM
+    }
 }
