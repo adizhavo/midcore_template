@@ -6,6 +6,7 @@ using MergeWar.Data;
 using Services.Core.Data;
 using Services.Game.Grid;
 using Services.Game.Factory;
+using Services.Game.Tutorial;
 
 namespace MergeWar.Game.Command
 {
@@ -45,6 +46,11 @@ namespace MergeWar.Game.Command
             if (!string.IsNullOrEmpty(commandData.chainedCommand))
             {
                 commandSystem.Execute(commandData.chainedCommand, executePos, cell, trigger);
+            }
+
+            if (!string.IsNullOrEmpty(commandData.tutorialTrigger))
+            {
+                TutorialService<TutorialStep>.Notify(commandData.tutorialTrigger);
             }
         }
 

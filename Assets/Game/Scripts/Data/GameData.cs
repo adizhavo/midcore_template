@@ -90,7 +90,7 @@ namespace MergeWar.Data
         public int count;
         public string chainedCommand;
         public string vfx;
-        public float delay;
+        public string tutorialTrigger;
     }
 
     [System.Serializable]
