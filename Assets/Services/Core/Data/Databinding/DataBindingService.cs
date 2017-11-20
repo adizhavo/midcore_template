@@ -189,20 +189,18 @@ namespace Services.Core.Databinding
         {
             if (!string.IsNullOrEmpty(branch))
             {
-                string[] branchPath = branch.Split(DATA_BRANCH_SEPARATOR);
-                return Bind<T>(branchPath[branchPath.Length - 1], branchPath.Length - 1, component);
-            }
+                var data = GetData<T>(branch);
+                if (data == null)
+                {
+                    AddData<T>(branch, default(T), true);
+                    data = GetData<T>(branch);
+                }
 
-            return this;
-        }
-
-        public DataBindingService Bind<T>(string Id, int treeDepth, BindingComponent<T> component)
-        {
-            var data = GetData<T>(Id, treeDepth);
-            if (data != null && !data.bindedComponents.Contains(component))
-            {
-                data.bindedComponents.Add(component);
-                component.OnValueChanged(data.branch, data.value);
+                if (!data.bindedComponents.Contains(component))
+                {
+                    data.bindedComponents.Add(component);
+                    component.OnValueChanged(data.branch, data.value);
+                }
             }
 
             return this;

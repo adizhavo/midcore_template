@@ -37,6 +37,10 @@
     // tutorial
     public const string PANEL_VIEW_ID_TUTORIAL = "tutorial_panel";
 
+    // Binding path
+
+    // - Tutorial 
+
     public const string DATABINDING_TUTORIAL_ENABLE_PATH = "game.ui.tutorial";
 
     public const string DATABINDING_TUTORIAL_MASK_PATH = "game.ui.tutorial.mask";
@@ -52,4 +56,12 @@
     public const string DATABINDING_TUTORIAL_DIALOG_SIZE_PATH = "game.ui.tutorial.dialog.size";
 
     public const string DATABINDING_TUTORIAL_DIALOG_CUSTOM_IMAGE_PATH = "game.ui.tutorial.dialog.image";
+
+    // - Scene
+
+    public const string DATABINDING_CAMERA_ZOOM = "game.camera.zoom";
+
+    public const string DATABINDING_CAMERA_POSITON = "game.camera.position";
+
+    public const string DATABINDING_CAMERA_ACTIVE = "game.camera.active";
 }

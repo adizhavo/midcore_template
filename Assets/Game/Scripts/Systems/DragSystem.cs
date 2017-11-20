@@ -51,7 +51,7 @@ namespace MergeWar.Game.Systems
 
         public bool HandleTouchDown(Vector3 screenPos)
         {
-            touched = Utils.GetInputTarget(screenPos, sceneSystem, cameraService.camera);
+            touched = Utils.GetInputTarget(screenPos, sceneSystem, cameraService.activeCamera);
             return false;
         }
 
@@ -91,7 +91,7 @@ namespace MergeWar.Game.Systems
             {
                 if (dragged == null || !dragged.hasGameObject)
                 {
-                    deltaPos = cameraService.camera.ScreenToWorldPoint(currentPos) - cameraService.camera.ScreenToWorldPoint(screenPos);
+                    deltaPos = cameraService.activeCamera.ScreenToWorldPoint(currentPos) - cameraService.activeCamera.ScreenToWorldPoint(screenPos);
                     var projected = new Vector3(deltaPos.x, 0f, deltaPos.z).normalized;
                     var angle = Vector3.Angle(deltaPos, projected);
                     var trueOffset = projected * (deltaPos.magnitude / Mathf.Cos(angle * Mathf.Deg2Rad));
@@ -100,7 +100,7 @@ namespace MergeWar.Game.Systems
                 }
                 else
                 {
-                    var pos = Utils.GetPlaneTouchPos(screenPos, cameraService.camera);
+                    var pos = Utils.GetPlaneTouchPos(screenPos, cameraService.activeCamera);
                     dragged.position = pos;
                 }
 
@@ -171,7 +171,7 @@ namespace MergeWar.Game.Systems
             {
                 EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_END_DRAG, dragged);
                 Utils.SetSortingLayer(dragged, Constants.SORTING_LAYER_DEFAULT);
-                var pos = Utils.GetPlaneTouchPos(screenPos, cameraService.camera);
+                var pos = Utils.GetPlaneTouchPos(screenPos, cameraService.activeCamera);
                 var closestCell = gridService.GetClosestCell(pos, false);
                 gridService.SetEntityOn(dragged, closestCell);
 

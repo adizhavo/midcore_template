@@ -58,7 +58,7 @@ namespace MergeWar.Game.Systems
         {
             if (dragged != null && dragged.hasGameObject)
             {
-                var gridPos = Utils.GetPlaneTouchPos(screenPos, cameraService.camera);
+                var gridPos = Utils.GetPlaneTouchPos(screenPos, cameraService.activeCamera);
                 var cell = gridService.GetCell(gridPos);
 
                 if (gridService.IsOccupied(cell))

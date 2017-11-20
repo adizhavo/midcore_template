@@ -62,7 +62,7 @@ namespace Services.Game.Factory
         public FloatingUI AnimateFloatingUIWorldPos(string id, Vector3 fromWorldPos, string panelId, string viewId, float duration = 0.5f)
         {
             var floatingUI = CreateFloatingUI(id);
-            var screenPos = cameraService.camera.WorldToScreenPoint(fromWorldPos);
+            var screenPos = cameraService.activeCamera.WorldToScreenPoint(fromWorldPos);
             floatingUI.Move(screenPos, guiService, panelId, viewId, duration);
             return floatingUI;
         }
@@ -70,7 +70,7 @@ namespace Services.Game.Factory
         public FloatingUI AnimateFloatingUIWorldPos(string id, Vector3 fromWorldPos, RectTransform to, float duration = 0.5f)
         {
             var floatingUI = CreateFloatingUI(id);
-            var screenPos = cameraService.camera.WorldToScreenPoint(fromWorldPos);
+            var screenPos = cameraService.activeCamera.WorldToScreenPoint(fromWorldPos);
             floatingUI.Move(screenPos, to, duration);
             return floatingUI;
         }
@@ -78,7 +78,7 @@ namespace Services.Game.Factory
         public FloatingUI AnimateFloatingUIWorldPos(string id, GameEntity fromEntity, string panelId, string viewId, float duration = 0.5f)
         {
             var floatingUI = CreateFloatingUI(id);
-            var screenPos = cameraService.camera.WorldToScreenPoint(fromEntity.position);
+            var screenPos = cameraService.activeCamera.WorldToScreenPoint(fromEntity.position);
             floatingUI.Move(screenPos, guiService, panelId, viewId, duration);
             return floatingUI;
         }
@@ -86,7 +86,7 @@ namespace Services.Game.Factory
         public FloatingUI AnimateFloatingUIWorldPos(string id, GameEntity fromEntity, RectTransform to, float duration = 0.5f)
         {
             var floatingUI = CreateFloatingUI(id);
-            var screenPos = cameraService.camera.WorldToScreenPoint(fromEntity.position);
+            var screenPos = cameraService.activeCamera.WorldToScreenPoint(fromEntity.position);
             floatingUI.Move(screenPos, to, duration);
             return floatingUI;
         }

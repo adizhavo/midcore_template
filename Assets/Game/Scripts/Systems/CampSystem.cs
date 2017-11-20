@@ -1,6 +1,8 @@
 ﻿using Zenject;
 using UnityEngine;
+using Services.Core;
 using Services.Core.Data;
+using Services.Core.Databinding;
 using Services.Game.Tiled;
 using Services.Game.Grid;
 using Services.Game.Factory;
@@ -20,6 +22,7 @@ namespace MergeWar.Game.Systems
         [Inject] CameraService cameraService;
         [Inject] DataProviderSystem dataProvider;
         [Inject] CommandSystem commandSystem;
+        [Inject] DataBindingService dataBinding;
 
         public void LoadCamp()
         {
@@ -44,6 +47,8 @@ namespace MergeWar.Game.Systems
 
             // setup camera
             cameraService.SetZoom(dataProvider.GetGameConfig().cameraInitZoom);
+            cameraService.SetPosition(dataProvider.GetGameConfig().cameraInitPos.ToVector3());
+            dataBinding.AddData<bool>("game.camera.camp", true);
         }
     }
 }
