@@ -28,16 +28,16 @@ namespace MergeWar
 
         private void Awake()
         {
-            #if ADHOC || UNITY_EDITOR
-            SRDebug.Init();
-            #endif
-
             InstallDIContainer();
             InitialiseGesture();
             InitializeGameSystem();
 
-            container.Resolve<CampSystem>().LoadCamp();
+            #if ADHOC || UNITY_EDITOR
+            SRDebug.Init();
+            #endif
 
+            // TODO : sample code, remove later
+            container.Resolve<CampSystem>().LoadCamp();
             TutorialService<TutorialStep>.Notify("move_next");
         }
 
@@ -63,7 +63,6 @@ namespace MergeWar
                 .Add(container.Resolve<DataVersionService>())
                 .Add(container.Resolve<GestureService>())
                 .Add(container.Resolve<AssetManifestReader>())
-                .Add(container.Resolve<CameraService>())
                 .Add(container.Resolve<GUIService>())
                 .Add(container.Resolve<HUD_Service>())
                 .Add(container.Resolve<FactoryGUI>())

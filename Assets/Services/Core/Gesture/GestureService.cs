@@ -87,6 +87,13 @@ namespace Services.Core.Gesture
                     Handle(GestureEvent.HOLD);
                 }
             }
+
+            #if UNITY_EDITOR
+            if (enablePinch && IsPinching())
+            {
+                Handle(GestureEvent.PINCH);
+            }
+            #endif
         }
 
         #endregion
