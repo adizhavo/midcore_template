@@ -121,21 +121,32 @@ namespace Services.Game.Tutorial
             }
         }
 
+        public static void CompleteCurrentTutorial()
+        {
+            if (activeTut != null)
+            {
+                CompleteTutorial(activeTut.id);
+            }
+        }
+
         public static void CompleteTutorial(string id)
         {
-            if (activeTut != null && activeTut.id.Equals(id))
+            if (!string.IsNullOrEmpty(id))
             {
-                if (!activeTut.hasComplete)
+                if (activeTut != null && activeTut.id.Equals(id))
                 {
-                    activeTut.ForceComplete();
+                    if (!activeTut.hasComplete)
+                    {
+                        activeTut.ForceComplete();
+                    }
+
+                    activeTut = null;
                 }
 
-                activeTut = null;
+                instance.database.Set("complete_" + id, true, true, true);
+
+                LogWrapper.DebugLog("[{0}] Mark tutorial {1} as completed", instance.GetType(), id);
             }
-
-            instance.database.Set("complete_" + id, true, true, true);
-
-            LogWrapper.DebugLog("[{0}] Mark tutorial {1} as completed", instance.GetType(), id);
         }
 
         private static void TryLoadTutorial(string trigger)
