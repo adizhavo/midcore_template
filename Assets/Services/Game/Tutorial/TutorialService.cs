@@ -1,5 +1,6 @@
 ﻿using Zenject;
 using Entitas;
+using UnityEngine;
 using Services.Core;
 using Services.Core.GUI;
 using Services.Core.Data;
@@ -92,6 +93,9 @@ namespace Services.Game.Tutorial
         {
             if (activeTut != null)
                 activeTut.Update();
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+                CompleteCurrentTutorial();
         }
 
         #endregion
