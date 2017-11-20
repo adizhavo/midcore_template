@@ -22,9 +22,20 @@ namespace Services.Game.Factory
             if (!string.IsNullOrEmpty(objectData.onOrderCompleteCommand))
             {
                 var orderList = new List<OrderListComponent.Order>();
-                foreach(var keyValue in objectData.orderList)
+                if (objectData.objectOrderList != null)
                 {
-                    orderList.Add(new OrderListComponent.Order(keyValue.Key, 0, keyValue.Value));
+                    foreach(var keyValue in objectData.objectOrderList)
+                    {
+                        orderList.Add(new OrderListComponent.Order(keyValue.Key, 0, keyValue.Value));
+                    }
+                }
+
+                if (objectData.typeOrderList != null)
+                {
+                    foreach(var keyValue in objectData.typeOrderList)
+                    {
+                        orderList.Add(new OrderListComponent.Order(keyValue.Key, 0, keyValue.Value));
+                    }
                 }
                         
                 entity.AddOrderList(orderList);

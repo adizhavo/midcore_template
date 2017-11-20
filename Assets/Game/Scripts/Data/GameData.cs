@@ -61,7 +61,8 @@ namespace MergeWar.Data
         public FloatRange timeout;
         public string onOrderCompleteCommand;
         public string onOrderUpdateCommand;
-        public List<KeyValuePair<string, int>> orderList;
+        public List<KeyValuePair<string, int>> objectOrderList;
+        public List<KeyValuePair<string, int>> typeOrderList;
     }
 
     [System.Serializable]
