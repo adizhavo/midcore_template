@@ -7,6 +7,18 @@ namespace MergeWar.Game
 {
     public class GameSystemInstaller : Installer<GameSystemInstaller>
     {
+        private static GameSystemInstaller instance;
+
+        public static T Resolve<T>()
+        {
+            return instance.Container.Resolve<T>();
+        }
+
+        public GameSystemInstaller()
+        {
+            instance = this;
+        }
+
         #region implemented abstract members of InstallerBase
 
         public override void InstallBindings()
