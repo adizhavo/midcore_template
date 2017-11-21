@@ -64,6 +64,7 @@ namespace MergeWar
                 .Add(container.Resolve<GestureService>())
                 .Add(container.Resolve<AssetManifestReader>())
                 .Add(container.Resolve<GUIService>())
+                .Add(container.Resolve<CameraService>())
                 .Add(container.Resolve<HUD_Service>())
                 .Add(container.Resolve<FactoryGUI>())
                 .Add(container.Resolve<DataProviderSystem>())

@@ -47,6 +47,7 @@ namespace MergeWar.Game.Systems
             }
 
             // setup camera
+            cameraService.SetBoundary(dataProvider.GetGameConfig().cameraInitPos.ToVector3(), dataProvider.GetGameConfig().cameraBoundaryRadius);
             cameraService.SetZoom(dataProvider.GetGameConfig().cameraInitZoom);
             cameraService.SetPosition(dataProvider.GetGameConfig().cameraInitPos.ToVector3());
             dataBinding.AddData<bool>("game.camera.camp", true);
