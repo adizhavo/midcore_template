@@ -1,5 +1,7 @@
 ﻿using Entitas;
+using Zenject;
 using UnityEngine;
+using Services.Core.Databinding;
 using System.Collections.Generic;
 
 namespace Services.Game.SceneCamera
@@ -9,35 +11,27 @@ namespace Services.Game.SceneCamera
     /// Handler all aniamtions and setup
     /// </summary>
 
-    public class CameraService : IInitializeSystem
+    public class CameraService
     {
-        public Camera camera
+        [Inject] DataBindingService databinding;
+
+        public Camera activeCamera
         {
-            private set;
-            get;
+            get{ return databinding.GetData<Camera>(Constants.DATABINDING_CAMERA_ACTIVE).value; }
         }
 
         public Vector3 position
         {
-            get { return camera.transform.position; }
+            get { return databinding.GetData<Vector3>(Constants.DATABINDING_CAMERA_POSITON).value; }
         }
 
         public float zoom
         {
-            get { return camera.orthographicSize; }
+            get { return databinding.GetData<float>(Constants.DATABINDING_CAMERA_ZOOM).value; }
         }
 
         private LTDescr zoomAnim;
         private LTDescr posAnim;
-
-        #region IInitializeSystem implementation
-
-        public void Initialize()
-        {
-            camera = Camera.main;
-        }
-
-        #endregion
 
         public void SetZoom(float zoom)
         {
@@ -47,7 +41,7 @@ namespace Services.Game.SceneCamera
                 zoomAnim = null;
             }
 
-            camera.orthographicSize = zoom;
+            databinding.AddData(Constants.DATABINDING_CAMERA_ZOOM, zoom, true);
         }
 
         public void LerpZoom(float zoom, float duration = 0.3f)
@@ -57,8 +51,8 @@ namespace Services.Game.SceneCamera
                 LeanTween.cancel(zoomAnim.uniqueId);
             }
 
-            zoomAnim = LeanTween.value(camera.orthographicSize, zoom, duration).setOnUpdate(
-                (value) => camera.orthographicSize = value
+            zoomAnim = LeanTween.value(activeCamera.orthographicSize, zoom, duration).setOnUpdate(
+                (float value) => databinding.AddData(Constants.DATABINDING_CAMERA_ZOOM, value, true)
             ).setEaseOutExpo();
         }
 
@@ -70,7 +64,7 @@ namespace Services.Game.SceneCamera
                 posAnim = null;
             }
 
-            camera.transform.position = position;
+            databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, position, true);
         }
 
         public void LerpPosition(Vector3 position, float duration = 0.3f)
@@ -80,7 +74,9 @@ namespace Services.Game.SceneCamera
                 LeanTween.cancel(posAnim.uniqueId);
             }
 
-            posAnim = LeanTween.move(camera.gameObject, position, duration).setEaseOutExpo();
+            posAnim = LeanTween.value(activeCamera.gameObject, activeCamera.transform.position, position, duration).setOnUpdate(
+                (Vector3 value) => databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, value, true)
+            ).setEaseOutExpo();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace MergeWar.Game.Systems
 
         public bool HandleTouchUp(Vector3 screenPos)
         {
-            var touched = Utils.GetInputTarget(screenPos, sceneSystem, cameraService.camera);
+            var touched = Utils.GetInputTarget(screenPos, sceneSystem, cameraService.activeCamera);
             if (touched != null)
             {
                 EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_TAP_UP, touched);

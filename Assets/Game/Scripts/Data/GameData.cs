@@ -61,7 +61,8 @@ namespace MergeWar.Data
         public FloatRange timeout;
         public string onOrderCompleteCommand;
         public string onOrderUpdateCommand;
-        public List<KeyValuePair<string, int>> orderList;
+        public List<KeyValuePair<string, int>> objectOrderList;
+        public List<KeyValuePair<string, int>> typeOrderList;
     }
 
     [System.Serializable]
@@ -73,6 +74,7 @@ namespace MergeWar.Data
         public float cameraInitZoom;
         public FloatRange cameraZoomRange;
         public FloatRange cameraStretchedZoomRange;
+        public Services.Core.FloatVector3 cameraInitPos;
     }
 
     public class CommandDataRoot
@@ -90,7 +92,7 @@ namespace MergeWar.Data
         public int count;
         public string chainedCommand;
         public string vfx;
-        public float delay;
+        public string tutorialTrigger;
     }
 
     [System.Serializable]

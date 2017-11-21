@@ -3,6 +3,6 @@
 /Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
 -configPath=./config.json \
 -sheetTab=COMMANDS \
--keyRange=A1:G \
--valueRange=A2:G \
+-keyRange=A1:H \
+-valueRange=A2:H \
 -outputFileName=command_data.json \

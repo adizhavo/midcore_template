@@ -53,7 +53,7 @@ namespace Services.Game.HUD
                 }
                 else
                 {
-                    var hudPosition = cameraService.camera.WorldToScreenPoint(activeHUD.Key.HUDPivot);
+                    var hudPosition = cameraService.activeCamera.WorldToScreenPoint(activeHUD.Key.HUDPivot);
                     activeHUD.Value.transform.position = hudPosition;
                 }
             }

@@ -54,19 +54,25 @@ namespace MergeWar.Game.Systems
         {
             if (dragged != null && dragged.hasGameObject)
             {
-                var gridPos = Utils.GetPlaneTouchPos(screenPos, cameraService.camera);
+                var gridPos = Utils.GetPlaneTouchPos(screenPos, cameraService.activeCamera);
                 var cell = gridService.GetCell(gridPos);
 
-                if (gridService.IsOccupied(cell) 
-                    && cell.cell.occupant.hasGameObject
-                    && cell.cell.occupant.hasOrderList
-                    && cell.cell.occupant.orderList.HasOrder(dragged.objectId)
-                    && !cell.cell.occupant.orderList.Filled())
+                if (cell != null && gridService.IsOccupied(cell))
                 {
-                    float animationLength = 0.3f;
-                    dragged.TweenToPosition(cell.cell.occupant.position, animationLength, LeanTweenType.easeInExpo);
-                    SceneAttachment.AttachCoroutine(AddOrderWithDelay(cell, animationLength));
-                    return true;
+                    bool isObjectOrder = cell.cell.occupant.orderList.HasOrder(dragged.objectId);
+                    bool isTypeOrder = cell.cell.occupant.orderList.HasOrder(dragged.typeId);
+
+                    if (cell.cell.occupant.hasGameObject
+                        && cell.cell.occupant.hasOrderList
+                        && (isObjectOrder || isTypeOrder)
+                        && !cell.cell.occupant.orderList.Filled())
+                    {
+                        float animationLength = 0.3f;
+                        dragged.TweenToPosition(cell.cell.occupant.position, animationLength, LeanTweenType.easeInExpo);
+                        var orderId = isObjectOrder ? dragged.objectId : dragged.typeId;
+                        SceneAttachment.AttachCoroutine(AddOrderWithDelay(orderId, cell, animationLength));
+                        return true;
+                    }
                 }
 
                 dragged = null;
@@ -79,14 +85,24 @@ namespace MergeWar.Game.Systems
 
         #endregion
 
-        private IEnumerator AddOrderWithDelay(GameEntity cell, float delay)
+        private IEnumerator AddOrderWithDelay(string orderId, GameEntity cell, float delay)
         {
             yield return new WaitForSeconds(delay);
-            cell.cell.occupant.orderList.AddOrder(dragged.objectId);
-            var objectData = database.Get<GameGridObjectData>(cell.cell.occupant.objectId);
-            var isFilled = cell.cell.occupant.orderList.Filled();
-            var commandId = isFilled ? objectData.onOrderCompleteCommand : objectData.onOrderUpdateCommand;
-            commandSystem.Execute(commandId, cell.cell.occupant.position, cell, cell.cell.occupant);
+            cell.cell.occupant.orderList.AddOrder(orderId);
+            TryCompleteOrder(cell);
+        }
+
+        private void TryCompleteOrder(GameEntity cell)
+        {
+            if (gridService.IsOccupied(cell))
+            {
+                var occupant = cell.cell.occupant;
+                var objectData = database.Get<GameGridObjectData>(occupant.gameObject.objectId);
+                var isFilled = occupant.orderList.Filled();
+                var commandId = isFilled ? objectData.onOrderCompleteCommand : objectData.onOrderUpdateCommand;
+                commandSystem.Execute(commandId, occupant.position, cell, occupant);
+            }
+
             dragged.Destroy();
         }
     }
