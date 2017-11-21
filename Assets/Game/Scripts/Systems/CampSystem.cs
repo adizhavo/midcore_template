@@ -28,7 +28,8 @@ namespace MergeWar.Game.Systems
         {
             // Load grid
             var sampleMap = database.Get<string>("player_map_data");
-            var grid = mapReader.TILED_ReadGrid(sampleMap, new GridSettings());
+            var gridSettings = new GridSettings() { type = GridType.ISO };
+            var grid = mapReader.TILED_ReadGrid(sampleMap, gridSettings);
             gridService.Load(grid);
 
             // Load grid objects
