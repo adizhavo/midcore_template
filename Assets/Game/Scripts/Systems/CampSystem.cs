@@ -28,7 +28,7 @@ namespace MergeWar.Game.Systems
         {
             // Load grid
             var sampleMap = database.Get<string>("player_map_data");
-            var gridSettings = new GridSettings() { type = GridType.ISO };
+            var gridSettings = new GridSettings() { type = GridType.ISO, cellSpacing = new FloatVector2(0.5f, 0.7f) };
             var grid = mapReader.TILED_ReadGrid(sampleMap, gridSettings);
             gridService.Load(grid);
 

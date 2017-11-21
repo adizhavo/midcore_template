@@ -401,8 +401,10 @@ namespace Services.Game.Grid
 
                 if (grid.settings.type.Equals(GridType.ISO))
                 {
-                    x = x - y;
-                    y = x + y / 2;
+                    var cartX = x;
+                    var cartY = y;
+                    x = cartX - cartY;
+                    y = cartX + cartY / 2;
                 }
 
                 cell.xPosition = x;
