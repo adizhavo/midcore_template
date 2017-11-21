@@ -20,6 +20,7 @@ namespace Services.Game.Tutorial.Bindings
             base.Bind();
             databinding.Bind<UIAnchor>(Constants.DATABINDING_TUTORIAL_MASK_ANCHOR_PATH, this);
             databinding.Bind<KeyValuePair<string, string>>(Constants.DATABINDING_TUTORIAL_MASK_VIEW_PATH, this);
+            component.material = new Material(Shader.Find("Tutorial/UIMask"));
         }
 
         #region BindingComponent implementation
