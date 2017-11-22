@@ -28,7 +28,8 @@ namespace MergeWar.Game.Systems
         {
             // Load grid
             var sampleMap = database.Get<string>("player_map_data");
-            var grid = mapReader.TILED_ReadGrid(sampleMap, new GridSettings());
+            var gridSettings = new GridSettings() { type = GridType.ISO, cellSpacing = new FloatVector2(0.5f, 0.7f) };
+            var grid = mapReader.TILED_ReadGrid(sampleMap, gridSettings);
             gridService.Load(grid);
 
             // Load grid objects
@@ -46,6 +47,7 @@ namespace MergeWar.Game.Systems
             }
 
             // setup camera
+            cameraService.SetBoundary(dataProvider.GetGameConfig().cameraInitPos.ToVector3(), dataProvider.GetGameConfig().cameraBoundaryRadius);
             cameraService.SetZoom(dataProvider.GetGameConfig().cameraInitZoom);
             cameraService.SetPosition(dataProvider.GetGameConfig().cameraInitPos.ToVector3());
             dataBinding.AddData<bool>("game.camera.camp", true);

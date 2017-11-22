@@ -1,1 +1,1 @@
-{"id":"default_game_config","cameraInertiaDuration":1,"cameraZoomSpeed":0.5,"cameraZoomRange":{"min":4 ,"max":11},"cameraStretchedZoomRange":{"min":3 ,"max":13},"cameraInitZoom":8,"cameraInitPos":{ "x" : 1.1, "y" : 10, "z" : -10 }}
+{"id":"default_game_config","cameraInertiaDuration":1,"cameraZoomSpeed":0.5,"cameraZoomRange":{"min":4 ,"max":11},"cameraStretchedZoomRange":{"min":3 ,"max":13},"cameraInitZoom":8,"cameraInitPos":{ "x" : 5, "y" : 10, "z" : 0 },"cameraBoundaryRadius":10}

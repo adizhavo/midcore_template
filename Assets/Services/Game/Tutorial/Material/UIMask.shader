@@ -3,8 +3,8 @@ Shader "Tutorial/UIMask"
 	Properties
 	{
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
-		_Color ("Main Color", Color) = (1,.5,.5,1)
-		_Mask ("Mask", Vector) = (0.5, 0.5, 1, 1)
+		_Color ("Main Color", Color) = (0, 0, 0, 1)
+		_Mask ("Mask", Vector) = (0, 0, 0, 0)
 	}
 
 	SubShader

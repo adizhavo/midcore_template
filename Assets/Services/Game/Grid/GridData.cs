@@ -20,10 +20,17 @@ namespace Services.Game.Grid
         }
     }
 
+    public enum GridType
+    {
+        CART,
+        ISO
+    }
+
     public class GridSettings
     {
         public FloatVector3 startPos = new FloatVector3(0f, 0f, 0f);
         public FloatVector2 cellSpacing = new FloatVector2(1f, 1f);
+        public GridType type = GridType.CART;
 
         public GridSettings()
         {

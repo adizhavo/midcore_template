@@ -3,6 +3,7 @@ using Zenject;
 using UnityEngine;
 using Services.Core.Databinding;
 using System.Collections.Generic;
+using Services.Core;
 
 namespace Services.Game.SceneCamera
 {
@@ -11,7 +12,7 @@ namespace Services.Game.SceneCamera
     /// Handler all aniamtions and setup
     /// </summary>
 
-    public class CameraService
+    public class CameraService : IExecuteSystem
     {
         [Inject] DataBindingService databinding;
 
@@ -30,8 +31,21 @@ namespace Services.Game.SceneCamera
             get { return databinding.GetData<float>(Constants.DATABINDING_CAMERA_ZOOM).value; }
         }
 
+        public float boundaryRadius 
+        {
+            private set;
+            get;
+        }
+
         private LTDescr zoomAnim;
         private LTDescr posAnim;
+        private Vector3 boundaryCenter;
+
+        public void SetBoundary(Vector3 center, float radius)
+        {
+            this.boundaryCenter = center;
+            this.boundaryRadius = radius;
+        }
 
         public void SetZoom(float zoom)
         {
@@ -64,7 +78,7 @@ namespace Services.Game.SceneCamera
                 posAnim = null;
             }
 
-            databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, position, true);
+            databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, ClampPosition(position), true);
         }
 
         public void LerpPosition(Vector3 position, float duration = 0.3f)
@@ -75,8 +89,31 @@ namespace Services.Game.SceneCamera
             }
 
             posAnim = LeanTween.value(activeCamera.gameObject, activeCamera.transform.position, position, duration).setOnUpdate(
-                (Vector3 value) => databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, value, true)
+                (Vector3 value) => databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, ClampPosition(value), true)
             ).setEaseOutExpo();
         }
+
+        private Vector3 ClampPosition(Vector3 position)
+        {
+            var distanceVector = boundaryCenter - position;
+            if (distanceVector.sqrMagnitude > Mathf.Pow(boundaryRadius, 2))
+            {
+                distanceVector = Vector3.ClampMagnitude(distanceVector, boundaryRadius);
+                position = boundaryCenter - distanceVector;
+            }
+
+            return position;
+        }
+
+        #region IExecuteSystem implementation
+
+        public void Execute()
+        {
+            #if UNITY_EDITOR
+            Utils.DrawEllipse(boundaryCenter, activeCamera.transform.forward, activeCamera.transform.up, boundaryRadius, boundaryRadius, 180, Color.cyan, 0f);
+            #endif
+        }
+
+        #endregion
     }
 }

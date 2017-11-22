@@ -75,6 +75,7 @@ namespace MergeWar.Data
         public FloatRange cameraZoomRange;
         public FloatRange cameraStretchedZoomRange;
         public Services.Core.FloatVector3 cameraInitPos;
+        public float cameraBoundaryRadius;
     }
 
     public class CommandDataRoot

@@ -396,9 +396,19 @@ namespace Services.Game.Grid
         {
             foreach (var cell in grid.cells)
             {
-                cell.position = grid.settings.startPos.ToVector3();
-                cell.xPosition += cell.cell.row * grid.settings.cellSpacing.x;
-                cell.zPosition -= cell.cell.column * grid.settings.cellSpacing.y;
+                float x = grid.settings.startPos.x + cell.cell.row * grid.settings.cellSpacing.x;
+                float y = grid.settings.startPos.y - cell.cell.column * grid.settings.cellSpacing.y;
+
+                if (grid.settings.type.Equals(GridType.ISO))
+                {
+                    var cartX = x;
+                    var cartY = y;
+                    x = cartX - cartY;
+                    y = cartX + cartY / 2;
+                }
+
+                cell.xPosition = x;
+                cell.zPosition = y;
             }
         }
     }
