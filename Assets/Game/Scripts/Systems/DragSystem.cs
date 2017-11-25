@@ -1,4 +1,4 @@
-﻿using Zenject;
+using Zenject;
 using Entitas;
 using UnityEngine;
 using Services.Core.Data;
@@ -52,6 +52,15 @@ namespace MergeWar.Game.Systems
         public bool HandleTouchDown(Vector3 screenPos)
         {
             touched = Utils.GetInputTarget(screenPos, sceneSystem, cameraService.activeCamera);
+			if (touched == null)
+			{
+				var worldPos = Utils.GetPlaneTouchPos(screenPos, cameraService.activeCamera);
+				var cell = gridService.GetCell(worldPos);
+				if (cell != null)
+				{
+					touched = cell.cell.occupant;
+				}
+			}
             return false;
         }
 
@@ -79,7 +88,7 @@ namespace MergeWar.Game.Systems
             else
             {
                 inertia = false;
-                isDragging = false; 
+                isDragging = false;
             }
 
             return false;
@@ -100,8 +109,8 @@ namespace MergeWar.Game.Systems
                 }
                 else
                 {
-                    var pos = Utils.GetPlaneTouchPos(screenPos, cameraService.activeCamera);
-                    dragged.position = pos;
+					var worldPos = Utils.GetPlaneTouchPos(screenPos, cameraService.activeCamera);
+                    dragged.position = worldPos;
                 }
 
                 #if UNITY_EDITOR
@@ -174,10 +183,8 @@ namespace MergeWar.Game.Systems
                 var pos = Utils.GetPlaneTouchPos(screenPos, cameraService.activeCamera);
                 var closestCell = gridService.GetClosestCell(pos, false);
                 gridService.SetEntityOn(dragged, closestCell);
-
                 var objectData = database.Get<GameGridObjectData>(dragged.objectId);
                 commandSystem.Execute(objectData.onDragEndCommand, closestCell, dragged);
-
                 dragged = null;
             }
         }
@@ -190,7 +197,7 @@ namespace MergeWar.Game.Systems
                 Utils.SetSortingLayer(dragged, Constants.SORTING_LAYER_DEFAULT);
                 gridService.SetEntityOn(dragged, draggedInitCell);
                 dragged = null;
-            } 
+            }
         }
     }
 }

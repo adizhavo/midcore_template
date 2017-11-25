@@ -54,7 +54,7 @@ namespace Services.Game.Factory
             entity.AddGameObject(objectData.objectId, objectData.typeId, Utils.GenerateUniqueId());
             entity.AddResource(prefabPath);
             var defaultFootprint = new List<List<int>>() { new List<int>() { 1 } };
-            entity.AddGrid(null, new List<GameEntity>(), new Footprint(objectData.footprintData == null ? defaultFootprint : objectData.footprintData));
+            entity.AddGrid(null, new List<GameEntity>(), new Footprint(objectData.footprintData == null ? defaultFootprint : objectData.footprintData), objectData.canSwap);
             var view = FactoryPool.GetPooled(prefabPath);
             entity.AddView(view);
             #if UNITY_EDITOR

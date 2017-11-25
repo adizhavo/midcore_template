@@ -1,4 +1,4 @@
-﻿using Entitas;
+using Entitas;
 using Zenject;
 using UnityEngine;
 using Services.Core.Databinding;
@@ -31,7 +31,7 @@ namespace Services.Game.SceneCamera
             get { return databinding.GetData<float>(Constants.DATABINDING_CAMERA_ZOOM).value; }
         }
 
-        public float boundaryRadius 
+        public float boundaryRadius
         {
             private set;
             get;
@@ -65,7 +65,7 @@ namespace Services.Game.SceneCamera
                 LeanTween.cancel(zoomAnim.uniqueId);
             }
 
-            zoomAnim = LeanTween.value(activeCamera.orthographicSize, zoom, duration).setOnUpdate(
+			zoomAnim = LeanTween.value(this.zoom, zoom, duration).setOnUpdate(
                 (float value) => databinding.AddData(Constants.DATABINDING_CAMERA_ZOOM, value, true)
             ).setEaseOutExpo();
         }
