@@ -13,5 +13,6 @@ namespace Services.Game.Data
 
         // default footprint data for 1x1
         public List<List<int>> footprintData;
+        public bool canSwap;
     }
 }

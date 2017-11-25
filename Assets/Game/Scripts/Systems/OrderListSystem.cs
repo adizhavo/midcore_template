@@ -1,4 +1,4 @@
-﻿using Zenject;
+using Zenject;
 using UnityEngine;
 using Services.Core;
 using Services.Core.Gesture;
@@ -57,7 +57,7 @@ namespace MergeWar.Game.Systems
                 var gridPos = Utils.GetPlaneTouchPos(screenPos, cameraService.activeCamera);
                 var cell = gridService.GetCell(gridPos);
 
-                if (cell != null && gridService.IsOccupied(cell))
+                if (cell != null && gridService.IsOccupied(cell) && cell.cell.occupant.hasOrderList)
                 {
                     bool isObjectOrder = cell.cell.occupant.orderList.HasOrder(dragged.objectId);
                     bool isTypeOrder = cell.cell.occupant.orderList.HasOrder(dragged.typeId);

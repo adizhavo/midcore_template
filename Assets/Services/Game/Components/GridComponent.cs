@@ -1,4 +1,4 @@
-﻿using Entitas;
+using Entitas;
 using Services.Game.Grid;
 using System.Collections.Generic;
 
@@ -11,6 +11,7 @@ namespace Services.Game.Components
         // will contain the pivot cell
         public List<GameEntity> cells;
         public Footprint footprint;
+		public bool canSwap;
     }
 
     public class Footprint

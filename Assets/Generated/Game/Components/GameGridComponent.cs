@@ -11,21 +11,23 @@ public partial class GameEntity {
     public Services.Game.Components.GridComponent grid { get { return (Services.Game.Components.GridComponent)GetComponent(GameComponentsLookup.Grid); } }
     public bool hasGrid { get { return HasComponent(GameComponentsLookup.Grid); } }
 
-    public void AddGrid(GameEntity newPivot, System.Collections.Generic.List<GameEntity> newCells, Services.Game.Components.Footprint newFootprint) {
+    public void AddGrid(GameEntity newPivot, System.Collections.Generic.List<GameEntity> newCells, Services.Game.Components.Footprint newFootprint, bool newCanSwap) {
         var index = GameComponentsLookup.Grid;
         var component = CreateComponent<Services.Game.Components.GridComponent>(index);
         component.pivot = newPivot;
         component.cells = newCells;
         component.footprint = newFootprint;
+        component.canSwap = newCanSwap;
         AddComponent(index, component);
     }
 
-    public void ReplaceGrid(GameEntity newPivot, System.Collections.Generic.List<GameEntity> newCells, Services.Game.Components.Footprint newFootprint) {
+    public void ReplaceGrid(GameEntity newPivot, System.Collections.Generic.List<GameEntity> newCells, Services.Game.Components.Footprint newFootprint, bool newCanSwap) {
         var index = GameComponentsLookup.Grid;
         var component = CreateComponent<Services.Game.Components.GridComponent>(index);
         component.pivot = newPivot;
         component.cells = newCells;
         component.footprint = newFootprint;
+        component.canSwap = newCanSwap;
         ReplaceComponent(index, component);
     }
 
