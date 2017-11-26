@@ -1,8 +1,9 @@
-﻿using Zenject;
+using Zenject;
 using UnityEngine;
 using Services.Core.Gesture;
 using Services.Core.Data;
 using Services.Core.Event;
+using Services.Game.Grid;
 using Services.Game.SceneCamera;
 using MergeWar.Data;
 using MergeWar.Game.Utilities;
@@ -15,6 +16,7 @@ namespace MergeWar.Game.Systems
         [Inject] SceneSystem sceneSystem;
         [Inject] CameraService cameraService;
         [Inject] DatabaseService databaseService;
+        [Inject] GridService gridService;
 
         #region ITouchHandler implementation
 
@@ -23,6 +25,16 @@ namespace MergeWar.Game.Systems
         public bool HandleTouchUp(Vector3 screenPos)
         {
             var touched = Utils.GetInputTarget(screenPos, sceneSystem, cameraService.activeCamera);
+            if (touched == null)
+            {
+                var worldPos = Utils.GetPlaneTouchPos(screenPos, cameraService.activeCamera);
+                var cell = gridService.GetCell(worldPos);
+                if (cell != null)
+                {
+                    touched = cell.cell.occupant;
+                }
+            }
+
             if (touched != null)
             {
                 EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_TAP_UP, touched);
