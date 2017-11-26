@@ -132,6 +132,10 @@ namespace Services.Game.Grid
             if (ignore == null)
                 ignore = new List<GameEntity>();
 
+            var cellInPos = GetCell(worldPos);
+            if (cellInPos != null && !ignore.Contains(cellInPos) && (!empty || (empty && !IsOccupied(cellInPos))))
+                return cellInPos;
+
             GameEntity selected = null;
             float minSqrDistance = float.MaxValue;
 
