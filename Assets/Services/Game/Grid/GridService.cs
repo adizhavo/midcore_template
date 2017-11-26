@@ -79,11 +79,25 @@ namespace Services.Game.Grid
 
         public GameEntity GetCell(Vector3 worldPos)
         {
+            float xBoundary = grid.settings.cellSpacing.x;
+            float yBoundary = grid.settings.cellSpacing.y;
+
+            if (grid.settings.type.Equals(GridType.ISO))
+            {
+                var cartX = xBoundary;
+                var cartY = yBoundary;
+                xBoundary = cartX - cartY;
+                yBoundary = cartX + cartY / 2;
+            }
+
+            var boundary = new Vector2(Mathf.Abs(xBoundary), Mathf.Abs(yBoundary));
+
             foreach (var cell in grid.cells)
             {
                 float xDistance = Mathf.Abs(worldPos.x - cell.position.x);
                 float zDistance = Mathf.Abs(worldPos.z - cell.position.z);
-                if (xDistance < grid.settings.cellSpacing.x / 2 && zDistance < grid.settings.cellSpacing.y / 2)
+                var distance = new Vector2(xDistance, zDistance);
+                if (distance.sqrMagnitude < boundary.sqrMagnitude / 4f)
                 {
                     return cell;
                 }
