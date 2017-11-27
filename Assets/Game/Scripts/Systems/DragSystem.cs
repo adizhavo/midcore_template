@@ -51,6 +51,8 @@ namespace MergeWar.Game.Systems
 
         public bool HandleTouchDown(Vector3 screenPos)
         {
+            dragged = null;
+            isDragging = false;
             touched = Utils.GetInputTarget(screenPos, sceneSystem, cameraService.activeCamera);
 			if (touched == null)
 			{

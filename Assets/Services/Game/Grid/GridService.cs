@@ -46,17 +46,7 @@ namespace Services.Game.Grid
         {
             if (grid != null)
             {
-                foreach (var cell in grid.cells)
-                {
-                    if (cell.cell.occupant != null)
-                    {
-                        DeAttach(cell.cell.occupant);
-                        cell.cell.occupant.Destroy();
-                    }
-
-                    cell.Destroy();
-                }
-
+                DestroyCells(grid.cells);
                 grid.cells.Clear();
                 grid = null;
             }
@@ -74,16 +64,30 @@ namespace Services.Game.Grid
 
         public GameEntity GetCell(int row, int column)
         {
-            return grid.cells.Find(c => c.cell.row == row && c.cell.column == column);
+            return grid.cells.Find(c => c.hasCell && c.cell.row == row && c.cell.column == column);
         }
 
         public GameEntity GetCell(Vector3 worldPos)
         {
+            float xBoundary = grid.settings.cellSpacing.x;
+            float yBoundary = grid.settings.cellSpacing.y;
+
+            if (grid.settings.type.Equals(GridType.ISO))
+            {
+                var cartX = xBoundary;
+                var cartY = yBoundary;
+                xBoundary = cartX - cartY;
+                yBoundary = cartX + cartY / 2;
+            }
+
+            var boundary = new Vector2(Mathf.Abs(xBoundary), Mathf.Abs(yBoundary));
+
             foreach (var cell in grid.cells)
             {
                 float xDistance = Mathf.Abs(worldPos.x - cell.position.x);
                 float zDistance = Mathf.Abs(worldPos.z - cell.position.z);
-                if (xDistance < grid.settings.cellSpacing.x / 2 && zDistance < grid.settings.cellSpacing.y / 2)
+                var distance = new Vector2(xDistance, zDistance);
+                if (distance.sqrMagnitude < boundary.sqrMagnitude / 4f)
                 {
                     return cell;
                 }
@@ -114,23 +118,27 @@ namespace Services.Game.Grid
 
         public List<GameEntity> GetAllCellsWithTypeId(string typeId)
         {
-            return grid.cells.FindAll(c => !string.IsNullOrEmpty(typeId) && c.typeId.Equals(typeId));
+            return grid.cells.FindAll(c => !string.IsNullOrEmpty(typeId) && !string.IsNullOrEmpty(c.typeId) && c.typeId.Equals(typeId));
         }
 
         public List<GameEntity> GetAllCellsWithObjectId(string objectId)
         {
-            return grid.cells.FindAll(c => !string.IsNullOrEmpty(objectId) && c.objectId.Equals(objectId));
+            return grid.cells.FindAll(c => !string.IsNullOrEmpty(objectId) && !string.IsNullOrEmpty(c.objectId) && c.objectId.Equals(objectId));
         }
 
         public List<GameEntity> GetAllCellsWith(string typeId, string objectId)
         {
-            return grid.cells.FindAll(c => !string.IsNullOrEmpty(typeId) && !string.IsNullOrEmpty(objectId) && c.typeId.Equals(typeId) && c.objectId.Equals(objectId));
+            return grid.cells.FindAll(c => !string.IsNullOrEmpty(typeId) && !string.IsNullOrEmpty(objectId) && !string.IsNullOrEmpty(c.typeId) && !string.IsNullOrEmpty(c.objectId) && c.typeId.Equals(typeId) && c.objectId.Equals(objectId));
         }
 
         public GameEntity GetClosestCell(Vector3 worldPos, bool empty = false, List<GameEntity> ignore = null)
         {
             if (ignore == null)
                 ignore = new List<GameEntity>();
+
+            var cellInPos = GetCell(worldPos);
+            if (cellInPos != null && !ignore.Contains(cellInPos) && (!empty || (empty && !IsOccupied(cellInPos))))
+                return cellInPos;
 
             GameEntity selected = null;
             float minSqrDistance = float.MaxValue;
@@ -285,12 +293,13 @@ namespace Services.Game.Grid
             SetEntityOn(entity, GetCell(row, column));
         }
 
-        public void SetEntityOn(GameEntity entity, GameEntity pivot)
+        public void SetEntityOn(GameEntity entity, GameEntity pivot, bool tweenToCell = true)
         {
             if (DoesFit(entity, pivot))
             {
                 Attach(entity, pivot);
-                entity.TweenToCell();
+                if (tweenToCell) entity.TweenToCell();
+                else entity.PositionOnCell();
             }
             else if (entity.hasGrid)
             {
@@ -306,7 +315,8 @@ namespace Services.Game.Grid
                     else
                     {
                         Attach(entity, fit);
-                        entity.TweenToCell();
+                        if (tweenToCell) entity.TweenToCell();
+                        else entity.PositionOnCell();
                     }
                 }
                 else if (occupants.Count == 1)
@@ -330,8 +340,16 @@ namespace Services.Game.Grid
                     {
                         Attach(occupant, fit);
                         Attach(entity, pivot);
-                        occupant.TweenToCell();
-                        entity.TweenToCell();
+                        if (tweenToCell)
+                        {
+                            occupant.TweenToCell();
+                            entity.TweenToCell();
+                        }
+                        else
+                        {
+                            occupant.PositionOnCell();
+                            entity.PositionOnCell();
+                        }
                     }
                 }
             }
@@ -376,8 +394,9 @@ namespace Services.Game.Grid
                             {
                                 var f_row = j + entity.grid.pivot.row;
                                 var f_column = i + entity.grid.pivot.column;
-
-                                GetCell(f_row, f_column).cell.occupant = null;
+                                var cell = GetCell(f_row, f_column);
+                                if (cell != null)
+                                    cell.cell.occupant = null;
                             }
                         }
                     }
@@ -416,6 +435,50 @@ namespace Services.Game.Grid
                     }
                 }
             }
+        }
+
+        public void DestroyCells(List<GameEntity> cells)
+        {
+            for (int i = cells.Count - 1; i >= 0; i --)
+            {
+                var cell = cells[i];
+                if (cell.cell.occupant != null && cell.cell.occupant.hasGrid)
+                {
+                    DeAttach(cell.cell.occupant);
+                    cell.cell.occupant.Destroy();
+                }
+
+                cell.Destroy();
+                this.grid.cells.Remove(cell);
+            }
+        }
+
+        // Will add grid at runtime with settings of the current grid
+        public void AddGrid(GridData grid, GridAnchor anchor)
+        {
+            var offsets = GetCellOffsets(grid, anchor);
+
+            foreach(var cell in grid.cells)
+            {
+                cell.cell.row += offsets.x;
+                cell.cell.column += offsets.y;
+
+                this.grid.cells.Add(cell);
+            }
+
+            PositionGridCellsView();
+        }
+
+        public IntVector2 GetCellOffsets(GridData grid, GridAnchor anchor)
+        {
+            switch (anchor)
+            {
+                case GridAnchor.TOP : return new IntVector2(0, -1 * grid.size.y);
+                case GridAnchor.BOTTOM : return new IntVector2(0, this.grid.size.y);
+                case GridAnchor.RIGHT : return new IntVector2(this.grid.size.x, 0);
+                case GridAnchor.LEFT : return new IntVector2(-1 * grid.size.x, 0);
+            }
+            return new IntVector2(0, 0);
         }
 
         private void PositionGridCellsView()

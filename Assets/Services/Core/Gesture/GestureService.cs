@@ -17,7 +17,7 @@ namespace Services.Core.Gesture
     /// - Drag
     /// - Hold
     /// Implement the handlers interfaces to listen to the events
-    /// or use the gesture event dispatcher 
+    /// or use the gesture event dispatcher
     /// </summary>
 
     public class GestureService : IInitializeSystem, IExecuteSystem
@@ -122,7 +122,8 @@ namespace Services.Core.Gesture
                     new Transition(GestureState.TOUCH_PINCH,    GestureEvent.UP,        GestureState.NO_TOUCH,      HandlePinchEnd),
                     new Transition(GestureState.TOUCH_DRAG,     GestureEvent.UP,        GestureState.NO_TOUCH,      HandleDragEnd),
                     new Transition(GestureState.TOUCH_PINCH,    GestureEvent.DRAG,      GestureState.TOUCH_DRAG,    ()=>{HandlePinchEnd();HandleDragStart();}),
-                    new Transition(GestureState.TOUCH_DRAG,     GestureEvent.PINCH,     GestureState.TOUCH_PINCH,   ()=>{HandleDragCancel();HandlePinchStart();})
+                    new Transition(GestureState.TOUCH_DRAG,     GestureEvent.PINCH,     GestureState.TOUCH_PINCH,   ()=>{HandleDragCancel();HandlePinchStart();}),
+                    new Transition(GestureState.TOUCH_DRAG,     GestureEvent.DOUBLE,     GestureState.NO_TOUCH,     HandleDragEnd)
                 };
         }
 
@@ -192,7 +193,7 @@ namespace Services.Core.Gesture
 
         public static bool DetectAnyTouch()
         {
-            return 
+            return
                 #if UNITY_EDITOR
                 Input.GetMouseButton(0) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0);
             #else
@@ -217,7 +218,7 @@ namespace Services.Core.Gesture
 
         public static bool HasTauchedUp()
         {
-            return 
+            return
                 #if UNITY_EDITOR
                 Input.GetMouseButtonUp(0);
             #else
@@ -271,7 +272,7 @@ namespace Services.Core.Gesture
 
         public static bool IsPinching()
         {
-            return 
+            return
                 #if UNITY_EDITOR
                 Input.GetAxis("Mouse ScrollWheel") != 0;
             #else
@@ -335,6 +336,7 @@ namespace Services.Core.Gesture
 
         private void HandleDragStart()
         {
+            tapUpTime = -1;
             foreach (var dh in dragHandlers)
                 if (dh.HandleDragStart(GetTouchPos()))
                     break;

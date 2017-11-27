@@ -20,6 +20,14 @@ namespace Services.Game.Grid
         }
     }
 
+    public enum GridAnchor
+    {
+        TOP,
+        BOTTOM,
+        LEFT,
+        RIGHT
+    }
+
     public enum GridType
     {
         CART,

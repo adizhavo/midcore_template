@@ -10,7 +10,7 @@ namespace Services.Game.Tutorial
         TUT_INFO_DIALOG
     }
 
-    public class TutorialStep 
+    public class TutorialStep
     {
         public string id;
         public int index;
@@ -18,9 +18,9 @@ namespace Services.Game.Tutorial
         public string successTrigger;
         public float entryAnimLength;
         public float exitAnimationLength;
-        public string[] awakeActions;
-        public string[] startActions;
-        public string[] exitActions;
+        public string[] awakeActions = new string[0];
+        public string[] startActions = new string[0];
+        public string[] exitActions = new string[0];
         public float maskAlpha;
         public Rect maskSize;
         public TutorialDialogType dialogType;
