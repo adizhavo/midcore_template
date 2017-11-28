@@ -19,11 +19,8 @@ namespace Services.Core.Event
 
         public static void Subscribe(IEventListener<T> listener, string eventId = "")
         {
-            if (!IsSubscribed(listener))
-            {
-                var subscriber = new Subscriber(eventId, listener);
-                subscribers.Add(subscriber);
-            }
+            var subscriber = new Subscriber(eventId, listener);
+            subscribers.Add(subscriber);
         }
 
         public static void Unsubscribe(IEventListener<T> listener)
@@ -40,11 +37,6 @@ namespace Services.Core.Event
                     subscriber.listener.Receive(eventId, value);
                 }
             }
-        }
-
-        public static bool IsSubscribed(IEventListener<T> listener)
-        {
-            return subscribers.Find(l => l.listener.Equals(listener)) != null;
         }
 
         private class Subscriber

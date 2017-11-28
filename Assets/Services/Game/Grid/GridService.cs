@@ -339,6 +339,12 @@ namespace Services.Game.Grid
                     else
                     {
                         Attach(occupant, fit);
+
+                        if (!DoesFit(entity, pivot))
+                        {
+                            pivot = GetClosestFitPivotCell(entity, pivot);
+                        }
+
                         Attach(entity, pivot);
                         if (tweenToCell)
                         {
