@@ -190,4 +190,10 @@ public sealed partial class GameEntity
             }
         }
     }
+
+    public Transform GetPivot(string id)
+    {
+        var viewMono = viewObject.GetComponent<ViewMonoComponent>();
+        return viewMono != null ? viewMono.GetPivot(id) : null;
+    }
 }
