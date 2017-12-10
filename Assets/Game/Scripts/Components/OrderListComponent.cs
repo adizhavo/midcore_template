@@ -52,6 +52,17 @@ namespace MergeWar.Game.Components
             return orderList.Find(i => i.amount < i.target) == null;
         }
 
+        public bool HasFilledOrder(string id)
+        {
+            var order = orderList.Find(o => o.id.Equals(id));
+            return order != null && order.amount >= order.target;
+        }
+
+        public Order GetOrder(string id)
+        {
+            return orderList.Find(o => o.id.Equals(id));
+        }
+
         [System.Serializable]
         public class Order
         {

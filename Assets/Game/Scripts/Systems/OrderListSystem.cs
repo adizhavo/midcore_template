@@ -68,10 +68,13 @@ namespace MergeWar.Game.Systems
                         && !cell.cell.occupant.orderList.Filled())
                     {
                         float animationLength = 0.3f;
-                        dragged.TweenToPosition(cell.cell.occupant.position, animationLength, LeanTweenType.easeInExpo);
                         var orderId = isObjectOrder ? dragged.objectId : dragged.typeId;
-                        SceneAttachment.AttachCoroutine(AddOrderWithDelay(orderId, cell, animationLength));
-                        return true;
+                        if (!cell.cell.occupant.orderList.HasFilledOrder(orderId))
+                        {
+                            AddOrder(orderId, cell.cell.occupant);
+                            SceneAttachment.AttachCoroutine(TryCompleteOrderAfterAnimation(dragged, orderId, cell, animationLength));
+                            return true;
+                        }
                     }
                 }
 
@@ -85,22 +88,28 @@ namespace MergeWar.Game.Systems
 
         #endregion
 
-        private IEnumerator AddOrderWithDelay(string orderId, GameEntity cell, float delay)
+        public void AddOrder(string orderId, GameEntity entity)
         {
-            yield return new WaitForSeconds(delay);
-            cell.cell.occupant.orderList.AddOrder(orderId);
-            TryCompleteOrder(cell);
+            entity.orderList.AddOrder(orderId);
         }
 
-        private void TryCompleteOrder(GameEntity cell)
+        public IEnumerator TryCompleteOrderAfterAnimation(GameEntity order, string orderId, GameEntity cell, float delay)
+        {
+            gridService.DeAttach(order);
+            order.TweenToPosition(cell.cell.occupant.HUDPivot, delay, LeanTweenType.easeInBack);
+            yield return new WaitForSeconds(delay);
+            TryCompleteOrder(order, cell);
+        }
+
+        private void TryCompleteOrder(GameEntity order, GameEntity cell)
         {
             if (gridService.IsOccupied(cell))
             {
-                var occupant = cell.cell.occupant;
-                var objectData = database.Get<GameGridObjectData>(occupant.gameObject.objectId);
-                var isFilled = occupant.orderList.Filled();
-                var commandId = isFilled ? objectData.onOrderCompleteCommand : objectData.onOrderUpdateCommand;
-                commandSystem.Execute(commandId, occupant.position, cell, occupant);
+              var occupant = cell.cell.occupant;
+              var objectData = database.Get<GameGridObjectData>(occupant.gameObject.objectId);
+              var isFilled = occupant.orderList.Filled();
+              var commandId = isFilled ? objectData.onOrderCompleteCommand : objectData.onOrderUpdateCommand;
+              commandSystem.Execute(commandId, occupant.position, cell, occupant);
             }
 
             dragged.Destroy();
