@@ -11,7 +11,7 @@ namespace Services.Core.DataVersion
 
     public abstract class DataMigratorBlock
     {
-        [Inject] private DatabaseService database;
+        [Inject] protected DatabaseService database;
 
         protected Version blockVersion;
 
