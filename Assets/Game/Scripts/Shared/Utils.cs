@@ -1,5 +1,6 @@
 ﻿using Zenject;
 using UnityEngine;
+using Services.Game.Grid;
 using System.Collections.Generic;
 using MergeWar.Game.Systems;
 
@@ -11,6 +12,21 @@ namespace MergeWar.Game.Utilities
 
     public static class Utils 
     {
+        public static GameEntity GetInputTargetOnGrid(Vector3 screenPos, SceneSystem sceneSystem, Camera camera, GridService gridService)
+        {
+            var touched = Utils.GetInputTarget(screenPos, sceneSystem, camera);
+            if (touched == null)
+            {
+                var worldPos = Utils.GetPlaneTouchPos(screenPos, camera);
+                var cell = gridService.GetCell(worldPos);
+                if (cell != null)
+                {
+                    touched = cell.cell.occupant;
+                }
+            }
+            return touched;
+        }
+
         public static GameEntity GetInputTarget(Vector3 screenPos, SceneSystem sceneSystem, Camera camera)
         {
             var gameObject = GetInputTarget(screenPos, camera);
@@ -35,7 +51,7 @@ namespace MergeWar.Game.Utilities
 
         public static Vector3 GetPlaneTouchPos(Vector3 screenPos, Camera camera)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             float rayDistance;
             Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
             if (groundPlane.Raycast(ray, out rayDistance))
@@ -67,6 +83,38 @@ namespace MergeWar.Game.Utilities
                 spriteRenderer.sortingLayerName = layerName;
                 spriteRenderer.sortingOrder = 0;
             }
+        }
+
+        public static void SetSpriteSortingOrder(GameEntity entity, int sortingOrder)
+        {
+            SetSpriteSortingOrder(entity.viewObject, sortingOrder);
+        }
+
+        public static void SetSpriteSortingOrder(GameObject gameObject, int sortingOrder)
+        {
+            var spriteRenderers = gameObject.GetComponentsInChildren<SpriteRenderer>(true);
+            int index = 0;
+            foreach(var spriteRenderer in spriteRenderers)
+            {
+                spriteRenderer.sortingOrder = sortingOrder + index;
+                index ++;
+            } 
+        }
+
+        public static void SetRendererSortingOrder(GameEntity entity, int sortingOrder)
+        {
+            SetRendererSortingOrder(entity.viewObject, sortingOrder);
+        }
+
+        public static void SetRendererSortingOrder(GameObject gameObject, int sortingOrder)
+        {
+            var spriteRenderers = gameObject.GetComponentsInChildren<Renderer>(true);
+            int index = 0;
+            foreach(var spriteRenderer in spriteRenderers)
+            {
+                spriteRenderer.sortingOrder = sortingOrder + index;
+                index ++;
+            } 
         }
     }
 }
