@@ -111,6 +111,11 @@ namespace Services.Game.Grid
             return GetCells(null);
         }
 
+        public List<GameEntity> GetAllCells(Predicate<GameEntity> predicate)
+        {
+            return grid.cells.FindAll(c => predicate(c));
+        }
+
         public List<GameEntity> GetAllCells()
         {
             return grid.cells;
@@ -443,36 +448,67 @@ namespace Services.Game.Grid
             }
         }
 
-        public void DestroyCells(List<GameEntity> cells)
+        public void DestroyCells(List<GameEntity> cells, bool destroyOccupant = true)
         {
-            for (int i = cells.Count - 1; i >= 0; i --)
+            foreach(var cell in cells)
             {
-                var cell = cells[i];
                 if (cell.cell.occupant != null && cell.cell.occupant.hasGrid)
                 {
+                    var occupant = cell.cell.occupant;
                     DeAttach(cell.cell.occupant);
-                    cell.cell.occupant.Destroy();
+                    if (destroyOccupant) occupant.Destroy();
                 }
 
                 cell.Destroy();
-                this.grid.cells.Remove(cell);
             }
+
+            for (int i = grid.cells.Count - 1; i >= 0; i --)
+            {
+                var cell = grid.cells[i];
+                if (cell == null || !cell.hasCell)
+                {
+                    grid.cells.RemoveAt(i);
+                }
+            }
+
+            RecalculateGridSize();
         }
 
         // Will add grid at runtime with settings of the current grid
         public void AddGrid(GridData grid, GridAnchor anchor)
         {
-            var offsets = GetCellOffsets(grid, anchor);
+            var offset = GetCellOffsets(grid, anchor);
 
             foreach(var cell in grid.cells)
             {
-                cell.cell.row += offsets.x;
-                cell.cell.column += offsets.y;
-
+                cell.cell.row += offset.x;
+                cell.cell.column += offset.y;
                 this.grid.cells.Add(cell);
             }
 
+            RecalculateGridSize();
             PositionGridCellsView();
+        }
+
+        private void RecalculateGridSize()
+        {
+            var rowsId = new List<int>();
+            var columnsId = new List<int>();
+
+            foreach(var cell in grid.cells)
+            {
+                if (cell.hasCell && !rowsId.Contains(cell.row))
+                {
+                    rowsId.Add(cell.row);
+                }
+
+                if (cell.hasCell && !columnsId.Contains(cell.column))
+                {
+                    columnsId.Add(cell.column);
+                }
+            }
+
+            grid.size = new IntVector2(rowsId.Count, columnsId.Count);
         }
 
         public IntVector2 GetCellOffsets(GridData grid, GridAnchor anchor)
