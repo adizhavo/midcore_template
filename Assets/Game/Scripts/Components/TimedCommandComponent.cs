@@ -1,5 +1,6 @@
 ﻿using Entitas;
 using UnityEngine;
+using MidcoreTemplate.Data;
 
 namespace MidcoreTemplate.Game.Components
 {
@@ -8,5 +9,6 @@ namespace MidcoreTemplate.Game.Components
     {
         public float remainingTime;
         public float maxTime;
+        public FloatRange timeout;
     }
 }

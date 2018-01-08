@@ -45,7 +45,7 @@ namespace Services.Game.Factory
             if (!string.IsNullOrEmpty(objectData.onTimeoutCommand))
             {
                 var time = objectData.timeout.GetRange();
-                entity.AddTimedCommand(time, time);
+                entity.AddTimedCommand(time, time, objectData.timeout);
             }
 
             return entity;

@@ -34,8 +34,8 @@ namespace MidcoreTemplate.Game.Command
         {
             if (commandData.destroyTrigger && trigger != null)
             {
-                var onDestroyCommand = database.Get<GridObjectData>(trigger.objectId).onDestroyCommand;
-                commandSystem.Execute(onDestroyCommand, cell.position, cell, trigger);
+                if (trigger.hasCommand)
+                    commandSystem.Execute(trigger.command.onDestroyCommand, cell.position, cell, trigger);
 
                 gridService.DeAttach(trigger);
 

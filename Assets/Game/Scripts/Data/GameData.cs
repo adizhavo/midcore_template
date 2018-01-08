@@ -11,7 +11,6 @@ namespace Services.Game.Data
         public bool canDrag;
         public string onDragEndCommand;
         public string onTapCommand;
-        public string onDiscoverCommand;
         public string onSpawnCommand;
         public string onDestroyCommand;
         public string onTimeoutCommand;

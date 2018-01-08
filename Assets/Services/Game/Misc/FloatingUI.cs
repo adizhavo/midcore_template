@@ -21,8 +21,8 @@ namespace Services.Game.Misc
         public void Move(Vector3 fromPos, GUIService guiService, string panelId, string viewID, float duration)
         {
             var panel = guiService.GetPanelView(panelId);
-            var view = panel.GetView<GUIRectView>(viewID);
-            Animate(fromPos, view.rectTransform.position, view.rectTransform.GetSize(), duration);
+            var rectTransform = panel.GetView(viewID).GetComponent<RectTransform>();
+            Move(fromPos, rectTransform, duration);
         }
 
         public void Move(Vector3 fromPos, RectTransform to, float duration)
@@ -37,26 +37,26 @@ namespace Services.Game.Misc
             var currSize = rectTransform.GetSize();
             sizeAnim = LeanTween.value(0f, 1f, duration).setOnUpdate(
                 (value) =>
-                {
-                    var deltaSize = size - currSize;
-                    rectTransform.SetSize(currSize + deltaSize * value);
-                }
+            {
+                var deltaSize = size - currSize;
+                rectTransform.SetSize(currSize + deltaSize * value);
+            }
             )
-            .setOnComplete(() => rectTransform.SetSize(currSize))
-            .setIgnoreTimeScale(true);
+                .setOnComplete(() => rectTransform.SetSize(currSize))
+                .setIgnoreTimeScale(true);
 
             rectTransform.position = fromPos;
             yAnim = LeanTween.value(rectTransform.position.y, toPos.y, duration).setOnUpdate(
                 (value) => rectTransform.SetY(value)
             )
-            .setIgnoreTimeScale(true);
+                .setIgnoreTimeScale(true);
 
             xAnim = LeanTween.value(rectTransform.position.x, toPos.x, duration).setOnUpdate(
                 (value) => rectTransform.SetX(value)
             )
-            .setIgnoreTimeScale(true)
-            .setEaseInBack()
-            .setOnComplete(() => Stop());
+                .setIgnoreTimeScale(true)
+                .setEaseInBack()
+                .setOnComplete(() => Stop());
         }
 
         public void Stop(bool disable = true)

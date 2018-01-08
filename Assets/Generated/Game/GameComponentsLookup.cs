@@ -8,19 +8,21 @@
 //------------------------------------------------------------------------------
 public static class GameComponentsLookup {
 
-    public const int Draggable = 0;
-    public const int OrderList = 1;
-    public const int TimedCommand = 2;
-    public const int AutoDestroy = 3;
-    public const int Cell = 4;
-    public const int GameObject = 5;
-    public const int Grid = 6;
-    public const int Resource = 7;
-    public const int View = 8;
+    public const int Command = 0;
+    public const int Draggable = 1;
+    public const int OrderList = 2;
+    public const int TimedCommand = 3;
+    public const int AutoDestroy = 4;
+    public const int Cell = 5;
+    public const int GameObject = 6;
+    public const int Grid = 7;
+    public const int Resource = 8;
+    public const int View = 9;
 
-    public const int TotalComponents = 9;
+    public const int TotalComponents = 10;
 
     public static readonly string[] componentNames = {
+        "Command",
         "Draggable",
         "OrderList",
         "TimedCommand",
@@ -33,6 +35,7 @@ public static class GameComponentsLookup {
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(MidcoreTemplate.Game.Components.CommandComponent),
         typeof(MidcoreTemplate.Game.Components.DraggableComponent),
         typeof(MidcoreTemplate.Game.Components.OrderListComponent),
         typeof(MidcoreTemplate.Game.Components.TimedCommandComponent),
