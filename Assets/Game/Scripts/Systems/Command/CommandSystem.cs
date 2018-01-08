@@ -3,11 +3,11 @@ using Entitas;
 using UnityEngine;
 using Services.Core.Data;
 using Services.Game.Grid;
-using MergeWar.Data;
-using MergeWar.Game.Command;
+using MidcoreTemplate.Data;
+using MidcoreTemplate.Game.Command;
 using System.Collections;
 
-namespace MergeWar.Game
+namespace MidcoreTemplate.Game
 {
     /// <summary>
     /// Will execute commands from the game

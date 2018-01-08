@@ -7,10 +7,10 @@ using Services.Core.Gesture;
 using Services.Game.Grid;
 using Services.Game.SceneCamera;
 using Services.Game.Data;
-using MergeWar.Game.Utilities;
-using MergeWar.Data;
+using MidcoreTemplate.Game.Utilities;
+using MidcoreTemplate.Data;
 
-namespace MergeWar.Game.Systems
+namespace MidcoreTemplate.Game.Systems
 {
     /// <summary>
     /// Handle camera movement and drag/drop of objects

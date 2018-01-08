@@ -4,10 +4,10 @@ using UnityEngine;
 using Services.Core;
 using Services.Core.Data;
 using Services.Game.Data;
-using MergeWar.Data;
+using MidcoreTemplate.Data;
 using System.Collections.Generic;
 
-namespace MergeWar.Game.Systems
+namespace MidcoreTemplate.Game.Systems
 {
     /// <summary>
     /// Add here all game specific data

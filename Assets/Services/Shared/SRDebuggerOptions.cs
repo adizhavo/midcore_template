@@ -1,8 +1,8 @@
 ﻿using SRDebugger;
 using UnityEngine;
 using System.ComponentModel;
-using MergeWar.Game;
-using MergeWar.Data;
+using MidcoreTemplate.Game;
+using MidcoreTemplate.Data;
 using Services.Game;
 using Services.Game.Grid;
 using Services.Game.Tutorial;

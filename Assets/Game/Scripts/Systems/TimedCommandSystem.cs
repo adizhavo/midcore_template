@@ -3,9 +3,9 @@ using Zenject;
 using UnityEngine;
 using Services.Core.Data;
 using Services.Game.Data;
-using MergeWar.Data;
+using MidcoreTemplate.Data;
 
-namespace MergeWar.Game.Systems
+namespace MidcoreTemplate.Game.Systems
 {
     public class TimedCommandSystem : IExecuteSystem
     {

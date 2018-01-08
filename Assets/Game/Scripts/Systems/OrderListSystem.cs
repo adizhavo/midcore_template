@@ -7,11 +7,11 @@ using Services.Game.SceneCamera;
 using Services.Game.Grid;
 using Services.Game.Data;
 using Services.Core.Data;
-using MergeWar.Data;
+using MidcoreTemplate.Data;
 using System.Collections;
-using Utils = MergeWar.Game.Utilities.Utils;
+using Utils = MidcoreTemplate.Game.Utilities.Utils;
 
-namespace MergeWar.Game.Systems
+namespace MidcoreTemplate.Game.Systems
 {
     public class OrderListSystem : IDragHandler, IEventListener<GameEntity>
     {

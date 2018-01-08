@@ -14,11 +14,11 @@ using Services.Game.HUD;
 using Services.Game.Factory;
 using Services.Game.SceneCamera;
 using Services.Game.Misc;
-using MergeWar.Game;
-using MergeWar.Game.Systems;
+using MidcoreTemplate.Game;
+using MidcoreTemplate.Game.Systems;
 using Services.Game.Tutorial;
 
-namespace MergeWar
+namespace MidcoreTemplate
 {
     public class Main : MonoBehaviour
     {

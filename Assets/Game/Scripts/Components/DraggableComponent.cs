@@ -1,6 +1,6 @@
 ﻿using Entitas;
 
-namespace MergeWar.Game.Components
+namespace MidcoreTemplate.Game.Components
 {
     [Game]
     public class DraggableComponent : IComponent { }

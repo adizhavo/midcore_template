@@ -8,19 +8,19 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    public MergeWar.Game.Components.OrderListComponent orderList { get { return (MergeWar.Game.Components.OrderListComponent)GetComponent(GameComponentsLookup.OrderList); } }
+    public MidcoreTemplate.Game.Components.OrderListComponent orderList { get { return (MidcoreTemplate.Game.Components.OrderListComponent)GetComponent(GameComponentsLookup.OrderList); } }
     public bool hasOrderList { get { return HasComponent(GameComponentsLookup.OrderList); } }
 
-    public void AddOrderList(System.Collections.Generic.List<MergeWar.Game.Components.OrderListComponent.Order> newOrderList) {
+    public void AddOrderList(System.Collections.Generic.List<MidcoreTemplate.Game.Components.OrderListComponent.Order> newOrderList) {
         var index = GameComponentsLookup.OrderList;
-        var component = CreateComponent<MergeWar.Game.Components.OrderListComponent>(index);
+        var component = CreateComponent<MidcoreTemplate.Game.Components.OrderListComponent>(index);
         component.orderList = newOrderList;
         AddComponent(index, component);
     }
 
-    public void ReplaceOrderList(System.Collections.Generic.List<MergeWar.Game.Components.OrderListComponent.Order> newOrderList) {
+    public void ReplaceOrderList(System.Collections.Generic.List<MidcoreTemplate.Game.Components.OrderListComponent.Order> newOrderList) {
         var index = GameComponentsLookup.OrderList;
-        var component = CreateComponent<MergeWar.Game.Components.OrderListComponent>(index);
+        var component = CreateComponent<MidcoreTemplate.Game.Components.OrderListComponent>(index);
         component.orderList = newOrderList;
         ReplaceComponent(index, component);
     }

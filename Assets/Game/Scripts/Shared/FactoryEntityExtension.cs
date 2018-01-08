@@ -1,5 +1,5 @@
-﻿using MergeWar.Data;
-using MergeWar.Game.Components;
+﻿using MidcoreTemplate.Data;
+using MidcoreTemplate.Game.Components;
 using Services.Core.Event;
 using Services.Game.Data;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using MergeWar.Data;
+using MidcoreTemplate.Data;
 using Services.Game.Data;
 using System.Collections.Generic;
 
@@ -23,7 +23,7 @@ namespace Services.Game.Data
     }
 }
 
-namespace MergeWar.Data
+namespace MidcoreTemplate.Data
 {
     /// <summary>
     /// Will contain all game specifi data structure

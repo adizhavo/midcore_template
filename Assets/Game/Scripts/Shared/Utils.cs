@@ -2,9 +2,9 @@
 using UnityEngine;
 using Services.Game.Grid;
 using System.Collections.Generic;
-using MergeWar.Game.Systems;
+using MidcoreTemplate.Game.Systems;
 
-namespace MergeWar.Game.Utilities
+namespace MidcoreTemplate.Game.Utilities
 {
     /// <summary>
     /// All Unity/Scene related functionalities

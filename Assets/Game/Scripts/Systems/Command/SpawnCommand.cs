@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using MergeWar.Data;
+using MidcoreTemplate.Data;
 using Services.Core;
 using Services.Game.Data;
 
-namespace MergeWar.Game.Command
+namespace MidcoreTemplate.Game.Command
 {
     /// <summary>
     /// Command for spawning object

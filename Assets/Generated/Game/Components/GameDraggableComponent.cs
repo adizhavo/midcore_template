@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    static readonly MergeWar.Game.Components.DraggableComponent draggableComponent = new MergeWar.Game.Components.DraggableComponent();
+    static readonly MidcoreTemplate.Game.Components.DraggableComponent draggableComponent = new MidcoreTemplate.Game.Components.DraggableComponent();
 
     public bool isDraggable {
         get { return HasComponent(GameComponentsLookup.Draggable); }

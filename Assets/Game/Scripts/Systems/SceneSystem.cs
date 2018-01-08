@@ -5,9 +5,9 @@ using Services.Core.Data;
 using Services.Game.Data;
 using System.Linq;
 using System.Collections.Generic;
-using MergeWar.Data;
+using MidcoreTemplate.Data;
 
-namespace MergeWar.Game.Systems
+namespace MidcoreTemplate.Game.Systems
 {
     /// <summary>
     /// Add all scene related queries and functionalities

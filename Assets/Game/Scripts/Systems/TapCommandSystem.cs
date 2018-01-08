@@ -5,11 +5,11 @@ using Services.Core.Data;
 using Services.Core.Event;
 using Services.Game.Grid;
 using Services.Game.SceneCamera;
-using MergeWar.Data;
+using MidcoreTemplate.Data;
 using Services.Game.Data;
-using MergeWar.Game.Utilities;
+using MidcoreTemplate.Game.Utilities;
 
-namespace MergeWar.Game.Systems
+namespace MidcoreTemplate.Game.Systems
 {
     public class TapCommandSystem : ITouchHandler
     {
