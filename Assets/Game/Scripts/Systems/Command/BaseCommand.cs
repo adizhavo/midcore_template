@@ -35,6 +35,9 @@ namespace MergeWar.Game.Command
             {
                 var onDestroyCommand = database.Get<GameGridObjectData>(trigger.objectId).onDestroyCommand;
                 commandSystem.Execute(onDestroyCommand, cell.position, cell, trigger);
+
+                gridService.DeAttach(trigger);
+
                 trigger.Destroy();
             }
         }
