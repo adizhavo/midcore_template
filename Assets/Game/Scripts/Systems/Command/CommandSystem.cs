@@ -71,6 +71,7 @@ namespace MergeWar.Game
             var command = commands[commandData.type] as BaseCommand;
             var executePos = trigger != null ? trigger.position : Vector3.zero;
             var executeCell = trigger != null ? trigger.grid.pivot : gridService.GetClosestCell(executePos);
+            if (executePos.sqrMagnitude < Mathf.Epsilon && executeCell != null) executePos = executeCell.position;
             command.ExecuteCommand(commandData, executePos, executeCell, trigger);
         }
 
