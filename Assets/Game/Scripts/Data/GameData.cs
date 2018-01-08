@@ -1,6 +1,27 @@
 ﻿using UnityEngine;
+using MergeWar.Data;
 using Services.Game.Data;
 using System.Collections.Generic;
+
+namespace Services.Game.Data
+{
+    public partial class GridObjectData
+    {
+        public int level;
+        public bool canDrag;
+        public string onDragEndCommand;
+        public string onTapCommand;
+        public string onDiscoverCommand;
+        public string onSpawnCommand;
+        public string onDestroyCommand;
+        public string onTimeoutCommand;
+        public FloatRange timeout;
+        public string onOrderCompleteCommand;
+        public string onOrderUpdateCommand;
+        public List<KeyValuePair<string, int>> objectOrderList;
+        public List<KeyValuePair<string, int>> typeOrderList;
+    }
+}
 
 namespace MergeWar.Data
 {
@@ -42,27 +63,9 @@ namespace MergeWar.Data
         public List<ObjectData> root;   
     }
 
-    public class GameGridObjecDataRoot
+    public class GridObjecDataRoot
     {
-        public List<GameGridObjectData> root;
-    }
-
-    [System.Serializable]
-    public class GameGridObjectData : GridObjectData
-    {
-        public int level;
-        public bool canDrag;
-        public string onDragEndCommand;
-        public string onTapCommand;
-        public string onDiscoverCommand;
-        public string onSpawnCommand;
-        public string onDestroyCommand;
-        public string onTimeoutCommand;
-        public FloatRange timeout;
-        public string onOrderCompleteCommand;
-        public string onOrderUpdateCommand;
-        public List<KeyValuePair<string, int>> objectOrderList;
-        public List<KeyValuePair<string, int>> typeOrderList;
+        public List<GridObjectData> root;
     }
 
     [System.Serializable]

@@ -3,7 +3,7 @@
 namespace Services.Game.Data
 {
     [System.Serializable]
-    public class GridObjectData : ObjectData 
+    public partial class GridObjectData : ObjectData 
     {
         // 2x2 sample footprint data
         // [

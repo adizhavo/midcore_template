@@ -6,6 +6,7 @@ using Services.Core.Event;
 using Services.Game.Grid;
 using Services.Game.SceneCamera;
 using MergeWar.Data;
+using Services.Game.Data;
 using MergeWar.Game.Utilities;
 
 namespace MergeWar.Game.Systems
@@ -38,7 +39,7 @@ namespace MergeWar.Game.Systems
             if (touched != null)
             {
                 EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_TAP_UP, touched);
-                var objectData = databaseService.Get<GameGridObjectData>(touched.objectId);
+                var objectData = databaseService.Get<GridObjectData>(touched.objectId);
                 var cell = touched.hasGrid ? touched.grid.pivot : null;
                 commandSystem.Execute(objectData.onTapCommand, touched.position, cell, touched);
             }

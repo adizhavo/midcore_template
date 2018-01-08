@@ -2,6 +2,7 @@
 using Zenject;
 using UnityEngine;
 using Services.Core.Data;
+using Services.Game.Data;
 using MergeWar.Data;
 
 namespace MergeWar.Game.Systems
@@ -21,7 +22,7 @@ namespace MergeWar.Game.Systems
                 entity.timedCommand.remainingTime -= Time.deltaTime;
                 if (entity.timedCommand.remainingTime < 0f)
                 {
-                    var objectData = database.Get<GameGridObjectData>(entity.objectId);
+                    var objectData = database.Get<GridObjectData>(entity.objectId);
                     var time = objectData.timeout.GetRange();
                     entity.ReplaceTimedCommand(time, time);
                     var cell = entity.hasGrid ? entity.grid.pivot : null;

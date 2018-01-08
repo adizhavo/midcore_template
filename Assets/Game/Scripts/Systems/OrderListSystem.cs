@@ -5,6 +5,7 @@ using Services.Core.Gesture;
 using Services.Core.Event;
 using Services.Game.SceneCamera;
 using Services.Game.Grid;
+using Services.Game.Data;
 using Services.Core.Data;
 using MergeWar.Data;
 using System.Collections;
@@ -108,7 +109,7 @@ namespace MergeWar.Game.Systems
             if (gridService.IsOccupied(cell))
             {
               var occupant = cell.cell.occupant;
-              var objectData = database.Get<GameGridObjectData>(occupant.gameObject.objectId);
+              var objectData = database.Get<GridObjectData>(occupant.gameObject.objectId);
               var isFilled = occupant.orderList.Filled();
               var commandId = isFilled ? objectData.onOrderCompleteCommand : objectData.onOrderUpdateCommand;
               commandSystem.Execute(commandId, occupant.position, cell, occupant);

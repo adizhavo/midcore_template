@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using MergeWar.Data;
 using Services.Core.Data;
+using Services.Game.Data;
 using Services.Game.Grid;
 using Services.Game.Factory;
 using Services.Game.Tutorial;
@@ -33,7 +34,7 @@ namespace MergeWar.Game.Command
         {
             if (commandData.destroyTrigger && trigger != null)
             {
-                var onDestroyCommand = database.Get<GameGridObjectData>(trigger.objectId).onDestroyCommand;
+                var onDestroyCommand = database.Get<GridObjectData>(trigger.objectId).onDestroyCommand;
                 commandSystem.Execute(onDestroyCommand, cell.position, cell, trigger);
 
                 gridService.DeAttach(trigger);

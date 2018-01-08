@@ -1,7 +1,7 @@
 ﻿namespace Services.Game.Data
 {
     [System.Serializable]
-    public class ObjectData
+    public partial class ObjectData
     {
         public string objectId;
         public string typeId;

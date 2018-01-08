@@ -2,6 +2,7 @@
 using Entitas;
 using UnityEngine;
 using Services.Core.Data;
+using Services.Game.Data;
 using System.Linq;
 using System.Collections.Generic;
 using MergeWar.Data;
@@ -47,7 +48,7 @@ namespace MergeWar.Game.Systems
             return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().Find(
                 ge => !string.IsNullOrEmpty(typeId) 
                 && string.Equals(typeId, ge.typeId) 
-                && database.Get<GameGridObjectData>(ge.objectId).level == level);
+                && database.Get<GridObjectData>(ge.objectId).level == level);
         }
 
         public GameEntity GetEntityWithUniqueId(string uniqueId)
