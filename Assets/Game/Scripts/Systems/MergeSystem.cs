@@ -7,11 +7,11 @@ using Services.Core.Event;
 using Services.Game.Grid;
 using Services.Game.Factory;
 using Services.Game.SceneCamera;
-using MergeWar.Data;
+using MidcoreTemplate.Data;
 using System.Collections;
-using Utils = MergeWar.Game.Utilities.Utils;
+using Utils = MidcoreTemplate.Game.Utilities.Utils;
 
-namespace MergeWar.Game.Systems
+namespace MidcoreTemplate.Game.Systems
 {
     public class MergeSystem : IEventListener<GameEntity> , IDragHandler
     {

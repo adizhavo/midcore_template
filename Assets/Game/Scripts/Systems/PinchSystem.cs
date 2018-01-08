@@ -3,9 +3,9 @@ using Entitas;
 using UnityEngine;
 using Services.Core.Gesture;
 using Services.Game.SceneCamera;
-using MergeWar.Data;
+using MidcoreTemplate.Data;
 
-namespace MergeWar.Game.Systems
+namespace MidcoreTemplate.Game.Systems
 {
     public class PinchSystem : IInitializeSystem, IPinchHandler
     {

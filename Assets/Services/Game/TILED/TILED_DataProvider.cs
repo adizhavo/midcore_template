@@ -12,7 +12,7 @@ namespace Services.Game.Tiled
     /// The assumption is that the folder containing the tilesets will always be in the same folder of the levels
     /// </summary>
 
-    public class TILED_DataProvider
+    public partial class TILED_DataProvider
     {
         [Inject] DatabaseService database;
 

@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace MergeWar.Game.Components
+namespace MidcoreTemplate.Game.Components
 {
     [Game]
     public class OrderListComponent : IComponent

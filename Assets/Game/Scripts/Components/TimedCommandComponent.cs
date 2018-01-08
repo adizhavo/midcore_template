@@ -1,7 +1,7 @@
 ﻿using Entitas;
 using UnityEngine;
 
-namespace MergeWar.Game.Components
+namespace MidcoreTemplate.Game.Components
 {
     [Game]
     public class TimedCommandComponent : IComponent

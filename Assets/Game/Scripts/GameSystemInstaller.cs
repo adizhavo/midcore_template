@@ -1,9 +1,9 @@
 ﻿using Zenject;
 using Services.Core;
-using MergeWar.Game.Systems;
-using MergeWar.Game.Command;
+using MidcoreTemplate.Game.Systems;
+using MidcoreTemplate.Game.Command;
 
-namespace MergeWar.Game
+namespace MidcoreTemplate.Game
 {
     public class GameSystemInstaller : Installer<GameSystemInstaller>
     {

@@ -3,7 +3,7 @@
 namespace Services.Game.Data
 {
     [System.Serializable]
-    public class VFXData
+    public partial class VFXData
     {
         public string id;
         public string prefab;

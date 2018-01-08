@@ -11,7 +11,7 @@ namespace Services.Game.Tiled
         public Dictionary<int, TILED_TilesetItemProperty> tileproperties;
     }
 
-    public class TILED_TilesetItemProperty
+    public partial class TILED_TilesetItemProperty
     {
         public string objectId;
     }

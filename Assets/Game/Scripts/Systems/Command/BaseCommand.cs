@@ -2,13 +2,14 @@
 using Zenject;
 using UnityEngine;
 using System.Collections.Generic;
-using MergeWar.Data;
+using MidcoreTemplate.Data;
 using Services.Core.Data;
+using Services.Game.Data;
 using Services.Game.Grid;
 using Services.Game.Factory;
 using Services.Game.Tutorial;
 
-namespace MergeWar.Game.Command
+namespace MidcoreTemplate.Game.Command
 {
     /// <summary>
     /// Extend this class for different commands
@@ -33,8 +34,11 @@ namespace MergeWar.Game.Command
         {
             if (commandData.destroyTrigger && trigger != null)
             {
-                var onDestroyCommand = database.Get<GameGridObjectData>(trigger.objectId).onDestroyCommand;
+                var onDestroyCommand = database.Get<GridObjectData>(trigger.objectId).onDestroyCommand;
                 commandSystem.Execute(onDestroyCommand, cell.position, cell, trigger);
+
+                gridService.DeAttach(trigger);
+
                 trigger.Destroy();
             }
         }

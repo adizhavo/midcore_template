@@ -8,12 +8,12 @@
 //------------------------------------------------------------------------------
 public partial class GameEntity {
 
-    public MergeWar.Game.Components.TimedCommandComponent timedCommand { get { return (MergeWar.Game.Components.TimedCommandComponent)GetComponent(GameComponentsLookup.TimedCommand); } }
+    public MidcoreTemplate.Game.Components.TimedCommandComponent timedCommand { get { return (MidcoreTemplate.Game.Components.TimedCommandComponent)GetComponent(GameComponentsLookup.TimedCommand); } }
     public bool hasTimedCommand { get { return HasComponent(GameComponentsLookup.TimedCommand); } }
 
     public void AddTimedCommand(float newRemainingTime, float newMaxTime) {
         var index = GameComponentsLookup.TimedCommand;
-        var component = CreateComponent<MergeWar.Game.Components.TimedCommandComponent>(index);
+        var component = CreateComponent<MidcoreTemplate.Game.Components.TimedCommandComponent>(index);
         component.remainingTime = newRemainingTime;
         component.maxTime = newMaxTime;
         AddComponent(index, component);
@@ -21,7 +21,7 @@ public partial class GameEntity {
 
     public void ReplaceTimedCommand(float newRemainingTime, float newMaxTime) {
         var index = GameComponentsLookup.TimedCommand;
-        var component = CreateComponent<MergeWar.Game.Components.TimedCommandComponent>(index);
+        var component = CreateComponent<MidcoreTemplate.Game.Components.TimedCommandComponent>(index);
         component.remainingTime = newRemainingTime;
         component.maxTime = newMaxTime;
         ReplaceComponent(index, component);

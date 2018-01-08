@@ -3,10 +3,11 @@ using Entitas;
 using UnityEngine;
 using Services.Core;
 using Services.Core.Data;
-using MergeWar.Data;
+using Services.Game.Data;
+using MidcoreTemplate.Data;
 using System.Collections.Generic;
 
-namespace MergeWar.Game.Systems
+namespace MidcoreTemplate.Game.Systems
 {
     /// <summary>
     /// Add here all game specific data
@@ -29,7 +30,7 @@ namespace MergeWar.Game.Systems
             foreach(var objectData in LoadFile<ObjectDataRoot>(Constants.DB_KEY_TILE_DATA).root)
                 database.AddReadonly(objectData.objectId, objectData, false);
 
-            foreach(var objectData in LoadFile<GameGridObjecDataRoot>(Constants.DB_KEY_OBJECT_DATA).root)
+            foreach(var objectData in LoadFile<GridObjecDataRoot>(Constants.DB_KEY_OBJECT_DATA).root)
                 database.AddReadonly(objectData.objectId, objectData, false);
 
             foreach(var commandData in LoadFile<CommandDataRoot>(Constants.DB_KEY_COMMAND_DATA).root)
@@ -69,7 +70,7 @@ namespace MergeWar.Game.Systems
 
         public string GetNextObjectId(string typeId, int level)
         {
-            var objectData = database.Get<GameGridObjectData>((GameGridObjectData ggod) => 
+            var objectData = database.Get<GridObjectData>((GridObjectData ggod) => 
                 !string.IsNullOrEmpty(typeId) 
                 && typeId.Equals(ggod.typeId)
                 && ggod.level == level + 1);

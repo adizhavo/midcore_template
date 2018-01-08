@@ -33,9 +33,9 @@ public static class GameComponentsLookup {
     };
 
     public static readonly System.Type[] componentTypes = {
-        typeof(MergeWar.Game.Components.DraggableComponent),
-        typeof(MergeWar.Game.Components.OrderListComponent),
-        typeof(MergeWar.Game.Components.TimedCommandComponent),
+        typeof(MidcoreTemplate.Game.Components.DraggableComponent),
+        typeof(MidcoreTemplate.Game.Components.OrderListComponent),
+        typeof(MidcoreTemplate.Game.Components.TimedCommandComponent),
         typeof(Services.Game.Components.AutoDestroyComponent),
         typeof(Services.Game.Components.CellComponent),
         typeof(Services.Game.Components.GameObjectComponent),

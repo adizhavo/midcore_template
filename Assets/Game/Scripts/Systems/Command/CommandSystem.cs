@@ -3,11 +3,11 @@ using Entitas;
 using UnityEngine;
 using Services.Core.Data;
 using Services.Game.Grid;
-using MergeWar.Data;
-using MergeWar.Game.Command;
+using MidcoreTemplate.Data;
+using MidcoreTemplate.Game.Command;
 using System.Collections;
 
-namespace MergeWar.Game
+namespace MidcoreTemplate.Game
 {
     /// <summary>
     /// Will execute commands from the game
@@ -71,6 +71,7 @@ namespace MergeWar.Game
             var command = commands[commandData.type] as BaseCommand;
             var executePos = trigger != null ? trigger.position : Vector3.zero;
             var executeCell = trigger != null ? trigger.grid.pivot : gridService.GetClosestCell(executePos);
+            if (executePos.sqrMagnitude < Mathf.Epsilon && executeCell != null) executePos = executeCell.position;
             command.ExecuteCommand(commandData, executePos, executeCell, trigger);
         }
 

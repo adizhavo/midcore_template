@@ -6,10 +6,11 @@ using Services.Core.Event;
 using Services.Core.Gesture;
 using Services.Game.Grid;
 using Services.Game.SceneCamera;
-using MergeWar.Data;
-using MergeWar.Game.Utilities;
+using Services.Game.Data;
+using MidcoreTemplate.Game.Utilities;
+using MidcoreTemplate.Data;
 
-namespace MergeWar.Game.Systems
+namespace MidcoreTemplate.Game.Systems
 {
     /// <summary>
     /// Handle camera movement and drag/drop of objects
@@ -185,7 +186,7 @@ namespace MergeWar.Game.Systems
                 var pos = Utils.GetPlaneTouchPos(screenPos, cameraService.activeCamera);
                 var closestCell = gridService.GetClosestCell(pos, false);
                 gridService.SetEntityOn(dragged, closestCell);
-                var objectData = database.Get<GameGridObjectData>(dragged.objectId);
+                var objectData = database.Get<GridObjectData>(dragged.objectId);
                 commandSystem.Execute(objectData.onDragEndCommand, closestCell, dragged);
                 dragged = null;
             }

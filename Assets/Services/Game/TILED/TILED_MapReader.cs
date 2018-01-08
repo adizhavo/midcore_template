@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Services.Game.Tiled
 {
-    public class TILED_MapReader
+    public partial class TILED_MapReader
     {
         [Inject] TILED_DataProvider tiledDataProvider;
         [Inject] FactoryEntity factoryEntity;

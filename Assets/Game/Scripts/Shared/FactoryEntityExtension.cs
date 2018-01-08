@@ -1,6 +1,7 @@
-﻿using MergeWar.Data;
-using MergeWar.Game.Components;
+﻿using MidcoreTemplate.Data;
+using MidcoreTemplate.Game.Components;
 using Services.Core.Event;
+using Services.Game.Data;
 using System.Collections.Generic;
 
 namespace Services.Game.Factory
@@ -12,7 +13,7 @@ namespace Services.Game.Factory
         {
             var entity = CreateGridObject(objectId);
 
-            var objectData = database.Get<GameGridObjectData>(objectId);
+            var objectData = database.Get<GridObjectData>(objectId);
 
             if (objectData.canDrag)
             {

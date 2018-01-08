@@ -5,12 +5,13 @@ using Services.Core.Gesture;
 using Services.Core.Event;
 using Services.Game.SceneCamera;
 using Services.Game.Grid;
+using Services.Game.Data;
 using Services.Core.Data;
-using MergeWar.Data;
+using MidcoreTemplate.Data;
 using System.Collections;
-using Utils = MergeWar.Game.Utilities.Utils;
+using Utils = MidcoreTemplate.Game.Utilities.Utils;
 
-namespace MergeWar.Game.Systems
+namespace MidcoreTemplate.Game.Systems
 {
     public class OrderListSystem : IDragHandler, IEventListener<GameEntity>
     {
@@ -59,21 +60,23 @@ namespace MergeWar.Game.Systems
 
                 if (cell != null && gridService.IsOccupied(cell) && cell.cell.occupant.hasOrderList)
                 {
-                    bool isObjectOrder = cell.cell.occupant.orderList.HasOrder(dragged.objectId);
-                    bool isTypeOrder = cell.cell.occupant.orderList.HasOrder(dragged.typeId);
-
-                    if (cell.cell.occupant.hasGameObject
-                        && cell.cell.occupant.hasOrderList
-                        && (isObjectOrder || isTypeOrder)
-                        && !cell.cell.occupant.orderList.Filled())
+                    foreach(var order in cell.cell.occupant.orderList.orderList)
                     {
-                        float animationLength = 0.3f;
-                        var orderId = isObjectOrder ? dragged.objectId : dragged.typeId;
-                        if (!cell.cell.occupant.orderList.HasFilledOrder(orderId))
+                        bool isObjectOrder = string.Equals(dragged.objectId, order.id);
+                        bool isTypeOrder = string.Equals(dragged.typeId, order.id);
+
+                        if (cell.cell.occupant.hasGameObject
+                            && (isObjectOrder || isTypeOrder)
+                            && !cell.cell.occupant.orderList.Filled())
                         {
-                            AddOrder(orderId, cell.cell.occupant);
-                            SceneAttachment.AttachCoroutine(TryCompleteOrderAfterAnimation(dragged, orderId, cell, animationLength));
-                            return true;
+                            float animationLength = 0.3f;
+                            var orderId = isObjectOrder ? dragged.objectId : dragged.typeId;
+                            if (!cell.cell.occupant.orderList.HasFilledOrder(orderId))
+                            {
+                                AddOrder(orderId, cell.cell.occupant);
+                                SceneAttachment.AttachCoroutine(TryCompleteOrderAfterAnimation(dragged, orderId, cell, animationLength));
+                                return true;
+                            }
                         }
                     }
                 }
@@ -106,7 +109,7 @@ namespace MergeWar.Game.Systems
             if (gridService.IsOccupied(cell))
             {
               var occupant = cell.cell.occupant;
-              var objectData = database.Get<GameGridObjectData>(occupant.gameObject.objectId);
+              var objectData = database.Get<GridObjectData>(occupant.gameObject.objectId);
               var isFilled = occupant.orderList.Filled();
               var commandId = isFilled ? objectData.onOrderCompleteCommand : objectData.onOrderUpdateCommand;
               commandSystem.Execute(commandId, occupant.position, cell, occupant);

@@ -8,9 +8,9 @@ using Services.Game.Grid;
 using Services.Game.Factory;
 using Services.Game.HUD;
 using Services.Game.SceneCamera;
-using MergeWar.Data;
+using MidcoreTemplate.Data;
 
-namespace MergeWar.Game.Systems
+namespace MidcoreTemplate.Game.Systems
 {
     public class CampSystem 
     {
