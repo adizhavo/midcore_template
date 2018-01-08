@@ -16,7 +16,7 @@ namespace MidcoreTemplate.Game.Systems
 
         public void Execute()
         {
-            var entities = Contexts.sharedInstance.game.GetEntities(GameMatcher.AllOf(GameMatcher.GameObject, GameMatcher.TimedCommand));
+            var entities = Contexts.sharedInstance.game.GetEntities(GameMatcher.AllOf(GameMatcher.GameObject, GameMatcher.TimedCommand, GameMatcher.Command));
             foreach(var entity in entities)
             {
                 entity.timedCommand.remainingTime -= Time.deltaTime;
@@ -26,7 +26,7 @@ namespace MidcoreTemplate.Game.Systems
                     var time = objectData.timeout.GetRange();
                     entity.ReplaceTimedCommand(time, time);
                     var cell = entity.hasGrid ? entity.grid.pivot : null;
-                    commandSystem.Execute(objectData.onTimeoutCommand, entity.position, cell, entity);
+                    commandSystem.Execute(entity.command.onTimeoutCommand, entity.position, cell, entity);
                 }
             }
         }

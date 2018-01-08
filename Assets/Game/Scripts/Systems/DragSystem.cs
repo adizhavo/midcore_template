@@ -186,8 +186,8 @@ namespace MidcoreTemplate.Game.Systems
                 var pos = Utils.GetPlaneTouchPos(screenPos, cameraService.activeCamera);
                 var closestCell = gridService.GetClosestCell(pos, false);
                 gridService.SetEntityOn(dragged, closestCell);
-                var objectData = database.Get<GridObjectData>(dragged.objectId);
-                commandSystem.Execute(objectData.onDragEndCommand, closestCell, dragged);
+                if (dragged.hasCommand)
+                    commandSystem.Execute(dragged.command.onDragEndCommand, closestCell, dragged);
                 dragged = null;
             }
         }
