@@ -11,19 +11,21 @@ public partial class GameEntity {
     public MidcoreTemplate.Game.Components.TimedCommandComponent timedCommand { get { return (MidcoreTemplate.Game.Components.TimedCommandComponent)GetComponent(GameComponentsLookup.TimedCommand); } }
     public bool hasTimedCommand { get { return HasComponent(GameComponentsLookup.TimedCommand); } }
 
-    public void AddTimedCommand(float newRemainingTime, float newMaxTime) {
+    public void AddTimedCommand(float newRemainingTime, float newMaxTime, MidcoreTemplate.Data.FloatRange newTimeout) {
         var index = GameComponentsLookup.TimedCommand;
         var component = CreateComponent<MidcoreTemplate.Game.Components.TimedCommandComponent>(index);
         component.remainingTime = newRemainingTime;
         component.maxTime = newMaxTime;
+        component.timeout = newTimeout;
         AddComponent(index, component);
     }
 
-    public void ReplaceTimedCommand(float newRemainingTime, float newMaxTime) {
+    public void ReplaceTimedCommand(float newRemainingTime, float newMaxTime, MidcoreTemplate.Data.FloatRange newTimeout) {
         var index = GameComponentsLookup.TimedCommand;
         var component = CreateComponent<MidcoreTemplate.Game.Components.TimedCommandComponent>(index);
         component.remainingTime = newRemainingTime;
         component.maxTime = newMaxTime;
+        component.timeout = newTimeout;
         ReplaceComponent(index, component);
     }
 
