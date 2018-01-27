@@ -3,6 +3,6 @@
 /Library/Frameworks/Mono.framework/Versions/Current/bin/mono bin/GoogleSheet2Json.exe \
 -configPath=./config.json \
 -sheetTab=VFX \
--keyRange=A1:D \
--valueRange=A2:D \
+-keyRange=A1:F \
+-valueRange=A2:F \
 -outputFileName=vfx_data.json \
