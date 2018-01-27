@@ -39,9 +39,11 @@ namespace MidcoreTemplate.Game.Systems
             if (touched != null)
             {
                 EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_TAP_UP, touched);
-                var objectData = databaseService.Get<GridObjectData>(touched.objectId);
-                var cell = touched.hasGrid ? touched.grid.pivot : null;
-                commandSystem.Execute(objectData.onTapCommand, touched.position, cell, touched);
+                if (touched.hasCommand)
+                {
+                    var cell = touched.hasGrid ? touched.grid.pivot : null;
+                    commandSystem.Execute(touched.command.onTapCommand, touched.position, cell, touched);
+                }
             }
             return false;
         }

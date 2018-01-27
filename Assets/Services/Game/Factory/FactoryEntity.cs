@@ -4,7 +4,6 @@ using Services.Core;
 using Services.Core.Data;
 using Services.Core.Event;
 using Services.Game.Data;
-using Services.Game.Grid;
 using Services.Game.Components;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +17,7 @@ namespace Services.Game.Factory
     public sealed partial class FactoryEntity 
     {
         [Inject] DatabaseService database;
+        [Inject] FactoryGUI factoryGUI;
 
         public FactoryEntity()
         {
@@ -70,10 +70,22 @@ namespace Services.Game.Factory
             {
                 var entity = Contexts.sharedInstance.game.CreateEntity();
                 var vfxData = database.Get<VFXData>(vfxId);
-                var prefabPath = database.Get<string>(vfxData.prefab);
-                entity.AddResource(prefabPath);
-                var view = FactoryPool.GetPooled(prefabPath);
-                entity.AddView(view);
+                if (vfxData.isGUI)
+                {
+                    var split = vfxData.moveToPanel.Split('.');
+                    if (split.Length == 2)
+                    {
+                        factoryGUI.AnimateFloatingUIWorldPos(vfxData.prefab, pos, split[0], split[1], vfxData.activeTime);
+                    }
+                }
+                else
+                {
+                    var prefabPath = database.Get<string>(vfxData.prefab);
+                    entity.AddResource(prefabPath);
+                    var view = FactoryPool.GetPooled(prefabPath);
+                    entity.AddView(view);
+                    entity.position = pos;
+                }
 
                 if (vfxData.activeTime > 0f)
                 {

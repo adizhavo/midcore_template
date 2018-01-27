@@ -35,10 +35,6 @@ namespace MidcoreTemplate
             #if ADHOC || UNITY_EDITOR
             SRDebug.Init();
             #endif
-
-            // TODO : sample code, remove later
-            container.Resolve<CampSystem>().LoadCamp();
-            TutorialService<TutorialStep>.Notify("move_next");
         }
 
         private void Update()
