@@ -138,6 +138,9 @@ namespace Services.Game.Grid
 
         public GameEntity GetClosestCell(Vector3 worldPos, bool empty = false, List<GameEntity> ignore = null)
         {
+            if (grid == null || grid.settings == null)
+                return null;
+            
             if (ignore == null)
                 ignore = new List<GameEntity>();
 
@@ -151,7 +154,7 @@ namespace Services.Game.Grid
             foreach (var cell in grid.cells)
             {
                 if ((!empty || (empty && !IsOccupied(cell)))
-                && !ignore.Contains(cell.cell.occupant))
+                    && !ignore.Contains(cell))
                 {
                     float sqrDistance = (worldPos - cell.position).sqrMagnitude;
                     if (sqrDistance < minSqrDistance)
@@ -163,7 +166,6 @@ namespace Services.Game.Grid
             }
             return selected;
         }
-
 
         public GameEntity GetClosestCell(int row, int column, bool empty = false, List<GameEntity> ignore = null)
         {
