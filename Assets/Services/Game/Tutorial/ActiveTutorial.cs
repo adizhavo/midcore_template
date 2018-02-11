@@ -96,8 +96,8 @@ namespace Services.Game.Tutorial
                     }
                     else if (current.Equals(TutorialState.EnterStep))
                     {
-                        StartStep(currentStep);
                         current = TutorialState.Idle;
+                        StartStep(currentStep);
                     }
                     else if (current.Equals(TutorialState.ExitStep))
                     {
@@ -133,7 +133,7 @@ namespace Services.Game.Tutorial
             elapseTime = currentStep.entryAnimLength;
 
             foreach(var handler in TutorialService<T>.actionHandlers)
-                handler.HandleAwakeActions(currentStep.awakeActions);
+                handler.HandleAwakeActions(step.awakeActions);
 
             if (currentStep.pause) UnityEngine.Time.timeScale = 0f;
 
@@ -147,7 +147,7 @@ namespace Services.Game.Tutorial
             LogWrapper.DebugLog("[{0}] {1} start tutorial step with index {2}", GetType(), id, currentStep.index);
 
             foreach(var handler in TutorialService<T>.actionHandlers)
-                handler.HandleAwakeActions(currentStep.startActions);
+                handler.HandleAwakeActions(step.startActions);
         }
 
         protected virtual void ExitStep(T step, bool moveNext = true)
@@ -155,7 +155,7 @@ namespace Services.Game.Tutorial
             LogWrapper.DebugLog("[{0}] {1} exit tutorial step with index {2}", GetType(), id, currentStep.index);
 
             foreach(var handler in TutorialService<T>.actionHandlers)
-                handler.HandleAwakeActions(currentStep.exitActions);
+                handler.HandleAwakeActions(step.exitActions);
 
             if (currentStep.pause) UnityEngine.Time.timeScale = 1f;
 
