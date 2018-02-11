@@ -41,6 +41,11 @@ namespace MidcoreTemplate.Game.Command
 
                 trigger.Destroy();
             }
+            
+            if (!string.IsNullOrEmpty(commandData.tutorialTrigger))
+            {
+                TutorialService<TutorialStep>.Notify(commandData.tutorialTrigger);
+            }
         }
 
         protected virtual void ExecuteTailCommand(CommandData commandData, Vector3 executePos, GameEntity cell, GameEntity trigger = null)
@@ -50,11 +55,6 @@ namespace MidcoreTemplate.Game.Command
             if (!string.IsNullOrEmpty(commandData.chainedCommand))
             {
                 commandSystem.Execute(commandData.chainedCommand, executePos, cell, trigger);
-            }
-
-            if (!string.IsNullOrEmpty(commandData.tutorialTrigger))
-            {
-                TutorialService<TutorialStep>.Notify(commandData.tutorialTrigger);
             }
         }
 
