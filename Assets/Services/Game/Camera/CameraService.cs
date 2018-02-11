@@ -67,7 +67,9 @@ namespace Services.Game.SceneCamera
 
 			zoomAnim = LeanTween.value(this.zoom, zoom, duration).setOnUpdate(
                 (float value) => databinding.AddData(Constants.DATABINDING_CAMERA_ZOOM, value, true)
-            ).setEaseOutExpo();
+            )
+			.setOnComplete(()=> zoomAnim = null)
+			.setEaseOutExpo();
         }
 
         public void SetPosition(Vector3 position)
@@ -90,7 +92,9 @@ namespace Services.Game.SceneCamera
 
             posAnim = LeanTween.value(activeCamera.gameObject, activeCamera.transform.position, position, duration).setOnUpdate(
                 (Vector3 value) => databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, ClampPosition(value), true)
-            ).setEaseOutExpo();
+            )
+            .setOnComplete(()=> posAnim = null)
+            .setEaseInOutQuad();
         }
 
         private Vector3 ClampPosition(Vector3 position)
@@ -110,7 +114,8 @@ namespace Services.Game.SceneCamera
         public void Execute()
         {
             #if UNITY_EDITOR
-            Utils.DrawEllipse(boundaryCenter, activeCamera.transform.forward, activeCamera.transform.up, boundaryRadius, boundaryRadius, 180, Color.cyan, 0f);
+            if (activeCamera != null)
+                Utils.DrawEllipse(boundaryCenter, activeCamera.transform.forward, activeCamera.transform.up, boundaryRadius, boundaryRadius, 180, Color.cyan, 0f);
             #endif
         }
 

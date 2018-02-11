@@ -2,6 +2,8 @@
 {
     public interface IGUIView
     {
+        bool EnableOnAwake { get; }
+        
         void Init();
 
         string GetId();

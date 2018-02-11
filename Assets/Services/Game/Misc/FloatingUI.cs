@@ -49,13 +49,13 @@ namespace Services.Game.Misc
             yAnim = LeanTween.value(rectTransform.position.y, toPos.y, duration).setOnUpdate(
                 (value) => rectTransform.SetY(value)
             )
+                .setEaseInBack()
                 .setIgnoreTimeScale(true);
 
             xAnim = LeanTween.value(rectTransform.position.x, toPos.x, duration).setOnUpdate(
                 (value) => rectTransform.SetX(value)
             )
                 .setIgnoreTimeScale(true)
-                .setEaseInBack()
                 .setOnComplete(() => Stop());
         }
 

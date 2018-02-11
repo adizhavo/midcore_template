@@ -1,1 +1,1 @@
-{"version":"0.0.0","doubleTapElapseTime":0.3,"holdMinElapseTime":1,"databaseId":"g_DB","assetManifestPath":"Data/asset_manifest_data"}
+{"version":"0.0.0","doubleTapElapseTime":0.3,"holdMinElapseTime":1,"databaseId":"g_DB","assetManifestPath":"Data/asset_manifest_data","dragMinDistance":0.1}
