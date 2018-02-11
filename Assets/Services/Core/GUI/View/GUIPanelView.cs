@@ -14,6 +14,11 @@ namespace Services.Core.GUI
             transform.GetComponentsInChildren<IGUIView>(true, views);
 
             foreach (var view in views)
+            {
+                ((MonoBehaviour)view).gameObject.SetActive(view.EnableOnAwake);
+            }
+            
+            foreach (var view in views)
                 view.Init();
         }
 

@@ -6,6 +6,12 @@ namespace Services.Core.GUI
     public class GUIRectView : MonoBehaviour, IGUIView
     {
         public string id;
+        public bool enableOnAwake = true;
+
+        public bool EnableOnAwake
+        {
+            get { return enableOnAwake; }
+        }
 
         public RectTransform rectTransform
         {
@@ -13,7 +19,7 @@ namespace Services.Core.GUI
             get;
         }
 
-        public void Init()
+        public virtual void Init()
         {
             rectTransform = GetComponent<RectTransform>();
         }
