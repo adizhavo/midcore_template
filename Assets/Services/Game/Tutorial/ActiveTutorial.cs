@@ -230,7 +230,8 @@ namespace Services.Game.Tutorial
                         else rectTransform.SetAlpha(value, true);
                         panelView.GetView<GUIRectView>("mask").rectTransform.SetAlpha(value * currentStep.maskAlpha, true);
                     }
-                });
+                })
+                .setOnComplete(() => { panelAnimation = null; });
         }
 
         private void AnimateOutTutorialUI()
@@ -252,7 +253,8 @@ namespace Services.Game.Tutorial
                         else rectTransform.SetAlpha(value, true);
                         panelView.GetView<GUIRectView>("mask").rectTransform.SetAlpha(value * currentStep.maskAlpha, true);
                     }
-                });
+                })
+                .setOnComplete(() => { panelAnimation = null; });;
         }
     }
 }
