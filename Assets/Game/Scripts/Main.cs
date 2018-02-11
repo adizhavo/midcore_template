@@ -35,6 +35,8 @@ namespace MidcoreTemplate
             #if ADHOC || UNITY_EDITOR
             SRDebug.Init();
             #endif
+            
+            container.Resolve<CampSystem>().LoadCamp();
         }
 
         private void Update()

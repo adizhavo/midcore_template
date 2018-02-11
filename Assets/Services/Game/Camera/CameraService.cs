@@ -114,7 +114,8 @@ namespace Services.Game.SceneCamera
         public void Execute()
         {
             #if UNITY_EDITOR
-            Utils.DrawEllipse(boundaryCenter, activeCamera.transform.forward, activeCamera.transform.up, boundaryRadius, boundaryRadius, 180, Color.cyan, 0f);
+            if (activeCamera != null)
+                Utils.DrawEllipse(boundaryCenter, activeCamera.transform.forward, activeCamera.transform.up, boundaryRadius, boundaryRadius, 180, Color.cyan, 0f);
             #endif
         }
 
