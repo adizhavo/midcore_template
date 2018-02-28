@@ -28,6 +28,10 @@ namespace Services.Game.Tutorial.Bindings
         public override void OnValueChanged(string branch, Services.Core.Rect value)
         {
             mask = value;
+            if (mask != null)
+            {
+                mask.width *= Utils.GetUIScaleFactor();
+            }
         }
 
         #endregion
@@ -53,10 +57,12 @@ namespace Services.Game.Tutorial.Bindings
             if (!string.IsNullOrEmpty(value.Key) && !string.IsNullOrEmpty(value.Value) )
             {
                 var guiService = CoreServicesInstaller.Resolve<GUIService>();
-                var rectTransform = guiService.GetPanelView(value.Key).GetView<GUIRectView>(value.Value).rectTransform;
+                var rectTransform = guiService.GetPanelView(value.Key).GetView<MonoBehaviour>(value.Value).GetComponent<RectTransform>();
                 mask = rectTransform.rect.ToServiceRect();
-                mask.x += rectTransform.position.x;
-                mask.y += rectTransform.position.y;
+                mask.width *= Utils.GetUIScaleFactor(); 
+                mask.x = -mask.width / 2f;
+                mask.x += rectTransform.position.x / Screen.width * Constants.SCREEN_WIDTH;
+                mask.y += rectTransform.position.y / Screen.height * Constants.SCREEN_HEIGHT;
             }
         }
 
@@ -66,10 +72,10 @@ namespace Services.Game.Tutorial.Bindings
         {
             if (mask != null)
             {
-                var x = mask.x / Screen.width;
-                var y = mask.y / Screen.height;
-                var width = x + mask.width / Screen.width;
-                var height = y + mask.height / Screen.height;
+                var x = mask.x / Constants.SCREEN_WIDTH;
+                var y = mask.y / Constants.SCREEN_HEIGHT;
+                var width = x + mask.width / Constants.SCREEN_WIDTH;
+                var height = y + mask.height / Constants.SCREEN_HEIGHT;
                 component.material.SetVector("_Mask", new Vector4(x, y, width, height));
             }
         }

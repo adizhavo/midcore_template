@@ -1,5 +1,9 @@
 ﻿public partial class Constants
 {
+    public const float SCREEN_WIDTH = 1920;
+
+    public const float SCREEN_HEIGHT = 1080f;
+    
     // DB keys
     public const string DB_KEY_APP_CONFIG = "app_config_data";
 

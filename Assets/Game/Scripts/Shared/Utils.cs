@@ -1,8 +1,9 @@
-﻿using Zenject;
+﻿using System;
 using UnityEngine;
 using Services.Game.Grid;
-using System.Collections.Generic;
+using System.Collections;
 using MidcoreTemplate.Game.Systems;
+using Services.Core;
 
 namespace MidcoreTemplate.Game.Utilities
 {
@@ -115,6 +116,116 @@ namespace MidcoreTemplate.Game.Utilities
                 spriteRenderer.sortingOrder = sortingOrder + index;
                 index ++;
             } 
+        }
+        
+        public static void DelayedCall(float time, Action callback, bool ignoreTimeScale = false)
+        {
+            if (ignoreTimeScale)
+            {
+                SceneAttachment.AttachCoroutine(WaitForRealSeconds(time, callback));
+            }
+            else
+            {
+                SceneAttachment.AttachCoroutine(WaitForUnitySeconds(time, callback));
+            }
+        }
+        
+        public static IEnumerator WaitForUnitySeconds(float time, Action callback)
+        {
+            yield return new WaitForSeconds(time);
+            if (callback != null)
+                callback();
+        }
+    
+        public static IEnumerator WaitForRealSeconds(float time, Action callback)
+        {
+            float startTime = Time.realtimeSinceStartup;
+            while (Time.realtimeSinceStartup - startTime < time)
+                yield return 1;
+            if (callback != null)
+                callback();
+        }
+        
+        public static void SetMaterialTiling(Transform transform, Vector2 tiling, bool includeChild = false)
+        {
+            if (transform != null)
+            {
+                var renderer = transform.GetComponent<MeshRenderer>();
+                if (renderer != null)
+                    renderer.material.SetTextureScale("_MainTex", tiling);
+                
+                if (includeChild)
+                {
+                    var renderers = transform.GetComponentsInChildren<MeshRenderer>();
+                    foreach (var meshRenderer in renderers)
+                        meshRenderer.material.SetTextureScale("_MainTex", tiling);
+                }
+            }
+        }
+        
+        public static void SetMaterialOffset(Transform transform, Vector2 offset, bool includeChild = false)
+        {
+            if (transform != null)
+            {
+                var renderer = transform.GetComponent<MeshRenderer>();
+                if (renderer != null)
+                    renderer.material.SetTextureOffset("_MainTex", offset);
+                
+                if (includeChild)
+                {
+                    var renderers = transform.GetComponentsInChildren<MeshRenderer>();
+                    foreach (var meshRenderer in renderers)
+                        meshRenderer.material.SetTextureOffset("_MainTex", offset);
+                }
+            }
+        }
+
+        public static void AddOffsetMaterial(Transform transform, Vector2 amount, bool includeChild = false)
+        {
+            if (transform != null)
+            {
+                var renderer = transform.GetComponent<MeshRenderer>();
+                if (renderer != null)
+                {
+                    var offset = renderer.material.GetTextureOffset("_MainTex") + amount;
+                    if (offset.x > 1f || offset.x < -1f) offset.x = 0f;
+                    if (offset.y > 1f || offset.y < -1f) offset.y = 0f;
+                    renderer.material.SetTextureOffset("_MainTex", offset);
+                }
+                
+                if (includeChild)
+                {
+                    var renderers = transform.GetComponentsInChildren<MeshRenderer>();
+                    foreach (var meshRenderer in renderers)
+                    {
+                        var offset = meshRenderer.material.GetTextureOffset("_MainTex") + amount;
+                        if (offset.x > 1f || offset.x < -1f) offset.x = 0f;
+                        if (offset.y > 1f || offset.y < -1f) offset.y = 0f;
+                        meshRenderer.material.SetTextureOffset("_MainTex", offset);
+                    }
+                }
+            }
+        }
+        
+        public static string GetFormattedTime(float time)
+        {
+            string timeString;
+            var timeSpan = new TimeSpan(0, 0, (int)time);
+            
+            if (timeSpan.Days > 0)
+            {
+                timeString = string.Format("{0}d {1}h {2:D2}m", timeSpan.Days, timeSpan.Hours, timeSpan.Minutes);
+            }
+            else if (timeSpan.Hours > 0)
+            {
+                timeString = timeSpan.Minutes > 0 ? string.Format("{0}h {1:D2}m", timeSpan.Hours, timeSpan.Minutes) : string.Format("{0}h", timeSpan.Hours);
+            }
+            else
+            {
+                timeString = string.Format("{0}m {1:D2}s", timeSpan.Minutes, timeSpan.Seconds); 
+            }
+
+            return timeString;
         }
     }
 }
