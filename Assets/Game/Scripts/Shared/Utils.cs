@@ -14,10 +14,10 @@ namespace MidcoreTemplate.Game.Utilities
     {
         public static GameEntity GetInputTargetOnGrid(Vector3 screenPos, SceneSystem sceneSystem, Camera camera, GridService gridService)
         {
-            var touched = Utils.GetInputTarget(screenPos, sceneSystem, camera);
+            var touched = GetInputTarget(screenPos, sceneSystem, camera);
             if (touched == null)
             {
-                var worldPos = Utils.GetPlaneTouchPos(screenPos, camera);
+                var worldPos = GetPlaneTouchPos(screenPos, camera);
                 var cell = gridService.GetCell(worldPos);
                 if (cell != null)
                 {

@@ -23,7 +23,6 @@ namespace MidcoreTemplate.Game.Systems
         [Inject] DataProviderSystem dataProvider;
         [Inject] GridService gridService;
         [Inject] CommandSystem commandSystem;
-        [Inject] DatabaseService database;
 
         #region IInitializeSystem implementation
 
@@ -41,8 +40,8 @@ namespace MidcoreTemplate.Game.Systems
         private Vector3 currentPos;
         private Vector3 deltaPos;
         private float timer;
-        private bool inertia = false;
-        private bool isDragging = false;
+        private bool inertia;
+        private bool isDragging;
         private GameConfig gameConfig;
         private GameEntity touched;
         private GameEntity dragged;
@@ -54,16 +53,13 @@ namespace MidcoreTemplate.Game.Systems
         {
             dragged = null;
             isDragging = false;
-            touched = Utils.GetInputTarget(screenPos, sceneSystem, cameraService.activeCamera);
-			if (touched == null)
-			{
-				var worldPos = Utils.GetPlaneTouchPos(screenPos, cameraService.activeCamera);
-				var cell = gridService.GetCell(worldPos);
-				if (cell != null)
-				{
-					touched = cell.cell.occupant;
-				}
-			}
+            touched = null;
+            if (!GestureService.IsOnUI())
+            {
+                var t = Utils.GetInputTargetOnGrid(screenPos, sceneSystem, cameraService.activeCamera, gridService);
+                if (t != null && !t.hasGrid || (t != null && t.hasGrid && t.grid.cells.Count > 0))
+                    touched = t;
+            }
             return false;
         }
 
