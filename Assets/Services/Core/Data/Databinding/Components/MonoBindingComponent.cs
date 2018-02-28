@@ -37,7 +37,7 @@ namespace Services.Core.Databinding.Components
                 var isDataValid = databinding.GetData<object>(path) != null;
                 if (isDataValid)
                 {
-                    databinding.Bind(path, this);
+                    Bind();
                 }
             }
         }
