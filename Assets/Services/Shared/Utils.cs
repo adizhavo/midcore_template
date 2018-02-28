@@ -117,19 +117,39 @@ namespace Services.Core
             return uniqueId;
         }
 
+        public static float GetUIScaleFactor()
+        {
+            var constRatio = Constants.SCREEN_WIDTH / Constants.SCREEN_HEIGHT;
+            var currRatio = (float)Screen.width / (float)Screen.height;
+            return constRatio / currRatio;
+        }
+
+        public static Vector2 TransformScreenPos(Vector2 screenPos, Vector2 referenceResolution)
+        {
+            var transformedScreenPos = screenPos;
+            var YRation = Screen.height / referenceResolution.y;
+            var localPosition = (transformedScreenPos.x - referenceResolution.x / 2) * YRation;
+
+            transformedScreenPos.x = Screen.width / 2f + localPosition;
+            transformedScreenPos.y = screenPos.y * YRation;
+            return transformedScreenPos;
+        }
+
         public static Vector2 GetScreenPos(Services.Core.Rect rect, UIAnchor anchor)
         {
+            var screenWidth = Constants.SCREEN_WIDTH;
+            var screenHeight = Constants.SCREEN_HEIGHT;
             switch (anchor)
             {
-                case UIAnchor.CENTER : return new Vector2(Screen.width / 2 + (rect.x - rect.width / 2), Screen.height / 2 + (rect.y  - rect.height / 2));
-                case UIAnchor.CENTER_BOTTOM : return new Vector2(Screen.width / 2 + (rect.x - rect.width / 2), rect.y);
-                case UIAnchor.CENTER_LEFT : return new Vector2(rect.x, Screen.height / 2 + (rect.y  - rect.height / 2));
-                case UIAnchor.CENTER_RIGHT : return new Vector2(Screen.width - (rect.x + rect.width), Screen.height / 2 + (rect.y  - rect.height / 2));
-                case UIAnchor.CENTER_TOP : return new Vector2(Screen.width / 2 + (rect.x - rect.width / 2), Screen.height - (rect.y + rect.height));
+                case UIAnchor.CENTER : return new Vector2(screenWidth / 2 + (rect.x - rect.width / 2), screenHeight / 2 + (rect.y  - rect.height / 2));
+                case UIAnchor.CENTER_BOTTOM : return new Vector2(screenWidth / 2 + (rect.x - rect.width / 2), rect.y);
+                case UIAnchor.CENTER_LEFT : return new Vector2(rect.x, screenHeight / 2 + (rect.y  - rect.height / 2));
+                case UIAnchor.CENTER_RIGHT : return new Vector2(screenWidth - (rect.x + rect.width), screenHeight / 2 + (rect.y  - rect.height / 2));
+                case UIAnchor.CENTER_TOP : return new Vector2(screenWidth / 2 + (rect.x - rect.width / 2), screenHeight - (rect.y + rect.height));
                 case UIAnchor.LEFT_BOTTOM : return new Vector2(rect.x, rect.y);
-                case UIAnchor.LEFT_TOP : return new Vector2(rect.x, Screen.height - (rect.y + rect.height));
-                case UIAnchor.RIGHT_BOTTOM : return new Vector2(Screen.width - (rect.x + rect.width), rect.y);
-                case UIAnchor.RIGHT_TOP : return new Vector2(Screen.width - (rect.x + rect.width), Screen.height - (rect.y + rect.height));
+                case UIAnchor.LEFT_TOP : return new Vector2(rect.x, screenHeight - (rect.y + rect.height));
+                case UIAnchor.RIGHT_BOTTOM : return new Vector2(screenWidth - (rect.x + rect.width), rect.y);
+                case UIAnchor.RIGHT_TOP : return new Vector2(screenWidth - (rect.x + rect.width), screenHeight - (rect.y + rect.height));
             }
             return Vector2.zero;
         }

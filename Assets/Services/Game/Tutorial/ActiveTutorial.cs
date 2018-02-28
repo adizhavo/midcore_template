@@ -182,6 +182,7 @@ namespace Services.Game.Tutorial
                 {
                     current = TutorialState.AwakeStep;
                     elapseTime = 0f;
+                    Update();
                 }
             }
         }
