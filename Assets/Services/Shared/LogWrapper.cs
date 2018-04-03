@@ -4,42 +4,42 @@
     {
         public static void DebugLog(string message)
         {
-            #if ADHOC || UNITY_EDITOR
+            #if (ADHOC || UNITY_EDITOR) && !SILENT
             UnityEngine.Debug.Log(message);
             #endif
         }
 
         public static void DebugLog(string message, params object[] args)
         {
-            #if ADHOC || UNITY_EDITOR
+            #if (ADHOC || UNITY_EDITOR) && !SILENT
             UnityEngine.Debug.LogFormat(message, args);
             #endif
         }
 
         public static void DebugError(string message)
         {
-            #if ADHOC || UNITY_EDITOR
+            #if (ADHOC || UNITY_EDITOR) && !SILENT
             UnityEngine.Debug.LogError(message);
             #endif
         }
 
         public static void DebugError(string message, params object[] args)
         {
-            #if ADHOC || UNITY_EDITOR
+            #if (ADHOC || UNITY_EDITOR) && !SILENT
             UnityEngine.Debug.LogErrorFormat(message, args);
             #endif
         }
 
         public static void DebugWarning(string message)
         {
-            #if ADHOC || UNITY_EDITOR
+            #if (ADHOC || UNITY_EDITOR) && !SILENT
             UnityEngine.Debug.LogWarning(message);
             #endif
         }
 
         public static void DebugWarning(string message, params object[] args)
         {
-            #if ADHOC || UNITY_EDITOR
+            #if (ADHOC || UNITY_EDITOR) && !SILENT
             UnityEngine.Debug.LogWarningFormat(message, args);
             #endif
         }

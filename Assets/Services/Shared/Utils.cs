@@ -175,5 +175,11 @@ namespace Services.Core
                 angle += 360f / segments;
             }
         }
+        
+        public static bool IsVisible(Vector3 postion, Camera activeCamera)
+        {
+            var screenPoint = activeCamera.WorldToViewportPoint(postion);
+            return screenPoint.x > -0.3f && screenPoint.x < 1.3f && screenPoint.y > -0.3f && screenPoint.y < 1.3f;
+        }
     }
 }

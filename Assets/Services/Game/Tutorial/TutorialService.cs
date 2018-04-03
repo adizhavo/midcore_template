@@ -113,7 +113,7 @@ namespace Services.Game.Tutorial
 
         public static void Notify(string trigger)
         {
-            #if !UNITY_EDITOR || EDITOR_TUT
+            #if (!UNITY_EDITOR || EDITOR_TUT) && !NO_TUT
             LogWrapper.DebugLog("[{0}] received trigger {1}", instance.GetType(), trigger);
 
             if (activeTut != null)

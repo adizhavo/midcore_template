@@ -13,6 +13,11 @@ namespace Services.Game.HUD
             this.id = id;
             this.entity = entity;
         }
+        
+        public virtual void IsVisible(bool visible)
+        {
+            gameObject.SetActive(visible);
+        }
 
         public virtual void Enable()
         {

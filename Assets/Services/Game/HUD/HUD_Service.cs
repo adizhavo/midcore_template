@@ -8,6 +8,7 @@ using Services.Game.Factory;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Services.Core;
 
 namespace Services.Game.HUD
 {
@@ -42,20 +43,34 @@ namespace Services.Game.HUD
 
         public void Execute()
         {
-            for (int i = activeHUDs.Count - 1; i >= 0; i --)
+            if (cameraService.activeCamera != null)
             {
-                var activeHUD = activeHUDs.ElementAt(i);
+                for (int i = activeHUDs.Count - 1; i >= 0; i--)
+                {
+                    var activeHUD = activeHUDs.ElementAt(i);
+                    var onScreen = Utils.IsVisible(activeHUD.Key.HUDPivot, cameraService.activeCamera);
+                    activeHUD.Value.IsVisible(onScreen);
+                    if (onScreen)
+                    {
+                        if (!activeHUD.Key.hasView || !activeHUD.Key.viewObject.activeSelf)
+                        {
+                            RemoveHUD(activeHUD.Key);
+                        }
+                        else
+                        {
+                            RepositionHUD(activeHUD.Key, activeHUD.Value);
+                        }
+                    }
+                }
+            }
+        }
 
-                if (!activeHUD.Key.hasView || !activeHUD.Key.viewObject.activeSelf)
-                {
-                    RemoveHUD(activeHUD.Key);
-                    break;
-                }
-                else
-                {
-                    var hudPosition = cameraService.activeCamera.WorldToScreenPoint(activeHUD.Key.HUDPivot);
-                    activeHUD.Value.transform.position = hudPosition;
-                }
+        private void RepositionHUD(GameEntity entity, HUD_Object hudObject)
+        {
+            if (cameraService.activeCamera != null)
+            {
+                var hudPosition = cameraService.activeCamera.WorldToScreenPoint(entity.HUDPivot);
+                hudObject.transform.position = hudPosition;
             }
         }
 
