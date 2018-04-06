@@ -40,23 +40,26 @@ namespace Services.Game.HUD
         #endregion
 
         #region IExecuteSystem implementation
-
+        
         public void Execute()
         {
             if (cameraService.activeCamera != null)
             {
-                for (int i = activeHUDs.Count - 1; i >= 0; i--)
+                foreach (var activeHUD in activeHUDs)
                 {
-                    var activeHUD = activeHUDs.ElementAt(i);
-                    var onScreen = Utils.IsVisible(activeHUD.Key.HUDPivot, cameraService.activeCamera);
-                    activeHUD.Value.IsVisible(onScreen);
-                    if (onScreen)
+                    if (!activeHUD.Key.hasView || !activeHUD.Key.viewObject.activeSelf)
                     {
-                        if (!activeHUD.Key.hasView || !activeHUD.Key.viewObject.activeSelf)
-                        {
-                            RemoveHUD(activeHUD.Key);
-                        }
-                        else
+                        RemoveHUD(activeHUD.Key);
+                    }
+                    else if (!activeHUD.Value.hasInitialPosition)
+                    {
+                        RepositionHUD(activeHUD.Key, activeHUD.Value);
+                        activeHUD.Value.hasInitialPosition = true;
+                    }
+                    else
+                    {
+                        var onScreen = Utils.IsVisible(activeHUD.Key.HUDPivot, cameraService.activeCamera);
+                        if (onScreen)
                         {
                             RepositionHUD(activeHUD.Key, activeHUD.Value);
                         }
@@ -145,6 +148,7 @@ namespace Services.Game.HUD
             var hud = GetHUD(entity);
             if (hud != null)
             {
+                hud.hasInitialPosition = false;
                 hud.Disable();
                 activeHUDs.Remove(entity);
             }

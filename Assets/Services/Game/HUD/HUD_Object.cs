@@ -7,16 +7,13 @@ namespace Services.Game.HUD
         public string id { private set; get; }
 
         public GameEntity entity { private set; get; }
+        
+        public bool hasInitialPosition { set; get; }
 
         public virtual void Setup(string id, GameEntity entity)
         {
             this.id = id;
             this.entity = entity;
-        }
-        
-        public virtual void IsVisible(bool visible)
-        {
-            gameObject.SetActive(visible);
         }
 
         public virtual void Enable()
