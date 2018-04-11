@@ -136,7 +136,7 @@ namespace Services.Core.GUI
                     if (!refreshPanels.Contains(panel))
                         GetPanelView(panel).OnDisappear();
                 
-                LogWrapper.DebugLog("[{0}] Switching state from: {1} to {2}", GetType(), currentState.state, newState);
+                LogWrapper.DebugLog("[{0}] Switching state from: {1} to {2}", GetType(), currentState.state, newState.state);
                 currentState = newState;
 
                 // Reassign active Panels
