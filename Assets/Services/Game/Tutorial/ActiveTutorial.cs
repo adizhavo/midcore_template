@@ -117,6 +117,7 @@ namespace Services.Game.Tutorial
                     elapseTime = currentStep.exitAnimationLength;
                     current = TutorialState.ExitStep;
                     AnimateOutTutorialUI();
+                    Update();
                 }
             }
             else
