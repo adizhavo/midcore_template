@@ -209,23 +209,10 @@ namespace MidcoreTemplate.Game.Utilities
         
         public static string GetFormattedTime(float time)
         {
-            string timeString;
             var timeSpan = new TimeSpan(0, 0, (int)time);
-            
-            if (timeSpan.Days > 0)
-            {
-                timeString = string.Format("{0}d {1}h {2:D2}m", timeSpan.Days, timeSpan.Hours, timeSpan.Minutes);
-            }
-            else if (timeSpan.Hours > 0)
-            {
-                timeString = timeSpan.Minutes > 0 ? string.Format("{0}h {1:D2}m", timeSpan.Hours, timeSpan.Minutes) : string.Format("{0}h", timeSpan.Hours);
-            }
-            else
-            {
-                timeString = string.Format("{0}m {1:D2}s", timeSpan.Minutes, timeSpan.Seconds); 
-            }
-
-            return timeString;
+            if (timeSpan.Days > 0) return  string.Format("{0}d {1}h {2:D2}m", timeSpan.Days, timeSpan.Hours, timeSpan.Minutes);
+            if (timeSpan.Hours > 0) return timeSpan.Minutes > 0 ? string.Format("{0}h {1:D2}m", timeSpan.Hours, timeSpan.Minutes) : string.Format("{0}h", timeSpan.Hours);
+            return timeSpan.Minutes > 0 ? string.Format("{0}m {1:D2}s", timeSpan.Minutes, timeSpan.Seconds) :  string.Format("{0:D2}s", timeSpan.Seconds); 
         }
     }
 }
