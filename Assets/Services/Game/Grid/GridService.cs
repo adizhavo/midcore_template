@@ -209,6 +209,35 @@ namespace Services.Game.Grid
 
             return GetOccupants(pivot, entity.grid.footprint).Count == 0 && !IsThereAnyNullCell(pivot, entity.grid.footprint);
         }
+        
+        public bool HasFreeSpace(List<string> cellTypes, Footprint footprint = default(Footprint))
+        {
+            foreach (var cell in grid.cells)
+            {
+                var isFree = GetOccupants(cell, footprint).Count == 0 && !IsThereAnyNullCell(cell, footprint) && AreFootprontCellOfEntityPositionType(cell, footprint, cellTypes);
+                if (isFree) return true;
+            }
+
+            return false;
+        }
+
+        public bool HasFreeSpace(List<string> cellTypes, List<List<int>> footprintData = null)
+        {
+            var footprint = footprintData != null ? new Footprint(footprintData) : new Footprint();
+            foreach (var cell in grid.cells)
+            {
+                var isFree = GetOccupants(cell, footprint).Count == 0 && !IsThereAnyNullCell(cell, footprint) && AreFootprontCellOfEntityPositionType(cell, footprint, cellTypes);
+                if (isFree) return true;
+            }
+
+            return false;
+        }
+
+        public bool AreFootprontCellOfEntityPositionType(GameEntity pivot, Footprint footprint, List<string> cellTypes)
+        {
+            var cells = GetAllCells(pivot, footprint);
+            return cells != null && cells.Find(c => cellTypes.Count > 0 && !cellTypes.Contains(c.typeId)) == null;
+        }
 
         public List<GameEntity> GetOccupants(GameEntity pivot, Footprint footprint)
         {
