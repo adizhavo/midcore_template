@@ -51,11 +51,6 @@ namespace Services.Game.HUD
                     {
                         RemoveHUD(activeHUD.Key);
                     }
-                    else if (!activeHUD.Value.hasInitialPosition)
-                    {
-                        RepositionHUD(activeHUD.Key, activeHUD.Value);
-                        activeHUD.Value.hasInitialPosition = true;
-                    }
                     else
                     {
                         var onScreen = Utils.IsVisible(activeHUD.Key.HUDPivot, cameraService.activeCamera);
@@ -148,7 +143,6 @@ namespace Services.Game.HUD
             var hud = GetHUD(entity);
             if (hud != null)
             {
-                hud.hasInitialPosition = false;
                 hud.Disable();
                 activeHUDs.Remove(entity);
             }
