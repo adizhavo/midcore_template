@@ -179,7 +179,7 @@ namespace Services.Core
         public static bool IsVisible(Vector3 postion, Camera activeCamera)
         {
             var screenPoint = activeCamera.WorldToViewportPoint(postion);
-            return screenPoint.x > -0.3f && screenPoint.x < 1.3f && screenPoint.y > -0.3f && screenPoint.y < 1.3f;
+            return screenPoint.x > -0.2f && screenPoint.x < 1.2f && screenPoint.y > -0.2f && screenPoint.y < 1.2f;
         }
     }
 }
