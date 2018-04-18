@@ -397,7 +397,7 @@ namespace Services.Game.Grid
             }
         }
 
-        public List<GameEntity> GetAllCells(GameEntity pivot, Footprint footprint)
+        public List<GameEntity> GetAllCells(GameEntity pivot, Footprint footprint, int footId = 1)
         {
             var cells = new List<GameEntity>();
 
@@ -407,7 +407,7 @@ namespace Services.Game.Grid
 
                 for (int j = 0; j < foot_column.Count; j++)
                 {
-                    if (foot_column[j] == 1)
+                    if (foot_column[j] == footId)
                     {
                         var f_row = j + pivot.row;
                         var f_column = i + pivot.column;
