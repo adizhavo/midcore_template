@@ -177,18 +177,7 @@ public sealed partial class GameEntity
 
     public Vector3 HUDPivot
     {
-        get 
-        {
-            var viewMono = viewObject.GetComponent<ViewMonoComponent>();
-            if (viewMono != null) 
-            {
-                return viewMono.HUDpivot.position;
-            }
-            else
-            {
-                return position;
-            }
-        }
+        get { return view.HUDPivot.position; }
     }
 
     public Transform GetPivot(string id)

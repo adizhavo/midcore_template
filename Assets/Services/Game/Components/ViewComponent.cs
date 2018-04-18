@@ -7,5 +7,6 @@ namespace Services.Game.Components
     public class ViewComponent : IComponent
     {
         public GameObject view;
+        public Transform HUDPivot;
     }
 }
