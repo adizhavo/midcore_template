@@ -17,12 +17,9 @@ namespace MidcoreTemplate.Game.Systems
         [Inject] DatabaseService database;
         [Inject] TILED_MapReader mapReader;
         [Inject] GridService gridService;
-        [Inject] FactoryEntity factoryEntity;
-        [Inject] HUD_Service hudService;
         [Inject] CameraService cameraService;
         [Inject] DataProviderSystem dataProvider;
         [Inject] CommandSystem commandSystem;
-        [Inject] DataBindingService dataBinding;
 
         public void LoadCamp()
         {
@@ -50,7 +47,6 @@ namespace MidcoreTemplate.Game.Systems
             cameraService.SetBoundary(dataProvider.GetGameConfig().cameraInitPos.ToVector3(), dataProvider.GetGameConfig().cameraBoundaryRadius);
             cameraService.SetZoom(dataProvider.GetGameConfig().cameraInitZoom);
             cameraService.SetPosition(dataProvider.GetGameConfig().cameraInitPos.ToVector3());
-            dataBinding.AddData<bool>("game.camera.camp", true);
         }
     }
 }

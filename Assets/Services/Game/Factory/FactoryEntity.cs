@@ -38,7 +38,8 @@ namespace Services.Game.Factory
             entity.AddResource(prefabPath);
             entity.AddCell(row, column, occupant);
             var view = FactoryPool.GetPooled(prefabPath);
-            entity.AddView(view);
+            var viewMono = view.GetComponent<ViewMonoComponent>();
+            entity.AddView(view, viewMono != null ? viewMono.HUDpivot : view.transform);
             #if UNITY_EDITOR
             entity.viewObject.name = string.Format("cell_{0}_{1}_{2}_{3}_{4}", entity.objectId, entity.typeId, entity.row, entity.column, entity.uniqueId);
             #endif
@@ -56,7 +57,8 @@ namespace Services.Game.Factory
             var defaultFootprint = new List<List<int>>() { new List<int>() { 1 } };
             entity.AddGrid(null, new List<GameEntity>(), new Footprint(objectData.footprintData == null ? defaultFootprint : objectData.footprintData), objectData.canSwap);
             var view = FactoryPool.GetPooled(prefabPath);
-            entity.AddView(view);
+            var viewMono = view.GetComponent<ViewMonoComponent>();
+            entity.AddView(view, viewMono != null ? viewMono.HUDpivot : view.transform);
             #if UNITY_EDITOR
             entity.viewObject.name = string.Format("ent_{0}_{1}_{2}", entity.objectId, entity.typeId, entity.uniqueId);
             #endif
@@ -83,7 +85,7 @@ namespace Services.Game.Factory
                     var prefabPath = database.Get<string>(vfxData.prefab);
                     entity.AddResource(prefabPath);
                     var view = FactoryPool.GetPooled(prefabPath);
-                    entity.AddView(view);
+                    entity.AddView(view, view.transform);
                     entity.position = pos;
                 }
 

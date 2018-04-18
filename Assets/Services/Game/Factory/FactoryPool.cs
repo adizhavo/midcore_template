@@ -17,10 +17,26 @@ namespace Services.Game.Factory
             pools.Add(pool);
             return pool;
         }
+        
+        public static FactoryPool GetPool(GameObject prefab)
+        {
+            foreach (var p in pools)
+                if (string.Equals(p.prefab, prefab))
+                    return p;
+
+            var pool = new FactoryPool(prefab);
+            pools.Add(pool);
+            return pool;
+        }
 
         public static GameObject GetPooled(string prefabPath)
         {
             return GetPool(prefabPath).GetObject();
+        }
+
+        public static GameObject GetPooled(GameObject prefab)
+        {
+            return GetPool(prefab).GetObject();
         }
 
         public static GameObject GetUnPooled(string prefabPath)
@@ -29,7 +45,7 @@ namespace Services.Game.Factory
         }
 
         public string prefabPath;
-        private GameObject prefab;
+        public GameObject prefab;
         private GameObject poolObject;
         private List<GameObject> objects;
 
@@ -37,6 +53,13 @@ namespace Services.Game.Factory
         {
             this.prefabPath = prefabPath;
             prefab = Resources.Load<GameObject>(prefabPath);
+            objects = new List<GameObject>();
+            poolObject = new GameObject("_pool_" + prefab.name);
+        }
+        
+        public FactoryPool(GameObject prefab)
+        {
+            this.prefab = prefab;
             objects = new List<GameObject>();
             poolObject = new GameObject("_pool_" + prefab.name);
         }

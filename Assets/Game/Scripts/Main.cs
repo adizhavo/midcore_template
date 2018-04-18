@@ -61,6 +61,7 @@ namespace MidcoreTemplate
                 .Add(container.Resolve<DataVersionService>())
                 .Add(container.Resolve<GestureService>())
                 .Add(container.Resolve<AssetManifestReader>())
+                .Add(container.Resolve<DataBindingInitializerSystem>())
                 .Add(container.Resolve<GUIService>())
                 .Add(container.Resolve<CameraService>())
                 .Add(container.Resolve<HUD_Service>())

@@ -23,6 +23,7 @@ namespace MidcoreTemplate.Game
 
         public override void InstallBindings()
         {
+            Container.Bind<DataBindingInitializerSystem>().AsSingle().NonLazy();
             Container.Bind<DataProviderSystem>().AsSingle().NonLazy();
             Container.Bind<SceneSystem>().AsSingle().NonLazy();
             Container.Bind<DragSystem>().AsSingle().NonLazy();

@@ -2,6 +2,7 @@
 using UnityEngine;
 using Services.Game.Grid;
 using System.Collections;
+using System.Collections.Generic;
 using MidcoreTemplate.Game.Systems;
 using Services.Core;
 
@@ -11,6 +12,43 @@ namespace MidcoreTemplate.Game.Utilities
     /// All Unity/Scene related functionalities
     /// </summary>
 
+    public class ConversionUtils
+    {
+        private static readonly int charA = Convert.ToInt32('a');
+    
+        private static readonly Dictionary<int, string> predefinedSuffixes = new Dictionary<int, string>
+        {
+            {0, ""},
+            {1, "K"},
+            {2, "M"},
+            {3, "B"},
+            {4, "T"}
+        };
+    
+        public static string ToAA(double value, int maxFractDigits = 2)
+        {
+            var expo = (int) Math.Log(value, 1000);
+            var mant = value / Math.Pow(1000, expo);
+            var suffix = "";
+        
+            if (expo < predefinedSuffixes.Count)
+            {
+                suffix = predefinedSuffixes[expo];
+            }
+            else
+            {
+                var suffixInt = expo - predefinedSuffixes.Count;
+                var minSuffix = suffixInt % 26;
+                var maxSuffix = suffixInt / 26;
+                suffix = Convert.ToChar(maxSuffix + charA).ToString() + Convert.ToChar(minSuffix + charA).ToString();
+            }
+
+            var toStringParam = "0." + new string('#', maxFractDigits);
+            var mult = Math.Pow(10, maxFractDigits);
+            return (Math.Floor(mant * mult) / mult).ToString(toStringParam) + suffix;
+        }
+    }
+    
     public static class Utils 
     {
         public static GameEntity GetInputTargetOnGrid(Vector3 screenPos, SceneSystem sceneSystem, Camera camera, GridService gridService)
@@ -52,7 +90,7 @@ namespace MidcoreTemplate.Game.Utilities
 
         public static Vector3 GetPlaneTouchPos(Vector3 screenPos, Camera camera)
         {
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = camera.ScreenPointToRay(screenPos);
             float rayDistance;
             Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
             if (groundPlane.Raycast(ray, out rayDistance))

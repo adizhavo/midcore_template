@@ -9,33 +9,39 @@ namespace Services.Game.SceneCamera
 {
     /// <summary>
     /// Adapter to the scene camera
-    /// Handler all aniamtions and setup
+    /// Handler all animations and setup
     /// </summary>
 
-    public class CameraService : IExecuteSystem
+    public class CameraService : IInitializeSystem, IExecuteSystem, BindingComponent<Camera>
     {
         [Inject] DataBindingService databinding;
 
         public Camera activeCamera
         {
-            get{ return databinding.GetData<Camera>(Constants.DATABINDING_CAMERA_ACTIVE).value; }
+            private set;
+            get;
         }
-
+        
         public Vector3 position
-        {
-            get { return databinding.GetData<Vector3>(Constants.DATABINDING_CAMERA_POSITON).value; }
-        }
-
-        public float zoom
-        {
-            get { return databinding.GetData<float>(Constants.DATABINDING_CAMERA_ZOOM).value; }
-        }
-
-        public float boundaryRadius
         {
             private set;
             get;
         }
+        
+        public float zoom
+        {
+            private set;
+            get;
+        }
+
+        public float boundaryRadius 
+        {
+            private set;
+            get;
+        }
+        
+        public bool lockCamera;
+        public bool ignoreBoundaries;
 
         private LTDescr zoomAnim;
         private LTDescr posAnim;
@@ -51,61 +57,80 @@ namespace Services.Game.SceneCamera
         {
             if (zoomAnim != null)
             {
-                LeanTween.cancel(zoomAnim.uniqueId);
+                LeanTween.cancel(zoomAnim.uniqueId, true);
                 zoomAnim = null;
             }
 
+            this.zoom = zoom;
             databinding.AddData(Constants.DATABINDING_CAMERA_ZOOM, zoom, true);
         }
 
         public void LerpZoom(float zoom, float duration = 0.3f)
         {
+            if (lockCamera)
+                return;
+            
             if (zoomAnim != null)
             {
-                LeanTween.cancel(zoomAnim.uniqueId);
+                LeanTween.cancel(zoomAnim.uniqueId, true);
             }
 
 			zoomAnim = LeanTween.value(this.zoom, zoom, duration).setOnUpdate(
-                (float value) => databinding.AddData(Constants.DATABINDING_CAMERA_ZOOM, value, true)
-            )
-			.setOnComplete(()=> zoomAnim = null)
-			.setEaseOutExpo();
+                (float value) =>
+                {
+                    this.zoom = value;
+                    databinding.AddData(Constants.DATABINDING_CAMERA_ZOOM, value, true);
+                }).setEaseOutExpo()
+            .setOnComplete(() => zoomAnim = null);
         }
 
         public void SetPosition(Vector3 position)
         {
+            if (lockCamera)
+                return;
+            
             if (posAnim != null)
             {
-                LeanTween.cancel(posAnim.uniqueId);
+                LeanTween.cancel(posAnim.uniqueId, true);
                 posAnim = null;
             }
 
+            this.position = position;
             databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, ClampPosition(position), true);
         }
 
         public void LerpPosition(Vector3 position, float duration = 0.3f)
         {
+            if (lockCamera)
+                return;
+            
             if (posAnim != null)
             {
-                LeanTween.cancel(posAnim.uniqueId);
+                LeanTween.cancel(posAnim.uniqueId, true);
             }
 
             posAnim = LeanTween.value(activeCamera.gameObject, activeCamera.transform.position, position, duration).setOnUpdate(
-                (Vector3 value) => databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, ClampPosition(value), true)
-            )
-            .setOnComplete(()=> posAnim = null)
-            .setEaseInOutQuad();
+                (Vector3 value) =>
+                {
+                    this.position = value;
+                    databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, ClampPosition(value), true);
+                }).setEaseInOutQuad()
+            .setOnComplete(() => posAnim = null);
         }
 
         private Vector3 ClampPosition(Vector3 position)
         {
-            var distanceVector = boundaryCenter - position;
-            if (distanceVector.sqrMagnitude > Mathf.Pow(boundaryRadius, 2))
+            #if !FREE_CAMERA
+            if (!ignoreBoundaries)
             {
-                distanceVector = Vector3.ClampMagnitude(distanceVector, boundaryRadius);
-                position = boundaryCenter - distanceVector;
+                var distanceVector = boundaryCenter - position;
+                if (distanceVector.sqrMagnitude > Mathf.Pow(boundaryRadius, 2))
+                {
+                    distanceVector = Vector3.ClampMagnitude(distanceVector, boundaryRadius);
+                    position = boundaryCenter - distanceVector;
+                }
             }
-
+            #endif
             return position;
         }
 
@@ -120,5 +145,15 @@ namespace Services.Game.SceneCamera
         }
 
         #endregion
+        
+        public void Initialize()
+        {
+            databinding.Bind<Camera>(Constants.DATABINDING_CAMERA_ACTIVE, this);
+        }
+
+        public void OnValueChanged(string branch, Camera value)
+        {
+            activeCamera = value;
+        }
     }
 }
