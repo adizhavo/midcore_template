@@ -90,7 +90,7 @@ namespace MidcoreTemplate.Game.Utilities
 
         public static Vector3 GetPlaneTouchPos(Vector3 screenPos, Camera camera)
         {
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = camera.ScreenPointToRay(screenPos);
             float rayDistance;
             Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
             if (groundPlane.Raycast(ray, out rayDistance))
