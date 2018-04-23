@@ -81,6 +81,7 @@ namespace Services.Game.SceneCamera
                     this.zoom = value;
                     databinding.AddData(Constants.DATABINDING_CAMERA_ZOOM, value, true);
                 }).setEaseOutExpo()
+			.setIgnoreTimeScale(true)
             .setOnComplete(() => zoomAnim = null);
         }
 
@@ -115,6 +116,7 @@ namespace Services.Game.SceneCamera
                     this.position = value;
                     databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, ClampPosition(value), true);
                 }).setEaseInOutQuad()
+            .setIgnoreTimeScale(true)
             .setOnComplete(() => posAnim = null);
         }
 
