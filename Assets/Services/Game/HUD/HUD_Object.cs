@@ -24,6 +24,7 @@ namespace Services.Game.HUD
         {
             this.id = id;
             this.entity = entity;
+            Container.SetActive(false);
         }
 
         public virtual void Disable()
