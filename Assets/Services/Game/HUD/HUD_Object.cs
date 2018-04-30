@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using Services.Core;
+﻿using Services.Core;
 using Services.Game.SceneCamera;
+using UnityEngine;
 
 namespace Services.Game.HUD
 {
@@ -13,13 +13,10 @@ namespace Services.Game.HUD
 
         public GameEntity entity { private set; get; }
         
-        private CameraService cameraService;
-
         protected virtual void Awake()
         {
-            cameraService = GameServiceInstaller.Resolve<CameraService>();
         }
-        
+
         public virtual void Setup(string id, GameEntity entity)
         {
             this.id = id;
@@ -33,14 +30,9 @@ namespace Services.Game.HUD
             entity = null;
             gameObject.SetActive(false);
         }
-        
-        protected  virtual void Update()
+
+        public virtual void UpdateHUD()
         {
-            if (entity != null && entity.hasView)
-            {
-                var isVisible = Utils.IsVisible(entity.position, cameraService.activeCamera);
-                Container.SetActive(isVisible);
-            }
         }
     }
 }
