@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using Services.Core;
 using Services.Core.GUI;
 
@@ -12,6 +11,8 @@ namespace Services.Game.Misc
         private LTDescr yAnim;
         private LTDescr xAnim;
         private LTDescr sizeAnim;
+
+        public bool invert;
 
         private void Awake()
         {
@@ -37,26 +38,44 @@ namespace Services.Game.Misc
             var currSize = rectTransform.GetSize();
             sizeAnim = LeanTween.value(0f, 1f, duration).setOnUpdate(
                 (value) =>
+                {
+                    var deltaSize = size - currSize;
+                    rectTransform.SetSize(currSize + deltaSize * value);
+                }
+            )
+            .setOnComplete(() => rectTransform.SetSize(currSize))
+            .setIgnoreTimeScale(true);
+
+            if (!invert)
             {
-                var deltaSize = size - currSize;
-                rectTransform.SetSize(currSize + deltaSize * value);
-            }
-            )
-                .setOnComplete(() => rectTransform.SetSize(currSize))
-                .setIgnoreTimeScale(true);
-
-            rectTransform.position = fromPos;
-            yAnim = LeanTween.value(rectTransform.position.y, toPos.y, duration).setOnUpdate(
-                (value) => rectTransform.SetY(value)
-            )
-                .setEaseInBack()
-                .setIgnoreTimeScale(true);
-
-            xAnim = LeanTween.value(rectTransform.position.x, toPos.x, duration).setOnUpdate(
+                rectTransform.position = fromPos;
+                xAnim = LeanTween.value(rectTransform.position.x, toPos.x, duration).setOnUpdate(
                 (value) => rectTransform.SetX(value)
-            )
+                )
                 .setIgnoreTimeScale(true)
                 .setOnComplete(() => Stop());
+                
+                yAnim = LeanTween.value(rectTransform.position.y, toPos.y, duration).setOnUpdate(
+                (value) => rectTransform.SetY(value)
+                )
+                .setEaseInQuad()
+                .setIgnoreTimeScale(true);
+            }
+            else
+            {
+                rectTransform.position = fromPos;
+                xAnim = LeanTween.value(rectTransform.position.x, toPos.x, duration).setOnUpdate(
+                (value) => rectTransform.SetX(value)
+                )
+                .setEaseInQuad()
+                .setIgnoreTimeScale(true);
+                
+                yAnim = LeanTween.value(rectTransform.position.y, toPos.y, duration).setOnUpdate(
+                (value) => rectTransform.SetY(value)
+                )
+                .setIgnoreTimeScale(true)
+                .setOnComplete(() => Stop());
+            }
         }
 
         public void Stop(bool disable = true)

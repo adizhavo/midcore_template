@@ -48,11 +48,6 @@ namespace Services.Core.Databinding
             return ExtractNode(branch) as Data<T>;
         }
 
-        public Data<T> GetData<T>(string Id, int treeDepth)
-        {
-            return ExtractNode(Id, treeDepth) as Data<T>;
-        }
-
         /// <summary>
         /// Adds and creates the branch if no data branch is defined
         /// Overrides the data if the data branch is defined
@@ -80,6 +75,7 @@ namespace Services.Core.Databinding
         {
             // creates the data branch piece by piece and adds empty nodes
             var branch = new StringBuilder();
+            var parentBranch = string.Empty;
 
             // loops not to the end, this loop will fill with empty nodes 
             // the actual data will be added as a sub node at the end
@@ -87,9 +83,11 @@ namespace Services.Core.Databinding
             {
                 branch.Append(splittedBranch[treeDepth]);
 
-                var extracted = ExtractNode(splittedBranch[treeDepth], treeDepth);
+                var extracted = ExtractNode(branch.ToString());
                 if (extracted == null)
-                    CreateEmptyNode(branch.ToString(), splittedBranch, treeDepth);
+                    CreateEmptyNode(parentBranch, branch.ToString(), splittedBranch, treeDepth);
+                
+                parentBranch = branch.ToString();
 
                 if (treeDepth != splittedBranch.Length - 2)
                     branch.Append(DATA_BRANCH_SEPARATOR);
@@ -100,7 +98,7 @@ namespace Services.Core.Databinding
             parent.AddSubNode(insertion);
         }
 
-        private void CreateEmptyNode(string branch, string[] splittedBranch, int treeDepth)
+        private void CreateEmptyNode(string parentBranch, string branch, string[] splittedBranch, int treeDepth)
         {
             var node = new Node();
             node.branch = branch;
@@ -115,15 +113,10 @@ namespace Services.Core.Databinding
             }
             else
             {
-                var parent = ExtractNode(splittedBranch[treeDepth - 1], treeDepth - 1);
+                var parent = ExtractNode(parentBranch);
                 LogWrapper.DebugLog("[{0}] Adding an empty node {1} with parent {2}", GetType(), splittedBranch[treeDepth], parent.branch);
                 parent.AddSubNode(node);
             }
-        }
-
-        public bool ContainsNode(string Id, int treeDepth)
-        {
-            return ExtractNode(Id, treeDepth) != null;
         }
 
         public bool ContainsNode(string branch)
@@ -139,46 +132,34 @@ namespace Services.Core.Databinding
             if (!string.IsNullOrEmpty(branch))
             {
                 string[] branchPath = branch.Split(DATA_BRANCH_SEPARATOR);
-                return ExtractNode(branchPath[branchPath.Length - 1], branchPath.Length - 1);
+                var nodes = ExtractNodes(dataRoots, 0, branchPath.Length - 1, branchPath);
+                return nodes != null && nodes.Count > 0 ? nodes[nodes.Count - 1] : null;
             }
             LogWrapper.DebugWarning("[{0}] Error, the request is null or empty, please provide a valid branch, will return null", GetType());
             return null;
         }
 
         /// <summary>
-        /// Extracts nodes from its Id and depth in the data tree
-        /// </summary>
-        public Node ExtractNode(string Id, int treeDepth)
-        {
-            if (!string.IsNullOrEmpty(Id))
-            {
-                foreach (var node in ExtractNodes(dataRoots, treeDepth))
-                    if (string.Equals(node.Id, Id))
-                        return node;
-            }
-            else
-            {
-                LogWrapper.DebugWarning("[{0}] Error, the request Id is null or empty, please provide a valid Id, will return null", GetType());
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// Extracts a collections of nodes out of a tree of nodes based on the depth
         /// </summary>
-        public List<Node> ExtractNodes(List<Node> parents, int treeDepth)
+        public List<Node> ExtractNodes(List<Node> parents, int currentDepth, int treeDepth, string[] branchPath)
         {
             List<Node> extractedNodes = new List<Node>();
 
             foreach (var node in parents)
             {
-                if (node.treeDepth == treeDepth)
-                    extractedNodes.Add(node);
-                else
+                if (node.Id == branchPath[currentDepth])
                 {
-                    List<Node> nodes = ExtractNodes(node.subNodes, treeDepth);
-                    extractedNodes.AddRange(nodes);
+                    if (node.treeDepth == treeDepth)
+                    {
+                        extractedNodes.Add(node);
+                        break;
+                    }
+                    else
+                    {
+                        List<Node> nodes = ExtractNodes(node.subNodes, currentDepth + 1, treeDepth, branchPath);
+                        extractedNodes.AddRange(nodes);
+                    }
                 }
             }
 
