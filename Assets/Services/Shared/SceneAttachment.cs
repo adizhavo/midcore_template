@@ -9,8 +9,10 @@ namespace Services.Core
     {
         public const string GAME_OBJECT_NAME = "_sceneAttachment";
         private static SceneAttachment instance;
-        private static readonly List<Action<bool>> pauseListeners = new List<Action<bool>>();
-        private static readonly List<Action> quitListeners = new List<Action>();
+        private readonly List<Action<bool>> pauseListeners = new List<Action<bool>>();
+        private readonly List<Action> quitListeners = new List<Action>();
+
+        private bool booted;
 
         public static SceneAttachment GetInstance()
         {
@@ -24,24 +26,30 @@ namespace Services.Core
             return instance;
         }
 
+        private IEnumerator Start()
+        {
+            yield return new WaitForEndOfFrame();
+            booted = true;
+        }
+
         public static void ListenPause(Action<bool> callback)
         {
-            pauseListeners.Add(callback);
+            GetInstance().pauseListeners.Add(callback);
         }
 
         public static void RemovePause(Action<bool> callback)
         {
-            pauseListeners.Remove(callback);
+            GetInstance().pauseListeners.Remove(callback);
         }
 
         public static void ListenQuit(Action callback)
         {
-            quitListeners.Add(callback);
+            GetInstance().quitListeners.Add(callback);
         }
 
         public static void RemoveQuit(Action callback)
         {
-            quitListeners.Remove(callback);
+            GetInstance().quitListeners.Remove(callback);
         }
 
         public static void AttachCoroutine(IEnumerator routine)
@@ -56,19 +64,25 @@ namespace Services.Core
 
         public static void StopCoroutines()
         {
-            instance.StopAllCoroutines();
+            GetInstance().StopAllCoroutines();
         }
 
         void OnApplicationPause(bool pause)
         {
-            foreach(var callback in pauseListeners)
-                callback(pause);
+            if (booted)
+            {
+                foreach (var callback in pauseListeners)
+                    callback(pause);
+            }
         }
 
         void OnApplicationQuit()
         {
-            foreach(var callback in quitListeners)
-                callback();
+            if (booted)
+            {
+                foreach (var callback in quitListeners)
+                    callback();
+            }
         }
     }
 }
