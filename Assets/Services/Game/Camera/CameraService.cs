@@ -96,8 +96,8 @@ namespace Services.Game.SceneCamera
                 posAnim = null;
             }
 
-            this.position = position;
-            databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, ClampPosition(position), true);
+            this.position = ClampPosition(position);
+            databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, this.position, true);
         }
 
         public void LerpPosition(Vector3 position, float duration = 0.3f)
@@ -113,8 +113,8 @@ namespace Services.Game.SceneCamera
             posAnim = LeanTween.value(activeCamera.gameObject, activeCamera.transform.position, position, duration).setOnUpdate(
                 (Vector3 value) =>
                 {
-                    this.position = value;
-                    databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, ClampPosition(value), true);
+                    this.position = ClampPosition(position);
+                    databinding.AddData(Constants.DATABINDING_CAMERA_POSITON, this.position, true);
                 }).setEaseInOutQuad()
             .setIgnoreTimeScale(true)
             .setOnComplete(() => posAnim = null);
