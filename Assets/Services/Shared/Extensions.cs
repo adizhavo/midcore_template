@@ -186,5 +186,15 @@ namespace Services.Core
             r.height = rect.height;
             return r;
         }
+        
+        public static Services.Core.Rect CopyRect(this Services.Core.Rect rect)
+        {
+            var r = new Services.Core.Rect();
+            r.x = rect.x;
+            r.y = rect.y;
+            r.width = rect.width;
+            r.height = rect.height;
+            return r;
+        }
     }
 }
