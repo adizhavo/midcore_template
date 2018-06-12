@@ -11,7 +11,7 @@ namespace Services.Game.Tutorial.Bindings
     public class MaskBindingComponent :
     MonoBindingComponent<Image, Services.Core.Rect>,
     BindingComponent<UIAnchor>,
-    BindingComponent<KeyValuePair<string, string>>  
+    BindingComponent<KeyValuePair<string, string>>
     {
         public Services.Core.Rect mask;
 
@@ -27,10 +27,14 @@ namespace Services.Game.Tutorial.Bindings
 
         public override void OnValueChanged(string branch, Services.Core.Rect value)
         {
-            mask = value;
-            if (mask != null)
+            if (value != null)
             {
+                mask = value.CopyRect();
                 mask.width *= Utils.GetUIScaleFactor();
+            }
+            else
+            {
+                mask = null;
             }
         }
 
@@ -59,7 +63,7 @@ namespace Services.Game.Tutorial.Bindings
                 var guiService = CoreServicesInstaller.Resolve<GUIService>();
                 var rectTransform = guiService.GetPanelView(value.Key).GetView<MonoBehaviour>(value.Value).GetComponent<RectTransform>();
                 mask = rectTransform.rect.ToServiceRect();
-                mask.width *= Utils.GetUIScaleFactor(); 
+                mask.width *= Utils.GetUIScaleFactor();
                 mask.x = -mask.width / 2f;
                 mask.x += rectTransform.position.x / Screen.width * Constants.SCREEN_WIDTH;
                 mask.y += rectTransform.position.y / Screen.height * Constants.SCREEN_HEIGHT;
