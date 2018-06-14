@@ -173,5 +173,10 @@ namespace Services.Game.Tutorial
                 }
             }
         }
+        
+        public static bool IsTutorialActive()
+        {
+            return activeTut != null && !activeTut.hasComplete;
+        }
     }
 }
