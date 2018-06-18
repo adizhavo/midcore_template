@@ -57,7 +57,10 @@ namespace Services.Game.HUD
                         else
                         {
                             var onScreen = Utils.IsVisible(activeHUD.Key.HUDPivot, cameraService.activeCamera);
-                            activeHUD.Value.Container.SetActive(onScreen);
+                            
+                            if (activeHUD.Value.Container.activeSelf != onScreen)
+                                activeHUD.Value.Container.SetActive(onScreen);
+                            
                             if (onScreen)
                             {
                                 RepositionHUD(activeHUD.Key, activeHUD.Value);
