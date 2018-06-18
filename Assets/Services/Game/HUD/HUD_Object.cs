@@ -12,9 +12,11 @@ namespace Services.Game.HUD
         public string id { private set; get; }
 
         public GameEntity entity { private set; get; }
+        private Animator animator;
         
         protected virtual void Awake()
         {
+            animator = GetComponent<Animator>();
         }
 
         public virtual void Setup(string id, GameEntity entity)
@@ -22,6 +24,12 @@ namespace Services.Game.HUD
             this.id = id;
             this.entity = entity;
             Container.SetActive(false);
+            
+            if (animator != null)
+            {
+                animator.ResetTrigger("setup");
+                animator.SetTrigger("setup");
+            }
         }
 
         public virtual void Disable()
