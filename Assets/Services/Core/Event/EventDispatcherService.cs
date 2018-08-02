@@ -30,8 +30,9 @@ namespace Services.Core.Event
 
         public static void Dispatch(string eventId, T value)
         {
-            foreach (var subscriber in subscribers)
+            for (int i = 0; i < subscribers.Count; i++)
             {
+                var subscriber = subscribers[i];
                 if (string.IsNullOrEmpty(subscriber.eventId) || string.Equals(eventId, subscriber.eventId))
                 {
                     subscriber.listener.Receive(eventId, value);
