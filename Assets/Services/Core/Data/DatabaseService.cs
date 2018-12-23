@@ -184,5 +184,6 @@ namespace Services.Core.Data
         public float holdMinElapseTime;
         public string databaseId;
         public string assetManifestPath;
+        public string spriteAtlasPath;
     }
 }
