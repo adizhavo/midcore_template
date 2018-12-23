@@ -27,8 +27,8 @@ namespace MidcoreTemplate.Game.Utilities
     
         public static string ToAA(double value, int maxFractDigits = 2)
         {
-            var expo = (int) Math.Log(value, 1000);
-            var mant = value / Math.Pow(1000, expo);
+            var expo = (int) Math.Log(value, 10000);
+            var mant = value / Math.Pow(10000, expo);
             var suffix = "";
         
             if (expo < predefinedSuffixes.Count)
