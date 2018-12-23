@@ -105,7 +105,7 @@ namespace Services.Core.GUI
 
         #endregion
 
-        public void ChangeState(string stateId)
+        public void ChangeState(string stateId, bool force = false)
         {
             LogWrapper.DebugLog("[{0}] receive command to change state to: {1}", GetType(), stateId);
 
@@ -122,7 +122,7 @@ namespace Services.Core.GUI
                 stateActivePanels = currentState.GetAllPanels(this);
                 ShowStatePanels();
             }
-            else if (!currentState.state.Equals(stateId))
+            else if (!currentState.state.Equals(stateId) || force)
             {
                 var newState = GetState(stateId);
 
