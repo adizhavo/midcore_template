@@ -29,7 +29,9 @@ namespace Services.Core.Data
             {
                 dataBase.AddReadonly(asset.id, asset.path, false);
 
+                #if LOG_ASSET_MANIFET
                 LogWrapper.DebugLog("[{0}] add asset to the database with key: {1}, path: {2}", GetType(), asset.id, asset.path);
+                #endif
             }
 
             LogWrapper.Log("[{0}] assets loaded successfully and all paths added to the database", GetType());
