@@ -8,6 +8,7 @@ using Services.Game.SceneCamera;
 using MidcoreTemplate.Data;
 using Services.Game.Data;
 using MidcoreTemplate.Game.Utilities;
+using Services.Game.Tutorial;
 
 namespace MidcoreTemplate.Game.Systems
 {
@@ -18,27 +19,37 @@ namespace MidcoreTemplate.Game.Systems
         [Inject] CameraService cameraService;
         [Inject] GridService gridService;
 
+        private bool isTapOnUI;
+
         #region ITouchHandler implementation
 
-        public bool HandleTouchDown(Vector3 screenPos) { return false; }
+        public bool HandleTouchDown(Vector3 screenPos)
+        {
+            isTapOnUI = GestureService.IsOnUI();
+            return false;
+        }
 
         public bool HandleTouchUp(Vector3 screenPos)
         {
-            if (!GestureService.IsOnUI())
+            if (!isTapOnUI)
             {
                 var touched = Utils.GetInputTargetOnGrid(screenPos, sceneSystem, cameraService.activeCamera, gridService);
-                if (touched != null && 
-                    (!touched.hasGrid || (touched.hasGrid && touched.grid.cells.Count > 0 )))
+                if (touched != null && (!touched.hasGrid || (touched.hasGrid && touched.grid.cells.Count > 0)))
                 {
+                    EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_TAP_UP, touched);
+
+                    if (touched.hasGameObject)
+                        TutorialService<TutorialStep>.Notify(string.Format("tap?{0}", touched.objectId));
+
                     if (touched.hasCommand && !string.IsNullOrEmpty(touched.command.onTapCommand))
                     {
-                        EventDispatcherService<GameEntity>.Dispatch(Constants.EVENT_ENTITY_TAP_UP, touched);
                         var cell = touched.hasGrid ? touched.grid.pivot : null;
                         commandSystem.Execute(touched.command.onTapCommand, touched.position, cell, touched);
                         AnimateObjectTouch(touched);
                     }
                 }
             }
+            isTapOnUI = false;
             return false;
         }
 
