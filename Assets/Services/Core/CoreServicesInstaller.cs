@@ -5,6 +5,7 @@ using Services.Core.Databinding;
 using Services.Core.DataVersion;
 using Services.Core.Gesture;
 using Services.Core.GUI;
+using Services.Core.Atlas;
 
 namespace Services.Core
 {
@@ -49,6 +50,7 @@ namespace Services.Core
             Container.Bind<GestureService>().AsSingle().NonLazy();
             Container.Bind<AssetManifestReader>().AsSingle().NonLazy();
             Container.Bind<GUIService>().AsSingle().NonLazy();
+            Container.Bind<SpriteAtlasService>().AsSingle().NonLazy();
 
             LogWrapper.DebugLog("[{0}] installation of core bindings successfull", GetType());
         }

@@ -4,12 +4,9 @@ using UnityEngine;
 using Services.Core;
 using Services.Core.Data;
 using Services.Core.DataVersion;
-using Services.Core.Event;
 using Services.Core.Gesture;
 using Services.Core.GUI;
 using Services.Game;
-using Services.Game.Tiled;
-using Services.Game.Grid;
 using Services.Game.HUD;
 using Services.Game.Factory;
 using Services.Game.SceneCamera;
@@ -17,6 +14,7 @@ using Services.Game.Misc;
 using MidcoreTemplate.Game;
 using MidcoreTemplate.Game.Systems;
 using Services.Game.Tutorial;
+using Services.Core.Atlas;
 
 namespace MidcoreTemplate
 {
@@ -68,6 +66,7 @@ namespace MidcoreTemplate
                 .Add(container.Resolve<FactoryGUI>())
                 .Add(container.Resolve<DataProviderSystem>())
                 .Add(container.Resolve<TutorialService<TutorialStep>>())
+                .Add(container.Resolve<SpriteAtlasService>())
                 .Add(new AutoDestroySystem())
 
                 // Gameplay
