@@ -45,29 +45,32 @@ namespace Services.Game.HUD
         {
             if (cameraService.activeCamera != null)
             {
-                for (int i = activeHUDs.Count - 1; i >= 0; i--)
+                var removeList = new List<GameEntity>();
+
+                foreach (var activeHUD in activeHUDs)
                 {
-                    if (i < activeHUDs.Count)
+                    if (!activeHUD.Key.hasView || !activeHUD.Key.viewObject.activeSelf)
                     {
-                        var activeHUD = activeHUDs.ElementAt(i);
-                        if (!activeHUD.Key.hasView || !activeHUD.Key.viewObject.activeSelf)
+                        removeList.Add(activeHUD.Key);
+                    }
+                    else
+                    {
+                        var onScreen = Utils.IsVisible(activeHUD.Key.HUDPivot, cameraService.activeCamera);
+
+                        if (activeHUD.Value.Container.activeSelf != onScreen)
+                            activeHUD.Value.Container.SetActive(onScreen);
+
+                        if (onScreen)
                         {
-                            RemoveHUD(activeHUD.Key);
-                        }
-                        else
-                        {
-                            var onScreen = Utils.IsVisible(activeHUD.Key.HUDPivot, cameraService.activeCamera);
-                            
-                            if (activeHUD.Value.Container.activeSelf != onScreen)
-                                activeHUD.Value.Container.SetActive(onScreen);
-                            
-                            if (onScreen)
-                            {
-                                RepositionHUD(activeHUD.Key, activeHUD.Value);
-                                activeHUD.Value.UpdateHUD();
-                            }
+                            RepositionHUD(activeHUD.Key, activeHUD.Value);
+                            activeHUD.Value.UpdateHUD();
                         }
                     }
+                }
+
+                foreach (var remove in removeList)
+                {
+                    RemoveHUD(remove);
                 }
             }
         }
@@ -128,12 +131,7 @@ namespace Services.Game.HUD
 
         public HUD_Object GetHUD(GameEntity entity)
         {
-            foreach(var activeHUD in activeHUDs)
-            {
-                if (activeHUD.Key.Equals(entity))
-                    return activeHUD.Value;
-            }
-            return null;
+            return activeHUDs.ContainsKey(entity) ? activeHUDs[entity] : null;
         }
 
         public bool HasHUD(GameEntity entity)
