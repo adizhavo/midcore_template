@@ -74,12 +74,7 @@ namespace Services.Game.Factory
             {
                 for (int i = 0; i < objects.Count; i++)
                 {
-                    if (objects[i] == null)
-                    {
-                        objects[i] = GameObject.Instantiate<GameObject>(prefab);
-                        return objects[i];
-                    }
-                    else if (!objects[i].activeSelf)
+                    if (!objects[i].activeSelf)
                     {
                         objects[i].SetActive(true);
                         return objects[i];
