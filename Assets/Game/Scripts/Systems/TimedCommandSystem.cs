@@ -2,8 +2,6 @@
 using Zenject;
 using UnityEngine;
 using Services.Core.Data;
-using Services.Game.Data;
-using MidcoreTemplate.Data;
 
 namespace MidcoreTemplate.Game.Systems
 {

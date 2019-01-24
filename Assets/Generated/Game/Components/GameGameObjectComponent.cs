@@ -11,7 +11,7 @@ public partial class GameEntity {
     public Services.Game.Components.GameObjectComponent gameObject { get { return (Services.Game.Components.GameObjectComponent)GetComponent(GameComponentsLookup.GameObject); } }
     public bool hasGameObject { get { return HasComponent(GameComponentsLookup.GameObject); } }
 
-    public void AddGameObject(string newObjectId, string newTypeId, string newUniqueId) {
+    public void AddGameObject(string newObjectId, string newTypeId, int newUniqueId) {
         var index = GameComponentsLookup.GameObject;
         var component = CreateComponent<Services.Game.Components.GameObjectComponent>(index);
         component.objectId = newObjectId;
@@ -20,7 +20,7 @@ public partial class GameEntity {
         AddComponent(index, component);
     }
 
-    public void ReplaceGameObject(string newObjectId, string newTypeId, string newUniqueId) {
+    public void ReplaceGameObject(string newObjectId, string newTypeId, int newUniqueId) {
         var index = GameComponentsLookup.GameObject;
         var component = CreateComponent<Services.Game.Components.GameObjectComponent>(index);
         component.objectId = newObjectId;

@@ -2,9 +2,9 @@
 using UnityEngine;
 using System;
 using System.IO;
-using System.Linq;
 using System.Collections;
 using Services.Core.DataVersion;
+using System.Collections.Generic;
 
 namespace Services.Core.Data
 {
@@ -15,6 +15,7 @@ namespace Services.Core.Data
     public class DatabaseService : IInitializeSystem
     {
         private Hashtable database = new Hashtable();
+        private Dictionary<string, DBData> persistData = new Dictionary<string, DBData>();
         private string databasePath;
 
         #region IInitializeSystem implementation
@@ -40,9 +41,13 @@ namespace Services.Core.Data
             if (File.Exists(databasePath))
             {
                 var readData = Utils.ReadBinary<Hashtable>(databasePath);
-                foreach(DictionaryEntry data in readData)
-                    if (!HasKey(data.Key as string))
-                        database.Add(data.Key as string, data.Value as DBData);
+                foreach (DictionaryEntry data in readData)
+                {
+                    var key = data.Key as string;
+                    var value = data.Value as DBData;
+                    database.Add(key, value);
+                    if (value.persist) persistData.Add(key, value);
+                }
             }
         }
 
@@ -55,6 +60,7 @@ namespace Services.Core.Data
                 data.persist = persist;
                 data.isReadonly = true;
                 database.Add(key, data);
+                if (persist && !persistData.ContainsKey(key)) persistData.Add(key, data);
                 if (flush) Flush();
             }
             else
@@ -70,6 +76,7 @@ namespace Services.Core.Data
                 var data = new DBData();
                 data.value = value;
                 data.persist = persist;
+                if (persist && !persistData.ContainsKey(key)) persistData.Add(key, data);
                 database.Add(key, data);
             }
             else
@@ -84,6 +91,7 @@ namespace Services.Core.Data
                 {
                     data.value = value;
                     data.persist = persist;
+                    if (!persist) persistData.Remove(key);
                 }
             }
 
@@ -93,12 +101,14 @@ namespace Services.Core.Data
         public void Clear(string key, bool flush = false)
         {
             database.Remove(key);
+            persistData.Remove(key);
             if (flush) Flush();
         }
 
         public void ClearAll(bool flush = false)
         {
             database.Clear();
+            persistData.Clear();
             if (flush) Flush();
         }
 
@@ -109,7 +119,7 @@ namespace Services.Core.Data
 
         public T Get<T>(Predicate<T> predicate, T defaultValue = default(T))
         {
-            foreach(DictionaryEntry data in database)
+            foreach (DictionaryEntry data in database)
             {
                 var value = (data.Value as DBData).value;
                 if (value is T)
@@ -135,23 +145,21 @@ namespace Services.Core.Data
             return HasKey(key) ? (database[key] as DBData).isReadonly : false;
         }
 
-        public void Flush()
-        { 
+        public void Flush(bool threaded = true)
+        {
             var save = new Hashtable();
-            foreach(DictionaryEntry databaseEntry in database)
+            foreach (var data in persistData)
             {
-                var data = (databaseEntry.Value as DBData);
-                if (data.persist)
-                    save.Add(databaseEntry.Key as string, data);
+                save.Add(data.Key, data.Value);
             }
-            
-            Utils.WriteBinary(save, databasePath);
+
+            Utils.WriteBinary(save, databasePath, threaded);
         }
 
-        public void Backup()
+        public void Backup(bool threaded = false)
         {
             var backupDatabasePath = databasePath += "_" + DataVersionService.APP_VERSION;
-            Utils.WriteBinary(database, backupDatabasePath);
+            Utils.WriteBinary(database, backupDatabasePath, threaded);
         }
 
         public void RestoreBackup(string version)

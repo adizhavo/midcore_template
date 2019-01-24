@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
+using Services.Core.Data;
 
 namespace Services.Core
 {
@@ -109,11 +110,10 @@ namespace Services.Core
             else throw new UnityException("Directory not found: " + directoryPath);
         }
 
-        public static string GenerateUniqueId()
+        public static int GenerateUniqueId(DatabaseService database)
         {
-            var ticks = DateTime.Now.Ticks;
-            var guid = Guid.NewGuid().ToString();
-            var uniqueId = ticks.ToString() +'-'+ guid;
+            var uniqueId = database.Get<int>("global_unique_id", 0);
+            database.Set("global_unique_id", uniqueId + 1, true);
             return uniqueId;
         }
 
