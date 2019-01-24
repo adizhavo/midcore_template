@@ -46,24 +46,25 @@ namespace Services.Game.HUD
             if (cameraService.activeCamera != null)
             {
                 var removeList = new List<GameEntity>();
+                var entities = new List<GameEntity>(activeHUDs.Keys);
 
-                foreach (var activeHUD in activeHUDs)
+                foreach (var entity in entities)
                 {
-                    if (!activeHUD.Key.hasView || !activeHUD.Key.viewObject.activeSelf)
+                    if (!entity.hasView || !entity.viewObject.activeSelf)
                     {
-                        removeList.Add(activeHUD.Key);
+                        removeList.Add(entity);
                     }
                     else
                     {
-                        var onScreen = Utils.IsVisible(activeHUD.Key.HUDPivot, cameraService.activeCamera);
+                        var onScreen = Utils.IsVisible(entity.HUDPivot, cameraService.activeCamera);
 
-                        if (activeHUD.Value.Container.activeSelf != onScreen)
-                            activeHUD.Value.Container.SetActive(onScreen);
+                        if (activeHUDs[entity].Container.activeSelf != onScreen)
+                            activeHUDs[entity].Container.SetActive(onScreen);
 
                         if (onScreen)
                         {
-                            RepositionHUD(activeHUD.Key, activeHUD.Value);
-                            activeHUD.Value.UpdateHUD();
+                            RepositionHUD(entity, activeHUDs[entity]);
+                            activeHUDs[entity].UpdateHUD();
                         }
                     }
                 }
