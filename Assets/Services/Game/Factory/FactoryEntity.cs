@@ -34,7 +34,7 @@ namespace Services.Game.Factory
             var entity = Contexts.sharedInstance.game.CreateEntity();
             var objectData = database.Get<ObjectData>(objectId);
             var prefabPath = database.Get<string>(objectData.prefab);
-            entity.AddGameObject(objectData.objectId, objectData.typeId, Utils.GenerateUniqueId());
+            entity.AddGameObject(objectData.objectId, objectData.typeId, Utils.GenerateUniqueId(database));
             entity.AddResource(prefabPath);
             entity.AddCell(row, column, occupant);
             var view = FactoryPool.GetPooled(prefabPath);
@@ -52,7 +52,7 @@ namespace Services.Game.Factory
             var entity = Contexts.sharedInstance.game.CreateEntity();
             var objectData = database.Get<GridObjectData>(objectId);
             var prefabPath = database.Get<string>(objectData.prefab);
-            entity.AddGameObject(objectData.objectId, objectData.typeId, Utils.GenerateUniqueId());
+            entity.AddGameObject(objectData.objectId, objectData.typeId, Utils.GenerateUniqueId(database));
             entity.AddResource(prefabPath);
             var defaultFootprint = new List<List<int>>() { new List<int>() { 1 } };
             entity.AddGrid(null, new List<GameEntity>(), new Footprint(objectData.footprintData == null ? defaultFootprint : objectData.footprintData), objectData.canSwap);

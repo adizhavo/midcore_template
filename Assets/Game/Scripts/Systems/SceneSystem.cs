@@ -3,7 +3,6 @@ using Entitas;
 using UnityEngine;
 using Services.Core.Data;
 using Services.Game.Data;
-using System.Linq;
 using System.Collections.Generic;
 using MidcoreTemplate.Data;
 
@@ -19,43 +18,76 @@ namespace MidcoreTemplate.Game.Systems
 
         public GameEntity GetEntityWithView(GameObject viewObject)
         {
-            return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().Find(ge => ge.viewObject == viewObject);
+            var entities = Contexts.sharedInstance.game.GetEntities(GameMatcher.View);
+            foreach (var entity in entities)
+            {
+                if (entity.viewObject == viewObject) return entity;
+            }
+
+            return null;
         }
 
         public GameEntity GetEntityWithObjectId(string objectId)
         {
-            return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().Find(
-                ge => !string.IsNullOrEmpty(objectId) 
-                && string.Equals(objectId, ge.objectId));
+            var entities = Contexts.sharedInstance.game.GetEntities(GameMatcher.AllOf(GameMatcher.View, GameMatcher.GameObject));
+            foreach (var entity in entities)
+            {
+                if (entity.objectId == objectId) return entity;
+            }
+
+            return null;
         }
 
         public List<GameEntity> GetAllEntitiesWithType(string typeId)
         {
-            return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().FindAll(
-                ge => !string.IsNullOrEmpty(typeId) 
-                && string.Equals(typeId, ge.typeId));
+            var selected = new List<GameEntity>();
+            var entities = Contexts.sharedInstance.game.GetEntities(GameMatcher.AllOf(GameMatcher.View, GameMatcher.GameObject));
+            foreach (var entity in entities)
+            {
+                if (entity.typeId == typeId)
+                {
+                    selected.Add(entity);
+                }
+            }
+
+            return selected;
         }
 
         public List<GameEntity> GetAllEntitiesWithObjectId(string objectId)
         {
-            return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().FindAll(
-                ge => !string.IsNullOrEmpty(objectId) 
-                && string.Equals(objectId, ge.objectId));
+            var selected = new List<GameEntity>();
+            var entities = Contexts.sharedInstance.game.GetEntities(GameMatcher.AllOf(GameMatcher.View, GameMatcher.GameObject));
+            foreach (var entity in entities)
+            {
+                if (entity.objectId == objectId)
+                {
+                    selected.Add(entity);
+                }
+            }
+
+            return selected;
         }
 
         public GameEntity GetEntityWithTypeAndLevel(string typeId, int level)
         {
-            return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().Find(
-                ge => !string.IsNullOrEmpty(typeId) 
-                && string.Equals(typeId, ge.typeId) 
-                && database.Get<GridObjectData>(ge.objectId).level == level);
+            var entities = Contexts.sharedInstance.game.GetEntities(GameMatcher.AllOf(GameMatcher.View, GameMatcher.GameObject));
+            foreach (var entity in entities)
+            {
+                if (entity.typeId == typeId && database.Get<GridObjectData>(entity.objectId).level == level) return entity;
+            }
+
+            return null;
         }
 
-        public GameEntity GetEntityWithUniqueId(string uniqueId)
+        public GameEntity GetEntityWithUniqueId(int uniqueId)
         {
-            return Contexts.sharedInstance.game.GetEntities(GameMatcher.View).ToList().Find(
-                ge => !string.IsNullOrEmpty(uniqueId) 
-                && string.Equals(uniqueId, ge.uniqueId));
+            var entities = Contexts.sharedInstance.game.GetEntities(GameMatcher.AllOf(GameMatcher.View, GameMatcher.GameObject));
+            foreach (var entity in entities)
+            {
+                if (entity.uniqueId == uniqueId) return entity;
+            }
+
+            return null;
         }
     }
 }
