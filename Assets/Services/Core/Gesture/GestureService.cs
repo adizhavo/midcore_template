@@ -66,6 +66,11 @@ namespace Services.Core.Gesture
             {
                 UpdateTouchStats();
 
+                if (enableHold)
+                {
+                    holdTime += Time.unscaledDeltaTime;
+                }
+
                 if (enableTapDown && HasTouchedDown())
                 {
                     Handle(GestureEvent.DOWN);
@@ -157,7 +162,6 @@ namespace Services.Core.Gesture
 
         private static void UpdateTouchStats()
         {
-            holdTime += Time.unscaledDeltaTime;
             #if UNITY_EDITOR
             touchPos = Input.mousePosition;
             #else
